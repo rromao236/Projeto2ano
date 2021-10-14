@@ -1,0 +1,50 @@
+users:
+ ->nif
+ ->nome
+ ->mail
+ ->telemovel
+ ->data de nascimento
+ ->morada
+ ->pontos
+ ->tipo
+ ->username
+ ->pass
+
+hoteis:
+ ->id
+ ->nome
+ ->rating
+ ->pais
+ ->cidade
+ ->morada
+ ->preçoNoite
+ ->descricao
+
+pacotes:
+ ->id
+ ->idhotel
+ ->descricao
+ ->preco
+ ->dataVooInicio
+ ->dataVooChegada
+ ->dataVooinicioVoltar
+ ->dataVooChegadaVoltar
+ ->rating
+
+atividades:
+ ->id
+ ->nome
+ ->...
+
+
+atividadespacote
+ ->id
+ ->idatividade
+ ->idpacote
+ ->responsavel
+ ->duração
+ ->dataHora
+
+
+Ideias secundarias:
+ ->Criar extras para os hoteis (ex: pescina, pequeno almoço).
