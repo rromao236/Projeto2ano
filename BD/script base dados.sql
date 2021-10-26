@@ -7,7 +7,7 @@ email varchar(30) NOT NULL,
 birthdate date NOT NULL,
 username varchar(20) NOT NULL,
 password varchar(30) NOT NULL,
-points int(4) NOT NULL,
+points int DEFAULT 0,
 type varchar(20) NOT NULL,
 CONSTRAINT pk_users_nif PRIMARY KEY (nif)
 ) engine=innoDB;
@@ -70,3 +70,5 @@ timestart datetime NOT NULL,
 duration int(3) NOT NULL,
 CONSTRAINT pk_activities_packages_id PRIMARY KEY (id_activity, id_package)
 ) engine=innoDB;
+
+INSERT INTO `users` (`nif`, `name`, `household`, `phone`, `email`, `birthdate`, `username`, `password`, `points`, `type`) VALUES ('1234567891', 'ricardo', 'Minha casa', '919578912', 'riki.romao@hotmail.com', '2001-04-05', 'rromao236', '1234', '0', 'admin');
