@@ -32,7 +32,7 @@ possa ter variedade de escolha e umas férias a sua medida.
 
 <a name="business_model"></a>
 ### Business Model Canvas
-
+![alt text](https://github.com/rromao236/Projeto2ano/blob/main/Documentos/model%20canvas.png)
 
 
 <a name="product_backlog"></a>
