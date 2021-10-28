@@ -8,9 +8,8 @@
 ## Getting Started ##
 * [Product Vision](#product_vision)
 * [Product Backlog](#product_backlog)
+* [Business Model](#business_model)
 * [User Stories](#user_stories)
-* [Useful Information](#useful_information)
-* [Leaderboard (Kahoots)](#leaderboard)
 
 
 <a name="product_vision"></a>
@@ -22,7 +21,7 @@ não querem gastar muito dinheiro nem perder tempo a fazer grandes planos.
 possa ter variedade de escolha e umas férias a sua medida. 
 * O principal benefício da nossa aplicação viagens totalmente planeadas com atividades incluídas a baixos preços. 
 
-### Product Vision Elevator Statement *
+### Product Vision Elevator Statement
 * FOR: Turistas e pessoas que queiram viajar.
 * WHO: Pacotes pré-planeados a melhores preços.
 * THE: RAR Travel encontra-se na categoria turismo.
@@ -31,13 +30,14 @@ possa ter variedade de escolha e umas férias a sua medida.
 * OUR PRODUCT: Também iremos disponibilizar pacotes de última hora com excelentes preços sem diminuir a qualidade dos mesmos.
  
 
-### Business Model Canvas *
+<a name="business_model"></a>
+### Business Model Canvas
 
 
 
 <a name="product_backlog"></a>
 ## Product Backlog
-* [What is a Product Backlog](https://www.scrum.org/resources/what-is-a-product-backlog)
+* [Product Backlog](https://andresantos2201130.atlassian.net/jira/software/projects/PRJT2N/boards/4/backlog)
 
 <a name="user_stories"></a>
 ## User Stories
