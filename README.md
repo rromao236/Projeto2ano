@@ -15,38 +15,25 @@
 
 <a name="product_vision"></a>
 ## Product Vision
-* What is the product
- “The minimum plan necessary to start a Scrum project consists of a vision and a Product Backlog. The vision describes why the project is being undertaken and what the desired end state is.” (Schwaber 2004, p. 68)
-
-* Who is the target customer? Who is going to buy/use the product? 
-* Which customer needs will the product address?  
-* Which product attributes are critical to satisfy the needs selected, and therefore for the success of the product?  
-* What are the benefits and key features
+* O público alvo do projeto irão ser os turistas. 
+* O nosso objetivo é fornecer uma aplicação direcionada para as pessoas que querem viajar mas 
+não querem gastar muito dinheiro nem perder tempo a fazer grandes planos.  
+* O nosso projeto irá possuir uma variedade de pacotes de viagens planeados para que o utilizador 
+possa ter variedade de escolha e umas férias a sua medida. 
+* O principal benefício da nossa aplicação viagens totalmente planeadas com atividades incluídas a baixos preços. 
 
 ### Product Vision Elevator Statement *
-* FOR (target customer)
-* WHO (statement of the need)
-* THE ((product name) is a (product category))
-* THAT (key product benefit, reason to buy/use)
-* UNLIKE (competitive alternatives)
-* OUR PRODUCT (final statement of differentiation)
+* FOR: Turistas e pessoas que queiram viajar.
+* WHO: Pacotes pré-planeados a melhores preços.
+* THE: RAR Travel encontra-se na categoria turismo.
+* THAT: Disponibilizamos vários pacotes de viagens pré-planeados a bons preços.
+* UNLIKE: Possuímos melhores preços.
+* OUR PRODUCT: Também iremos disponibilizar pacotes de última hora com excelentes preços sem diminuir a qualidade dos mesmos.
  
-`* Geoffrey Moore: Crossing the Chasm`
-
-#### A sample product vision statement:
-
-“For a mid-sized company’s marketing and sales departments who need basic CRM functionality, the CRM-Innovator is a Web-based service that provides sales tracking, lead generation, and sales representative support features that improve customer relationships at critical touch points. Unlike other services or package software products, our product provides very capable services at a moderate cost.”
-* Source: https://www.joelonsoftware.com/2002/05/09/product-vision/
 
 ### Business Model Canvas *
-![picture alt](https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Business_Model_Canvas.png/1200px-Business_Model_Canvas.png)
-` * Osterwalder, Pigneur & al. 2010`
 
-### Additional readings
-* [Product Vision](https://www.scrumalliance.org/community/articles/2009/january/the-product-vision)
-* [Product Vision Statement](https://platinumedge.com/blog/agile-artifacts-product-vision-statement)
-* [Defining your Product Vision](http://www.dummies.com/careers/project-management/four-steps-to-defining-your-product-vision-with-agile-management/)
-* [Business Model Canvas](https://strategyzer.com/canvas/business-model-canvas)
+
 
 <a name="product_backlog"></a>
 ## Product Backlog
