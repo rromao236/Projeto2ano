@@ -40,6 +40,9 @@ id int Unsigned AUTO_INCREMENT,
 description varchar(40) NOT NULL,
 price int(3) NOT NULL,
 rating int(5) NOT NULL,
+image1 varchar(40) NOT NULL,
+image2 varchar(40) NOT NULL,
+image3 varchar(40) NOT NULL,
 flightstart datetime NOT NULL,
 flightend datetime NOT NULL,
 flightbackstart datetime NOT NULL,
@@ -67,5 +70,3 @@ timestart datetime NOT NULL,
 duration int(3) NOT NULL,
 CONSTRAINT pk_activities_packages_id PRIMARY KEY (id_activity, id_package)
 ) engine=innoDB;
-
-INSERT INTO `users` (`nif`, `name`, `household`, `phone`, `email`, `birthdate`, `username`, `password`, `points`, `type`) VALUES ('1234567891', 'ricardo', 'Minha casa', '919578912', 'riki.romao@hotmail.com', '2001-04-05', 'rromao236', '1234', '0', 'admin');
