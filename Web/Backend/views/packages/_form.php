@@ -1,7 +1,10 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\Hotels;
+use app\models\Airports;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Packages */
@@ -28,13 +31,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'flightbackend')->textInput() ?>
 
-    <?= $form->field($model, 'id_hotel')->textInput() ?>
+    <h4>Hotel</h4>
 
-    <?= $form->field($model, 'id_airportstart')->textInput() ?>
+    <?= Html::activeDropDownList($model, 'id_hotel',
+        ArrayHelper::map(Hotels::find()->all(), 'id', 'name')) ?>
 
-    <?= $form->field($model, 'id_airportend')->textInput() ?>
+    <h4><br>Start Aeroport:</h4>
 
-    <div class="form-group">
+    <?= Html::activeDropDownList($model, 'id_airportstart',
+        ArrayHelper::map(Airports::find()->all(), 'id', 'name')) ?>
+
+    <h4><br>Comeback Aeroport:</h4>
+
+    <?= Html::activeDropDownList($model, 'id_airportend',
+        ArrayHelper::map(Airports::find()->all(), 'id', 'name')) ?>
+
+    <div class="form-group"><br>
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
