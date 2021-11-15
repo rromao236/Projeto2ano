@@ -7,14 +7,15 @@ use Yii;
 /**
  * This is the model class for table "users_info".
  *
- * @property int $nif
  * @property int $userid
- * @property string $name
- * @property string $adress
- * @property int $phone
- * @property string $email
- * @property string $birthdate
+ * @property int|null $nif
+ * @property string|null $name
+ * @property string|null $adress
+ * @property int|null $phone
+ * @property string|null $birthdate
  * @property int|null $points
+ *
+ * @property User $user
  */
 class UsersInfo extends \yii\db\ActiveRecord
 {
@@ -32,11 +33,12 @@ class UsersInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nif', 'userid', 'name', 'adress', 'phone', 'email', 'birthdate'], 'required'],
-            [['nif', 'userid', 'phone', 'points'], 'integer'],
+            [['userid'], 'required'],
+            [['userid', 'nif', 'phone', 'points'], 'integer'],
             [['birthdate'], 'safe'],
-            [['name', 'adress', 'email'], 'string', 'max' => 30],
-            [['nif'], 'unique'],
+            [['name', 'adress'], 'string', 'max' => 30],
+            [['userid'], 'unique'],
+            [['userid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userid' => 'id']],
         ];
     }
 
@@ -46,14 +48,24 @@ class UsersInfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'nif' => 'Nif',
             'userid' => 'Userid',
+            'nif' => 'Nif',
             'name' => 'Name',
             'adress' => 'Adress',
             'phone' => 'Phone',
-            'email' => 'Email',
             'birthdate' => 'Birthdate',
             'points' => 'Points',
         ];
     }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'userid']);
+    }
 }
+
