@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use app\models\UsersInfo;
 
 /**
  * Signup form
@@ -59,6 +60,10 @@ class SignupForm extends Model
             $userRole = $auth->getRole('user');
             $auth->assign($userRole, $user->getId());
 
+            $user_info = new UsersInfo();
+            $user_info->userid = $user->getId();
+            $user_info->save(false);
+            
             return $user;
 
         }
