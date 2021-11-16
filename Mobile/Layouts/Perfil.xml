@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="200px" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100px"
+        android:text="Utilizador"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="35px" />
+
+    <TextView
+        android:id="@+id/tvUserEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100px"
+        android:text="user@gmail.com" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15px" />
+
+    <TextView
+        android:id="@+id/tvUserPontos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100px"
+        android:text="Pontos" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="100px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="Nome:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30px"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="Morada:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvMorada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30px"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="NIF:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvNif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30px"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="Telemóvel:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvTelemovel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30px"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="Data de Nascimento:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvDataNascimento"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30px"
+            android:layout_weight="1"
+            android:ems="10"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="100px" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btAlterarDados"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alterar Dados"
+            android:textAlignment="center"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
