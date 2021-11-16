@@ -2,17 +2,17 @@
 
 namespace frontend\controllers;
 
-use app\models\UsersInfo;
-use yii\base\BaseObject;
-use yii\data\ActiveDataProvider;
+use app\models\Usersinfo;
+use app\models\UsersinfoSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UsersInfoController implements the CRUD actions for UsersInfo model.
+ * UsersinfoController implements the CRUD actions for Usersinfo model.
  */
-class UsersInfoController extends Controller
+class UsersinfoController extends Controller
 {
     /**
      * @inheritDoc
@@ -33,56 +33,46 @@ class UsersInfoController extends Controller
     }
 
     /**
-     * Lists all UsersInfo models.
+     * Lists all Usersinfo models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => UsersInfo::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'nif' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $utilizador = UsersInfo::find()
+            ->where(['userid'=> Yii::$app->user->identity->id])
+            ->one();
+
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'utilizador' => $utilizador,
         ]);
     }
 
-
     /**
-     * Displays a single UsersInfo model.
-     * @param int $nif Nif
+     * Displays a single Usersinfo model.
+     * @param int $userid Userid
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($nif)
+    public function actionView($userid)
     {
         return $this->render('view', [
-            'model' => $this->findModel($nif),
+            'model' => $this->findModel($userid),
         ]);
     }
 
     /**
-     * Creates a new UsersInfo model.
+     * Creates a new Usersinfo model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new UsersInfo();
+        $model = new Usersinfo();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'nif' => $model->nif]);
+                return $this->redirect(['view', 'userid' => $model->userid]);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,18 +84,18 @@ class UsersInfoController extends Controller
     }
 
     /**
-     * Updates an existing UsersInfo model.
+     * Updates an existing Usersinfo model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $nif Nif
+     * @param int $userid Userid
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($nif)
+    public function actionUpdate($userid)
     {
-        $model = $this->findModel($nif);
+        $model = $this->findModel($userid);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'nif' => $model->nif]);
+            return $this->redirect(['index', 'userid' => $model->userid]);
         }
 
         return $this->render('update', [
@@ -114,52 +104,32 @@ class UsersInfoController extends Controller
     }
 
     /**
-     * Deletes an existing UsersInfo model.
+     * Deletes an existing Usersinfo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $nif Nif
+     * @param int $userid Userid
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($nif)
+    public function actionDelete($userid)
     {
-        $this->findModel($nif)->delete();
+        $this->findModel($userid)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the UsersInfo model based on its primary key value.
+     * Finds the Usersinfo model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $nif Nif
-     * @return UsersInfo the loaded model
+     * @param int $userid Userid
+     * @return Usersinfo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($nif)
+    protected function findModel($userid)
     {
-        if (($model = UsersInfo::findOne($id)) !== null) {
+        if (($model = Usersinfo::findOne($userid)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    public function actionEditar(){
-        $dataProvider = new ActiveDataProvider([
-            'query' => UsersInfo::find(),
-        ]);
-
-        return $this->render('editar', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionHistorico(){
-        $dataProvider = new ActiveDataProvider([
-            'query' => UsersInfo::find(),
-        ]);
-
-        return $this->render('historico', [
-            'dataProvider' => $dataProvider,
-        ]);
     }
 }
