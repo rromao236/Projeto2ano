@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "users_info".
@@ -17,7 +18,7 @@ use Yii;
  *
  * @property User $user
  */
-class UsersInfo extends \yii\db\ActiveRecord
+class Usersinfo extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -68,4 +69,3 @@ class UsersInfo extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'userid']);
     }
 }
-
