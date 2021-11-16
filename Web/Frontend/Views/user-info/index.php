@@ -14,43 +14,32 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2>Perfil:</h2><br>
 
     <div class="top-margin">
-        <label>Nif: 1234567890</label>
-        <!--<input type="text" value="1234567890" name="nif" class="form-control">-->
+        <label>Nif: <?php echo $utilizador->nif; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Nome: Andre</label>
-        <!--<input type="text" value="Andre" name="name" class="form-control">-->
+        <label>Nome: <?php echo $utilizador->name; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Morada: Rua das Flores N4</label>
-        <!--<input type="text" value="Rua das Flores N4" name="adress" class="form-control">-->
+        <label>Morada: <?php echo $utilizador->adress; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Telemovel: 914573567</label>
-        <!--<input type="text" value="914573567" name="phone" class="form-control">-->
+        <label>Telemovel: <?php echo $utilizador->phone; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Email: andre@gmail.com</label>
-        <!--<input type="text" value="andre@gmail.com" name="email" class="form-control">-->
+        <label>Data de nascimento: <?php echo $utilizador->birthdate; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Data de nascimento: 12/06/2001</label>
-        <!--<input type="text" value="12/06/2001" name="birtdate" class="form-control">-->
-    </div>
-
-    <div class="top-margin">
-        <label>Pontos: 50</label>
-        <!--<input type="text" value="50" name="points" class="form-control">-->
+        <label>Pontos: <?php echo $utilizador->points; ?></label>
     </div>
 
     <div class="top-margin">
         <br>
-        <?= Html::a('Editar Perfil', ['editar'], ['class'=>'btn btn-info']) ?>
+        <?= Html::a('Editar Perfil', ['update', 'userid'=>$utilizador->userid], ['class'=>'btn btn-info']) ?>
 
         <?= Html::a('Historico', ['historico'], ['class'=>'btn btn-info']) ?>
 
