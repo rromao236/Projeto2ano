@@ -2,10 +2,10 @@
 
 namespace frontend\models;
 
+use app\models\UsersInfo;
 use Yii;
 use yii\base\Model;
 use common\models\User;
-use app\models\UsersInfo;
 
 /**
  * Signup form
@@ -63,7 +63,7 @@ class SignupForm extends Model
             $user_info = new UsersInfo();
             $user_info->userid = $user->getId();
             $user_info->save(false);
-            
+
             return $user;
 
         }
