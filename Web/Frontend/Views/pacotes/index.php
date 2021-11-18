@@ -37,21 +37,21 @@ $this->title = 'RAR Travels';
     </style>
 
     <div class="body-content">
+        <?php foreach ($pacotes as $pacote){?>
+            <div class="row">
+                <div class="col-lg-12" style="text-align: center;">
+                    <img size="" width="420px" height="auto" align="left" style="margin-left: 100px" src="<?= yii\helpers\Url::to('@web/imgs/pacotePrincipal.png') ?>">
+                    <h3 style="text-align: left; margin-left: 540px;"><?php echo $pacote->title; ?></h3>
+                    <p align="left" style="margin-left: 540px;"><?php echo $pacote->description; ?></p>
+                    <p align="left" style="margin-left: 540px;">Rating: <?php echo $pacote->rating; ?></p>
+                    <h4 align="right" style="margin-right: 520px;">Preço: <?php echo $pacote->price; ?></h4>
 
-        <div class="row">
-            <div class="col-lg-10" style="text-align: center; border: 1px solid lightskyblue; margin-left: 100px;">
-                <img size="" width="450px" height="auto" align="left" src="<?= yii\helpers\Url::to('@web/imgs/pacotePrincipal.png') ?>">
-                <h3 style="text-align: left; margin-left: 460px;">Ponta delgada, Açores</h3>
-                <p align="left" style="margin-left: 460px;">Venha desfrutar de uma férias fantásticas de 7 noites nos açores.</p>
-                <p align="left" style="margin-left: 460px;">Rating: 4/5 Estrelas</p>
-                <h4 align="right" style="margin-right: 110px;">Preço: 510€</h4>
-                <div style="margin-right: -600px;">
                     <?= Html::a('Detalhes', ['/pacotes/detalhes'], ['class'=>'button button1']) ?>
+                    <!--<p align="right" style="margin-right: 100px"><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Ver detalhes &raquo;</a></p>-->
                 </div>
-                <!--<p align="right" style="margin-right: 100px"><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Ver detalhes &raquo;</a></p>-->
             </div>
-        </div>
-
+        <?php }?>
     </div>
+
 
 </div>
