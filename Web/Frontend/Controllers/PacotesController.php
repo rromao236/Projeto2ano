@@ -15,6 +15,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use backend\models\Packages;
 
 /**
  * Site controller
@@ -25,7 +26,14 @@ class PacotesController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+//        return $this->render('index');
+        $pacotes = Packages::find()
+            ->all();
+
+        return $this->render('index', [
+            'pacotes' => $pacotes,
+        ]);
+
     }
 
     public function actionDetalhes()
