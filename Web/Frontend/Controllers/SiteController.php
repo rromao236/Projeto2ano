@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use app\models\Packages;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -75,7 +76,60 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $min=1;
+        $ver=0;
+        $pac1v=0;
+        $pac2v=0;
+        $pac3v=0;
+
+        $pacotes= Packages::find()
+        ->all();
+
+
+        do{
+            $pac1=rand($min,count($pacotes));
+            $pac2=rand($min,count($pacotes));
+            $pac3=rand($min,count($pacotes));
+
+            if($pac1 == $pac2 OR $pac1 == $pac3 OR $pac2 == $pac3){
+            } else{
+                foreach ($pacotes as $pacote){
+                    if($pac1 == $pacote->id){
+                        $pac1v=1;
+                    }
+                    if($pac2 == $pacote->id){
+                        $pac2v=1;
+                    }
+                    if($pac3 == $pacote->id){
+                        $pac3v=1;
+                    }
+                }
+                if($pac1v == 1 AND $pac2v == 1 AND $pac3v == 1){
+                    $ver=1;
+                }
+            }
+
+
+        } while($ver==0);
+
+        $pacote1 = Packages::find()
+            ->where(['id'=> $pac1])
+            ->one();
+
+        $pacote2 = Packages::find()
+            ->where(['id'=> $pac2])
+            ->one();
+
+        $pacote3 = Packages::find()
+            ->where(['id'=> $pac3])
+            ->one();
+
+
+        return $this->render('index', [
+        'pacote1' => $pacote1,
+        'pacote2' => $pacote2,
+        'pacote3' => $pacote3,
+        ]);
     }
 
     /**
@@ -257,3 +311,4 @@ class SiteController extends Controller
         ]);
     }
 }
+
