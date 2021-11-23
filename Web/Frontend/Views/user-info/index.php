@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <br>
         <?= Html::a('Editar Perfil', ['update', 'userid'=>$utilizador->userid], ['class'=>'btn btn-info']) ?>
 
-        <?= Html::a('Historico', ['historico'], ['class'=>'btn btn-info']) ?>
+        <?= Html::a('Historico', ['userspackages/index'], ['class'=>'btn btn-info']) ?>
 
         <?= Html::a('Mudar password', [''], ['class'=>'btn btn-info']) ?>
     </div>
