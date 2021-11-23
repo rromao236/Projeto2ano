@@ -24,17 +24,23 @@ $this->title = 'RAR Travels';
             <div class="col-lg-4" style="text-align: center">
                 <h2 style="text-align: center"><?php echo $pacote1->title; ?></h2>
                 <img size="" width="400px" height="260" src="<?= yii\helpers\Url::to('@web/imgs/lisboa.jpg') ?>">
-                <p><br><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Ver detalhes &raquo;</a></p>
+                <p></p>
+                <?= Html::a('Ver detalhes', ['', 'id' => $pacote1->id], ['class' => 'btn btn-primary']) ?>
+                <p></p>
             </div>
             <div class="col-lg-4" style="text-align: center">
                 <h2 style="text-align: center"><?php echo $pacote2->title; ?></h2>
                 <img size="" width="400px" height="260" src="<?= yii\helpers\Url::to('@web/imgs/londres.jpg') ?>">
-                <p><br><a class="btn btn-outline-secondary " href="">Ver detalhes &raquo;</a></p>
+                <p></p>
+                <?= Html::a('Ver detalhes', ['', 'id' => $pacote2->id], ['class' => 'btn btn-primary']) ?>
+                <p></p>
             </div>
             <div class="col-lg-4" style="text-align: center">
                 <h2 style="text-align: center"><?php echo $pacote3->title; ?></h2>
                 <img size="" width="400px" height="260" src="<?= yii\helpers\Url::to('@web/imgs/paris.jpg') ?>">
-                <p><br><a class="btn btn-outline-secondary " href="">Ver detalhes &raquo;</a></p>
+                <p></p>
+                <?= Html::a('Ver detalhes', ['', 'id' => $pacote3->id], ['class' => 'btn btn-primary']) ?>
+                <p></p>
             </div>
         </div>
 
