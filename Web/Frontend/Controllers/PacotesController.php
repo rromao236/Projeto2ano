@@ -2,6 +2,10 @@
 
 namespace frontend\controllers;
 
+use app\models\Activities;
+use app\models\ActivitiesPackages;
+use app\models\Airports;
+use app\models\Hotels;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -23,31 +27,52 @@ use app\models\Packages;
 class PacotesController extends Controller
 {
 
-
     public function actionIndex()
     {
-//        return $this->render('index');
         $pacotes = Packages::find()
             ->all();
 
         return $this->render('index', [
             'pacotes' => $pacotes,
         ]);
-
     }
 
-    public function actionDetalhes()
+    public function actionDetalhes($pacote)
     {
-        return $this->render('detalhes');
+        $atividades_array = array();
+
+        $pacote_detalhe = Packages::find()
+            ->where(['id'=> $pacote])
+            ->one();
+
+        $atividades_pacotes = ActivitiesPackages::find()
+            ->where(['id_package' => $pacote_detalhe->id])
+            ->all();
+
+        $hotel = Hotels::find()
+            ->where(['id' => $pacote_detalhe->id_hotel])
+            ->one();
+
+        $aeroporto_start = Airports::find()
+            ->where(['id' => $pacote_detalhe->id_airportstart])
+            ->one();
+
+        $aeroporto_end = Airports::find()
+            ->where(['id' => $pacote_detalhe->id_airportend])
+            ->one();
+
+
+        return $this->render('detalhes', [
+            'pacote_detalhe' => $pacote_detalhe,
+            'atividades_pacotes' => $atividades_pacotes,
+            'aeroporto_start' => $aeroporto_start,
+            'aeroporto_end' => $aeroporto_end,
+            'hotel' => $hotel,
+        ]);
     }
 
     public function actionCompra()
     {
         return $this->render('compra');
     }
-
-
-
-
-
 }
