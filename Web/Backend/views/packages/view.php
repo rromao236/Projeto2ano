@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <?= Html::a('Gerir Atividades', ['activitiespackages/index', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Gerir Imagens', ['packageimages/index', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
