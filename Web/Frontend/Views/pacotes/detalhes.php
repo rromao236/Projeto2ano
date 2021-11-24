@@ -2,6 +2,7 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use app\models\Activities;
 
 /* @var $this yii\web\View */
 
@@ -133,28 +134,28 @@ $this->title = 'RAR Travels';
 <div class="body-content">
 
     <div class="site-index">
-        <h1 align="center">Ponta delgada, Açores</h1>
+            <h1 align="center"><?php echo $pacote_detalhe->title; ?></h1>
         <!-- Slideshow container -->
-        <div class="slideshow-container">
+            <div class="slideshow-container">
 
-            <!-- Full-width images with number and caption text -->
-            <div class="mySlides">
-                <div class="numbertext"></div>
-                <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotePrincipal.png') ?>">
-                <div class="text"></div>
-            </div>
+                <!-- Full-width images with number and caption text -->
+                <div class="mySlides">
+                    <div class="numbertext"></div>
+                    <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotePrincipal.png') ?>">
+                    <div class="text"></div>
+                </div>
 
-            <div class="mySlides">
-                <div class="numbertext"></div>
-                <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotes2.png') ?>">
-                <div class="text"></div>
-            </div>
+                <div class="mySlides">
+                    <div class="numbertext"></div>
+                    <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotes2.png') ?>">
+                    <div class="text"></div>
+                </div>
 
-            <div class="mySlides">
-                <div class="numbertext"></div>
-                <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotes3.png') ?>">
-                <div class="text"></div>
-            </div>
+                <div class="mySlides">
+                    <div class="numbertext"></div>
+                    <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotes3.png') ?>">
+                    <div class="text"></div>
+                </div>
 
             <!-- Next and previous buttons -->
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -197,52 +198,94 @@ $this->title = 'RAR Travels';
     <div class="row">
         <div class="col-lg-12" style="text-align: center;">
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id turpis facilisis, facilisis dui et,
-                elementum leo. Sed scelerisque non ipsum ut ultrices. In ultrices laoreet sem, sed fermentum felis porta ac.
-                Ut lobortis nulla libero, at venenatis mauris pulvinar faucibus. Quisque eu semper est. Pellentesque et arcu non
-                lectus posuere malesuada. Nullam vestibulum lacus molestie enim commodo, sed pellentesque urna auctor.
-                Quisque velit magna, bibendum eget placerat quis, placerat non nulla. Aliquam consectetur sem eros.
+                <?php echo $pacote_detalhe->description; ?>
             </p>
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Detalhes:</h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                Preço: 510€<br>
-                Rating: 4/5 Estrelas<br><br>
+                Preço: <?php echo $pacote_detalhe->price; ?>€<br>
+                Rating: <?php switch($pacote_detalhe->rating){
+                    case 0:
+                        echo "&#9734&#9734&#9734&#9734&#9734";
+                        break;
+                    case 1:
+                        echo "&#9733&#9734&#9734&#9734&#9734";
+                        break;
+                    case 2:
+                        echo "&#9733&#9733&#9734&#9734&#9734";
+                        break;
+                    case 3:
+                        echo "&#9733&#9733&#9733&#9734&#9734";
+                        break;
+                    case 4:
+                        echo "&#9733&#9733&#9733&#9733&#9734";
+                        break;
+                    case 5:
+                        echo "&#9733&#9733&#9733&#9733&#9733";
+                        break;
+                } ?><br><br>
             </p>
+           
+           
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Atividades:</h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                Mergulho:<br>
-                ->Responsavel: Mergulhos Açores.<br>
-                ->Duração: 1 hora.<br>
-                ->Data e hora: 12/11/2021 ás 11:00.<br><br>
+                <?php foreach($atividades_pacotes as $atividade){
+                    $ativ = Activities::find()
+                        ->where(['id' => $atividade->id_activity])
+                        ->one();
+                    ?>
+                    <?php echo $ativ->name; ?>:<br>
+                ->Responsavel: <?php echo $atividade->responsible; ?><br>
+                ->Duração: <?php echo $atividade->duration; ?> minutos<br>
+                ->Data e hora: <?php echo $atividade->timestart; ?><br><br>
+                <?php }?>
             </p>
+
+           
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Hotel:</h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                Antillia Hotel:<br>
-                ->Morada: Rua do Peru 105, 9500-311 Ponta Delgada.<br>
-                ->Pais: Portugal.<br>
-                ->Cidade: Ponta Delgada.<br>
-                ->Rating: 4 estrelas.<br>
-                ->Descrição: Ceda à irresistível tentação de uma ida ao spa de serviço completo do local. Entre as várias opções
-                de lazer e entretenimento ao seu dispor, incluem-se uma piscina exterior, uma piscina interior e uma fantástica
-                banheira de hidromassagem, ideal para relaxar o corpo ao final do dia. Entre as facilidades adicionais contam-se
-                internet sem fios grátis, serviços para casamentos e um televisor no espaço comum.<br><br>
+                <?php echo $hotel->name; ?>:<br>
+                ->Morada: <?php echo $hotel->adress; ?><br>
+                ->Cidade: <?php echo $hotel->city; ?><br>
+                ->País: <?php echo $hotel->country; ?><br>
+                ->Rating: <?php switch($hotel->rating){
+                    case 0:
+                        echo "&#9734&#9734&#9734&#9734&#9734";
+                        break;
+                    case 1:
+                        echo "&#9733&#9734&#9734&#9734&#9734";
+                        break;
+                    case 2:
+                        echo "&#9733&#9733&#9734&#9734&#9734";
+                        break;
+                    case 3:
+                        echo "&#9733&#9733&#9733&#9734&#9734";
+                        break;
+                    case 4:
+                        echo "&#9733&#9733&#9733&#9733&#9734";
+                        break;
+                    case 5:
+                        echo "&#9733&#9733&#9733&#9733&#9733";
+                        break;
+                } ?><br>
+
+
+                ->Descrição: <?php echo $hotel->description; ?><br><br>
             </p>
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Voo de partida:</h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                Aeroporto de Lisboa:<br>
-                  ->Inicio: 09/11/2012 ás 9:30.<br>
-                  ->Chegada: 09/11/2012 ás 11:00.<br><br>
+                <?php echo $aeroporto_start->name; ?>:<br>
+                  ->Inicio: <?php echo $pacote_detalhe->flightstart; ?><br>
+                  ->Chegada: <?php echo $pacote_detalhe->flightend; ?><br><br>
             </p>
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Voo de Chegada:</h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                Aeroporto dos Açores:<br>
-                ->Inicio: 16/11/2012 ás 8:30.<br>
-                ->Chegada: 16/11/2012 ás 10:00.<br><br>
+                <?php echo $aeroporto_end->name; ?>:<br>
+                ->Inicio: <?php echo $pacote_detalhe->flightbackstart; ?><br>
+                ->Chegada: <?php echo $pacote_detalhe->flightbackend; ?><br><br>
             </p>
         </div>
         <div style="margin-left: 290px">
             <?= Html::a('Comprar', ['/pacotes/compra'], ['class'=>'button button1']) ?>
         </div>
     </div>
-
 </div>
