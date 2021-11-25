@@ -43,10 +43,29 @@ $this->title = 'RAR Travels';
                     <img size="" width="420px" height="auto" align="left" style="margin-left: 100px" src="<?= yii\helpers\Url::to('@web/imgs/pacotePrincipal.png') ?>">
                     <h3 style="text-align: left; margin-left: 540px;"><?php echo $pacote->title; ?></h3>
                     <p align="left" style="margin-left: 540px;"><?php echo $pacote->description; ?></p>
-                    <p align="left" style="margin-left: 540px;">Rating: <?php echo $pacote->rating; ?></p>
-                    <h4 align="right" style="margin-right: 520px;">Preço: <?php echo $pacote->price; ?></h4>
+                    <p align="left" style="margin-left: 540px;">Rating: <?php switch($pacote->rating){
+                        case 0:
+                            echo "&#9734&#9734&#9734&#9734&#9734";
+                            break;
+                        case 1:
+                            echo "&#9733&#9734&#9734&#9734&#9734";
+                            break;
+                        case 2:
+                            echo "&#9733&#9733&#9734&#9734&#9734";
+                            break;
+                        case 3:
+                            echo "&#9733&#9733&#9733&#9734&#9734";
+                            break;
+                        case 4:
+                            echo "&#9733&#9733&#9733&#9733&#9734";
+                            break;
+                        case 5:
+                            echo "&#9733&#9733&#9733&#9733&#9733";
+                            break;
+                    } ?></p>
+                    <h4 align="right" style="margin-right: 520px;">Preço: <?php echo $pacote->price; ?>€</h4>
 
-                    <?= Html::a('Detalhes', ['/pacotes/detalhes'], ['class'=>'button button1']) ?>
+                    <?= Html::a('Detalhes', ['/pacotes/detalhes', 'pacote'=>$pacote->id], ['class'=>'button button1']) ?>
                     <!--<p align="right" style="margin-right: 100px"><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Ver detalhes &raquo;</a></p>-->
                 </div>
             </div>
