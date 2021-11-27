@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td align="center"><?= $pacoteC->entity ?></td>
                             <td align="center"><?= $pacoteC->referencia ?></td>
                             <td align="center"><?= $pacoteC->price ?></td>
-                            <td align="center"><?= Html::a('Ver detalhes', ['', 'id' => $pacote->id], ['class' => 'btn']) ?></td>                        </tr>
+                            <td align="center"><?= Html::a('Ver detalhes', ['pacotes/detalhes', 'pacote' => $pacote->id], ['class' => 'btn']) ?></td>                        </tr>
                     <?php }?>
                 <?php } ?>
         </table>
