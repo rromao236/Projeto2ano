@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id_image',
+            'name',
             //codigo da imagem
             'image:image',
             'package_id',
