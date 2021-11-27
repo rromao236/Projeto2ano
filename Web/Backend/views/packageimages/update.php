@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Packageimages */
 
 $this->title = 'Update Packageimages: ' . $model->id_image;
-$this->params['breadcrumbs'][] = ['label' => 'Packageimages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Packageimages', 'url' => ['index', 'id' => $model->package_id]];
 $this->params['breadcrumbs'][] = ['label' => $model->id_image, 'url' => ['view', 'id_image' => $model->id_image]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
