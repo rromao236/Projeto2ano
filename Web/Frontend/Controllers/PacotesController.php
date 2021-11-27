@@ -152,7 +152,9 @@ class PacotesController extends Controller
         $pacotes = Packages::find()
             ->all();
 
-        return $this->redirect('index');
+        return $this->render('index', [
+            'pacotes' => $pacotes,
+        ]);
     }
 
     protected function findModel($id)
