@@ -1,5 +1,6 @@
 <?php
 
+use kartik\datetime\DateTimePicker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -23,13 +24,38 @@ use app\models\Airports;
 
     <?= $form->field($model, 'rating')->textInput() ?>
 
-    <?= $form->field($model, 'flightstart')->textInput() ?>
+    <!--$form->field($model, 'flightstart')->textInput()-->
+    <?php echo $form->field($model, 'flightstart')->widget(DateTimePicker::classname(), [
+        'options' => ['placeholder' => 'Enter event time ...'],
+        'pluginOptions' => [
+            'autoclose' => true
+        ]
+    ]);?>
 
-    <?= $form->field($model, 'flightend')->textInput() ?>
+    <!--$form->field($model, 'flightend')->textInput()-->
+    <?php echo $form->field($model, 'flightend')->widget(DateTimePicker::classname(), [
+        'options' => ['placeholder' => 'Enter event time ...'],
+        'pluginOptions' => [
+            'autoclose' => true
+        ]
+    ]);?>
 
-    <?= $form->field($model, 'flightbackstart')->textInput() ?>
 
-    <?= $form->field($model, 'flightbackend')->textInput() ?>
+    <!--$form->field($model, 'flightbackstart')->textInput()-->
+    <?php echo $form->field($model, 'flightbackstart')->widget(DateTimePicker::classname(), [
+        'options' => ['placeholder' => 'Enter event time ...'],
+        'pluginOptions' => [
+            'autoclose' => true
+        ]
+    ]);?>
+
+    <!--$form->field($model, 'flightbackend')->textInput()-->
+    <?php echo $form->field($model, 'flightbackend')->widget(DateTimePicker::classname(), [
+        'options' => ['placeholder' => 'Enter event time ...'],
+        'pluginOptions' => [
+            'autoclose' => true
+        ]
+    ]);?>
 
     <h4>Hotel</h4>
 
