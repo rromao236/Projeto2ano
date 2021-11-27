@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use app\models\Activitiespackages;
 use app\models\ActivitiespackagesSearch;
+use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,6 +15,7 @@ use yii\filters\VerbFilter;
  */
 class ActivitiespackagesController extends Controller
 {
+
     /**
      * @inheritDoc
      */
@@ -37,10 +40,21 @@ class ActivitiespackagesController extends Controller
      */
     public function actionIndex($id)
     {
-        $searchModel = new ActivitiespackagesSearch();
-        $dataProvider = $searchModel->search(Activitiespackages::find()
-            ->where(['id_package' => $id])
-            ->all());
+        $session = Yii::$app->session;
+        unset($session['idpacote']);
+        $session['idpacote'] = $id;
+
+        $query = Activitiespackages::find();
+        $query->where(['id_package' => $id]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $searchModel = new Activitiespackages();
+
+        //$dataProvider = $searchModel->search(Activitiespackages::find()
+        //    ->where(['id_package' => $id])
+        //    ->all());
         //$dataProvider = Activitiespackages::find()
         //    ->where(['id_package' => $id])
         //    ->all();
@@ -71,7 +85,7 @@ class ActivitiespackagesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id)
+    public function actionCreate()
     {
         $model = new Activitiespackages();
 
@@ -83,9 +97,11 @@ class ActivitiespackagesController extends Controller
             $model->loadDefaultValues();
         }
 
+        $session = Yii::$app->session;
+
         return $this->render('create', [
             'model' => $model,
-            'id' => $id,
+            'id' => $session['idpacote'],
         ]);
     }
 
@@ -120,9 +136,11 @@ class ActivitiespackagesController extends Controller
      */
     public function actionDelete($id_activity, $id_package)
     {
+        $session = Yii::$app->session;
+
         $this->findModel($id_activity, $id_package)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index','id'=>$session['idpacote']]);
     }
 
     /**
