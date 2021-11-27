@@ -134,7 +134,7 @@ $this->title = 'RAR Travels';
 <div class="body-content">
 
     <div class="site-index">
-            <h1 align="center"><?php echo $pacote_detalhe->title; ?></h1>
+            <h1 align="center" style="text-transform: uppercase"><?php echo $pacote_detalhe->title; ?></h1>
         <!-- Slideshow container -->
             <div class="slideshow-container">
 
@@ -200,10 +200,10 @@ $this->title = 'RAR Travels';
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
                 <?php echo $pacote_detalhe->description; ?>
             </p>
-            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Detalhes:</h3>
+            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Detalhes</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                Preço: <?php echo $pacote_detalhe->price; ?>€<br>
-                Rating: <?php switch($pacote_detalhe->rating){
+                <b>&#8226 </b>Preço: <?php echo $pacote_detalhe->price; ?>€<br>
+                <b>&#8226 </b>Rating: <?php switch($pacote_detalhe->rating){
                     case 0:
                         echo "&#9734&#9734&#9734&#9734&#9734";
                         break;
@@ -224,30 +224,28 @@ $this->title = 'RAR Travels';
                         break;
                 } ?><br><br>
             </p>
-           
-           
-            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Atividades:</h3>
+
+            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Atividades</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
                 <?php foreach($atividades_pacotes as $atividade){
                     $ativ = Activities::find()
                         ->where(['id' => $atividade->id_activity])
                         ->one();
                     ?>
-                    <?php echo $ativ->name; ?>:<br>
-                ->Responsavel: <?php echo $atividade->responsible; ?><br>
-                ->Duração: <?php echo $atividade->duration; ?> minutos<br>
-                ->Data e hora: <?php echo $atividade->timestart; ?><br><br>
+                    <b><?php echo $ativ->name; ?>:</b><br>
+                    <b>&#8226 </b>Responsável: <?php echo $atividade->responsible; ?><br>
+                    <b>&#8226 </b>Duração: <?php echo $atividade->duration; ?> minutos<br>
+                    <b>&#8226 </b>Data e hora: <?php echo $atividade->timestart; ?><br><br>
                 <?php }?>
             </p>
 
-           
-            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Hotel:</h3>
+            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Hotel</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                <?php echo $hotel->name; ?>:<br>
-                ->Morada: <?php echo $hotel->adress; ?><br>
-                ->Cidade: <?php echo $hotel->city; ?><br>
-                ->País: <?php echo $hotel->country; ?><br>
-                ->Rating: <?php switch($hotel->rating){
+                <b><?php echo $hotel->name; ?>:</b><br>
+                <b>&#8226 </b>Morada: <?php echo $hotel->adress; ?><br>
+                <b>&#8226 </b>Cidade: <?php echo $hotel->city; ?><br>
+                <b>&#8226 </b>País: <?php echo $hotel->country; ?><br>
+                <b>&#8226 </b>Rating: <?php switch($hotel->rating){
                     case 0:
                         echo "&#9734&#9734&#9734&#9734&#9734";
                         break;
@@ -267,25 +265,23 @@ $this->title = 'RAR Travels';
                         echo "&#9733&#9733&#9733&#9733&#9733";
                         break;
                 } ?><br>
-
-
-                ->Descrição: <?php echo $hotel->description; ?><br><br>
+                <b>&#8226 </b>Descrição: <?php echo $hotel->description; ?><br><br>
             </p>
-            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Voo de partida:</h3>
+
+            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Voo de Ida</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                <?php echo $aeroporto_start->name; ?>:<br>
-                  ->Inicio: <?php echo $pacote_detalhe->flightstart; ?><br>
-                  ->Chegada: <?php echo $pacote_detalhe->flightend; ?><br><br>
+                <b>&#8226 Início:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightstart; ?><br>
+                <b>&#8226 Chegada:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightend; ?><br><br>
             </p>
-            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;">Voo de Chegada:</h3>
+            <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Voo de Volta</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                <?php echo $aeroporto_end->name; ?>:<br>
-                ->Inicio: <?php echo $pacote_detalhe->flightbackstart; ?><br>
-                ->Chegada: <?php echo $pacote_detalhe->flightbackend; ?><br><br>
+                <b>&#8226 Início:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightbackstart; ?><br>
+                <b>&#8226 Chegada:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightbackend; ?><br><br>
             </p>
         </div>
         <div style="margin-left: 290px">
-            <?= Html::a('Comprar', ['/pacotes/compra'], ['class'=>'button button1']) ?>
+            <?= Html::a('Comprar', ['/pacotes/compra', 'id_pacote'=>$pacote_detalhe->id], ['class'=>'button button1']) ?>
         </div>
     </div>
 </div>
+
