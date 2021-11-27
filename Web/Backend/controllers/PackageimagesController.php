@@ -14,11 +14,8 @@ use yii\web\UploadedFile;
 /**
  * PackageimagesController implements the CRUD actions for Packageimages model.
  */
-
-
 class PackageimagesController extends Controller
 {
-    public $idpacote = '1';
 
     /**
      * @inheritDoc
@@ -45,7 +42,10 @@ class PackageimagesController extends Controller
 
     public function actionIndex($id)
     {
-        $this->idpacote = $id;
+
+        $session = Yii::$app->session;
+        unset($session['idpacote']);
+        $session['idpacote'] = $id;
 
         $query = Packageimages::find();
         $query->where(['package_id' => $id]);
@@ -90,26 +90,29 @@ class PackageimagesController extends Controller
         if ($this->request->isPost) {
 
             //if ($model->load($this->request->post()) && $model->save()) {
-                $model->load($this->request->post());
+            $model->load($this->request->post());
 
-                //codigo para a imagem
-                $model->image = UploadedFile::getInstance($model, 'image');
-                $image_name = rand(1, 4000).'.'.$model->image->extension;
-                $image_path = 'images/pacotes/'.$image_name;
-                $model->image->saveAs($image_path);
-                $model->image = $image_path;
+            //codigo para a imagem
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $rand = rand(1, 4000);
+            $image_name = $model->name.$rand.'.'.$model->image->extension;
+            $image_path = 'images/pacotes/'.$image_name;
+            $model->image->saveAs($image_path);
+            $model->image = $image_path;
 
-                $model->save();
+            $model->save();
 
-                return $this->redirect(['view', 'id' => $model->id_image]);
+            return $this->redirect(['view', 'id' => $model->id_image]);
            // }
         } else {
             $model->loadDefaultValues();
         }
 
+        $session = Yii::$app->session;
+
         return $this->render('create', [
             'model' => $model,
-            'id' => $this->idpacote,
+            'id' => $session['idpacote'],
         ]);
     }
 
@@ -131,7 +134,8 @@ class PackageimagesController extends Controller
 
             //codigo para a imagem
             $model->image = UploadedFile::getInstance($model, 'image');
-            $image_name = rand(1, 4000).'.'.$model->image->extension;
+            $rand = rand(1, 4000);
+            $image_name = $model->name.$rand.'.'.$model->image->extension;
             $image_path = 'images/pacotes/'.$image_name;
             $model->image->saveAs($image_path);
             $model->image = $image_path;
@@ -155,9 +159,11 @@ class PackageimagesController extends Controller
      */
     public function actionDelete($id)
     {
+        $session = Yii::$app->session;
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index', 'id' => $this->idpacote]);
+        return $this->redirect(['index', 'id' => $session['idpacote']]);
     }
 
     /**
