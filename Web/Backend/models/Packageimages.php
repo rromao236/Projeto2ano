@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "package_images".
  *
  * @property int $id_image
+ * @property string $name
  * @property string $image
  * @property int $package_id
  *
@@ -29,12 +30,11 @@ class Packageimages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['image', 'package_id'], 'required'],
-            [['image'], 'string'],
-            [['image'],'file','extensions'=>'jpg,png,gif,jpeg'],
+            [['name', 'image', 'package_id'], 'required'],
             [['package_id'], 'integer'],
+            [['name'], 'string', 'max' => 100],
+            [['image'], 'string', 'max' => 255],
             [['package_id'], 'exist', 'skipOnError' => true, 'targetClass' => Packages::className(), 'targetAttribute' => ['package_id' => 'id']],
-
         ];
     }
 
@@ -45,6 +45,7 @@ class Packageimages extends \yii\db\ActiveRecord
     {
         return [
             'id_image' => 'Id Image',
+            'name' => 'Name',
             'image' => 'Image',
             'package_id' => 'Package ID',
         ];
