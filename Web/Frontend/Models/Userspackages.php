@@ -3,17 +3,21 @@
 namespace app\models;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "users_packages".
  *
- * @property int $id_user
- * @property int $id_package
+ * @property int $id
+ * @property int|null $id_user
+ * @property int|null $id_package
  * @property string $purchasedate
  * @property int $referencia
  * @property float $price
  * @property int $entity
  * @property string $estado
+ * @property int $usedpoints
+ * @property int $nrpeople
  *
  * @property Packages $package
  * @property User $user
@@ -34,12 +38,11 @@ class Userspackages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_package', 'purchasedate', 'referencia', 'price', 'entity', 'estado'], 'required'],
-            [['id_user', 'id_package', 'referencia', 'entity'], 'integer'],
+            [['id_user', 'id_package', 'referencia', 'entity', 'usedpoints', 'nrpeople'], 'integer'],
+            [['purchasedate', 'referencia', 'price', 'entity', 'estado', 'usedpoints', 'nrpeople'], 'required'],
             [['purchasedate'], 'safe'],
             [['price'], 'number'],
-            [['estado'], 'string', 'max' => 50],
-            [['id_user', 'id_package'], 'unique', 'targetAttribute' => ['id_user', 'id_package']],
+            [['estado'], 'string', 'max' => 15],
             [['id_package'], 'exist', 'skipOnError' => true, 'targetClass' => Packages::className(), 'targetAttribute' => ['id_package' => 'id']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
         ];
@@ -51,6 +54,7 @@ class Userspackages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'id_user' => 'Id User',
             'id_package' => 'Id Package',
             'purchasedate' => 'Purchasedate',
@@ -58,6 +62,8 @@ class Userspackages extends \yii\db\ActiveRecord
             'price' => 'Price',
             'entity' => 'Entity',
             'estado' => 'Estado',
+            'usedpoints' => 'Usedpoints',
+            'nrpeople' => 'Nrpeople',
         ];
     }
 
@@ -81,3 +87,4 @@ class Userspackages extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
 }
+
