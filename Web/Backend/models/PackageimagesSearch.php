@@ -18,7 +18,7 @@ class PackageimagesSearch extends Packageimages
     {
         return [
             [['id_image', 'package_id'], 'integer'],
-            [['image'], 'safe'],
+            [['name', 'image'], 'safe'],
         ];
     }
 
@@ -62,7 +62,8 @@ class PackageimagesSearch extends Packageimages
             'package_id' => $this->package_id,
         ]);
 
-        $query->andFilterWhere(['like', 'image', $this->image]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'image', $this->image]);
 
         return $dataProvider;
     }
