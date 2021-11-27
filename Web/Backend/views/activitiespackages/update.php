@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Activitiespackages */
 
 $this->title = 'Update Activitiespackages: ' . $model->id_activity;
-$this->params['breadcrumbs'][] = ['label' => 'Activitiespackages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Activitiespackages', 'url' => ['index', 'id' => $model->id_package]];
 $this->params['breadcrumbs'][] = ['label' => $model->id_activity, 'url' => ['view', 'id_activity' => $model->id_activity, 'id_package' => $model->id_package]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
