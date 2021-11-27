@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_image') ?>
 
+    <?= $form->field($model, 'name') ?>
+
     <?= $form->field($model, 'image') ?>
 
     <?= $form->field($model, 'package_id') ?>
