@@ -177,6 +177,11 @@ class PacotesController extends Controller
         $model->points=$pontosobtidos-$pontos+1;
         $model->save();
 
-        return $this->redirect('index');
+        $pacotes = Packages::find()
+            ->all();
+
+        return $this->render('index', [
+            'pacotes' => $pacotes,
+        ]);
     }
 }
