@@ -163,4 +163,18 @@ class PacotesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    
+    public function actionPontos($pontos){
+
+        $model = Usersinfo::find()
+            ->where(['userid' => Yii::$app->user->identity->id])
+            ->one();
+
+        $pontosobtidos=$model->points;
+
+        $model->points=$pontosobtidos-$pontos+1;
+        $model->save();
+
+        return $this->redirect('index');
+    }
 }
