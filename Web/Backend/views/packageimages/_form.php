@@ -18,6 +18,8 @@ use yii\widgets\ActiveForm;
         'options' => ['enctype' => 'multipart/form-data']
     ])?>
 
+    <?= $form->field($model, 'name')->textInput() ?>
+
     <?= $form->field($model, 'image')->fileInput() ?>
 
     <?= $form->field($model, 'package_id')->textInput(['readonly' => true, 'value' => $model->isNewRecord ? $id : $model->package_id]) ?>
