@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Activitiespackages */
 
 $this->title = 'Create Activitiespackages';
-$this->params['breadcrumbs'][] = ['label' => 'Activitiespackages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Activitiespackages', 'url' => ['index', 'id' => $id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activitiespackages-create">
