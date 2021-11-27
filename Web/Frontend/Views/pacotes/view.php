@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Confirmar', ['index'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Confirmar', ['pontos', 'pontos' => $model->usedpoints], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Cancelar', ['cancelar', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
