@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Packageimages */
 
 $this->title = 'Create Packageimages';
-$this->params['breadcrumbs'][] = ['label' => 'Packageimages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Packageimages', 'url' => ['index', 'id' => $id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="packageimages-create">
