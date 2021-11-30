@@ -40,7 +40,7 @@ $this->title = 'RAR Travels';
         <?php foreach ($pacotes as $pacote){?>
             <div class="row">
                 <div class="col-lg-12" style="text-align: center;">
-                    <img size="" width="420px" height="auto" align="left" style="margin-left: 100px" src="<?= yii\helpers\Url::to('@web/imgs/pacotePrincipal.png') ?>">
+                    <img size="" width="420px" height="auto" align="left" style="margin-left: 100px" src="<?php echo Yii ::getAlias('@imageurl'); ?>/<?= $imagem->image?>">
                     <h3 style="text-align: left; margin-left: 540px;"><?php echo $pacote->title; ?></h3>
                     <p align="left" style="margin-left: 540px;"><?php echo $pacote->description; ?></p>
                     <p align="left" style="margin-left: 540px;">Rating: <?php switch($pacote->rating){
