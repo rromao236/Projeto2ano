@@ -21,21 +21,21 @@ $this->title = 'RAR Travels';
         <div class="row">
             <div class="col-lg-4" style="text-align: center">
                 <h2 style="text-align: center"><?php echo $pacote1->title; ?></h2>
-                <img size="" width="400px" height="260" src="<?= yii\helpers\Url::to('@web/imgs/lisboa.jpg') ?>">
+                <img size="" width="400px" height="260" src="<?php echo Yii ::getAlias('@imageurl'); ?>/<?= $imagem1->image?>">               
                 <p></p>
                 <?= Html::a('Ver detalhes', ['/pacotes/detalhes', 'pacote' => $pacote1->id], ['class' => 'btn btn-primary']) ?>
                 <p></p>
             </div>
             <div class="col-lg-4" style="text-align: center">
                 <h2 style="text-align: center"><?php echo $pacote2->title; ?></h2>
-                <img size="" width="400px" height="260" src="<?= yii\helpers\Url::to('@web/imgs/londres.jpg') ?>">
+                <img size="" width="400px" height="260" src="<?php echo Yii ::getAlias('@imageurl'); ?>/<?= $imagem2->image?>">
                 <p></p>
                 <?= Html::a('Ver detalhes', ['/pacotes/detalhes', 'pacote' => $pacote2->id], ['class' => 'btn btn-primary']) ?>
                 <p></p>
             </div>
             <div class="col-lg-4" style="text-align: center">
                 <h2 style="text-align: center"><?php echo $pacote3->title; ?></h2>
-                <img size="" width="400px" height="260" src="<?= yii\helpers\Url::to('@web/imgs/paris.jpg') ?>">
+                <img size="" width="400px" height="260" src="<?php echo Yii ::getAlias('@imageurl'); ?>/<?= $imagem3->image?>">
                 <p></p>
                 <?= Html::a('Ver detalhes', ['/pacotes/detalhes', 'pacote' => $pacote3->id], ['class' => 'btn btn-primary']) ?>
                 <p></p>
