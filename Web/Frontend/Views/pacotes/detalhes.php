@@ -138,24 +138,25 @@ $this->title = 'RAR Travels';
         <!-- Slideshow container -->
             <div class="slideshow-container">
 
+                <?php
+            $imagens = Packageimages::find()
+                ->where(['package_id' => $pacote_detalhe->id])
+                ->all();
+
+
+            foreach ($imagens as $imagem){
+                ?>
+
                 <!-- Full-width images with number and caption text -->
                 <div class="mySlides">
                     <div class="numbertext"></div>
-                    <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotePrincipal.png') ?>">
+                    <img size="" width="1000px" height="570px" align="center" src="<?php echo Yii ::getAlias('@imageurl'); ?>/<?= $imagem->image?>">
                     <div class="text"></div>
                 </div>
 
-                <div class="mySlides">
-                    <div class="numbertext"></div>
-                    <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotes2.png') ?>">
-                    <div class="text"></div>
-                </div>
-
-                <div class="mySlides">
-                    <div class="numbertext"></div>
-                    <img size="" width="1000px" height="auto" align="center" src="<?= yii\helpers\Url::to('@web/imgs/pacotes3.png') ?>">
-                    <div class="text"></div>
-                </div>
+            <?php
+            }
+            ?>
 
             <!-- Next and previous buttons -->
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
