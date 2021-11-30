@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use app\models\Packageimages;
 use app\models\Packages;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -115,20 +116,33 @@ class SiteController extends Controller
         $pacote1 = Packages::find()
             ->where(['id'=> $pac1])
             ->one();
+        $imagem1 = Packageimages::find()
+            ->where(['package_id' => $pacote1->id])
+            ->one();
 
         $pacote2 = Packages::find()
             ->where(['id'=> $pac2])
+            ->one();
+        $imagem2 = Packageimages::find()
+            ->where(['package_id' => $pacote2->id])
             ->one();
 
         $pacote3 = Packages::find()
             ->where(['id'=> $pac3])
             ->one();
+        $imagem3 = Packageimages::find()
+            ->where(['package_id' => $pacote3->id])
+            ->one();
+
 
 
         return $this->render('index', [
         'pacote1' => $pacote1,
         'pacote2' => $pacote2,
         'pacote3' => $pacote3,
+        'imagem1' => $imagem1,
+        'imagem2' => $imagem2,
+        'imagem3' => $imagem3,
         ]);
     }
 
