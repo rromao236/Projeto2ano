@@ -35,7 +35,7 @@ class SiteController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index'],
-                        'roles' => ['admin'],
+                        'roles' => ['admin', 'funcionario'],
                     ],
                 ],
                 /*'denyCallback' => function () {
@@ -98,7 +98,6 @@ class SiteController extends Controller
             }
             return $this->goBack();
         }
-
 
         $model->password = '';
 
