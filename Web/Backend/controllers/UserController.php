@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use app\models\User;
 use app\models\UserSearch;
+use backend\models\SignupForm;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -113,6 +115,34 @@ class UserController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSignupfuncionario()
+    {
+        $role = 'funcionario';
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup($role)) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->goHome();
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionSignupadmin()
+    {
+        $role = 'admin';
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup($role)) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->goHome();
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 
     /**
