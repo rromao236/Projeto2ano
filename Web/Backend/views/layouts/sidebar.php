@@ -33,6 +33,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <?php
+            $auth = Yii::$app->authManager;
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
                     /*[
@@ -50,11 +51,17 @@
                     ['label' => 'Aeroportos',  'icon' => 'fas fa-plane-departure', 'url' => ['airports/index']],
                     ['label' => 'Pacotes',  'icon' => 'fas fa-box', 'url' => ['packages/index']],
                     ['label' => 'Actividades',  'icon' => 'fas fa-snowboarding', 'url' => ['activities/index']],
-                    ['label' => 'Utilizadores',  'icon' => 'fas fa-users', 'url' => ['user/index']],
+
+                    ['label' => 'Gestão de Utilizadores:', 'header' => true, 'visible' => Yii::$app->user->can('gerirUsers')],
+                    ['label' => 'Utilizadores',  'icon' => 'fas fa-users', 'url' => ['user/index'], 'visible' => Yii::$app->user->can('gerirUsers')],
+                    ['label' => 'Inserir Funcionário',  'icon' => 'fas fa-user-tie', 'url' => ['user/signupfuncionario'], 'visible' => Yii::$app->user->can('gerirUsers')],
+                    ['label' => 'Inserir Admin',  'icon' => 'fas fa-user-cog', 'url' => ['user/signupadmin'], 'visible' => Yii::$app->user->can('gerirUsers')],
+
                     /*['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],*/
                     ['label' => 'Utilitários:', 'header' => true],
                     ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],
                     ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
+
                     /*['label' => 'MULTI LEVEL EXAMPLE', 'header' => true],
                     ['label' => 'Level1'],
                     [
@@ -78,6 +85,7 @@
                     ['label' => 'Important', 'iconStyle' => 'far', 'iconClassAdded' => 'text-danger'],
                     ['label' => 'Warning', 'iconClass' => 'nav-icon far fa-circle text-warning'],
                     ['label' => 'Informational', 'iconStyle' => 'far', 'iconClassAdded' => 'text-info'],*/
+
                 ],
             ]);
             ?>
