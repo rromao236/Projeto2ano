@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Packages;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -28,18 +29,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 <th>Referencia</th>
                 <th>Valor</th>
             </tr>
-                <?php foreach ($pacotesC AS $pacoteC){ ?>
-                    <?php foreach ($pacotes as $pacote){?>
-                        <tr>
-                            <td align="center"><?= $pacote->title ?></td>
-                            <td align="center"><?= $pacoteC->purchasedate ?></td>
-                            <td align="center"><?= $pacoteC->estado ?></td>
-                            <td align="center"><?= $pacoteC->entity ?></td>
-                            <td align="center"><?= $pacoteC->referencia ?></td>
-                            <td align="center"><?= $pacoteC->price ?></td>
-                            <td align="center"><?= Html::a('Ver detalhes', ['pacotes/detalhes', 'pacote' => $pacote->id], ['class' => 'btn']) ?></td>                        </tr>
-                    <?php }?>
-                <?php } ?>
+
+            <?php foreach ($pacotesC AS $pacoteC){
+                $pacote = Packages::find()
+                    ->where(['id' => $pacoteC->id_package])
+                    ->one();
+                ?>
+                    <tr>
+                        <td align="center"><?= $pacote->title ?></td>
+                        <td align="center"><?= $pacoteC->purchasedate ?></td>
+                        <td align="center"><?= $pacoteC->estado ?></td>
+                        <td align="center"><?= $pacoteC->entity ?></td>
+                        <td align="center"><?= $pacoteC->referencia ?></td>
+                        <td align="center"><?= $pacoteC->price ?></td>
+                        <td align="center"><?= Html::a('Ver detalhes', ['pacotes/detalhes', 'pacote' => $pacote->id], ['class' => 'btn']) ?></td>
+                    </tr>
+            <?php } ?>
         </table>
 
     </div>
