@@ -13,17 +13,9 @@ class UserspackagesController extends \yii\web\Controller
         $pacotesC = Userspackages::find()
             ->where(['id_user'=> Yii::$app->user->identity->id])
             ->all();
-
-        foreach ($pacotesC AS $pacoteC){
-            $pacotes = Packages::find()
-                ->where(['id'=> $pacoteC->id_package])
-                ->all();
-        }
-
-
-
+        
+        
         return $this->render('index', [
-            'pacotes' => $pacotes,
             'pacotesC' => $pacotesC,
         ]);
     }
