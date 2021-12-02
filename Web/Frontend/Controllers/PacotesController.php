@@ -73,6 +73,10 @@ class PacotesController extends Controller
 
     public function actionCompra($id_pacote)
     {
+        if(Yii::$app->user->isGuest){
+            return $this->redirect(['site/login']);
+        }
+        
         $session = Yii::$app->session;
         $session->open();
         $pac=$session['pac'];
