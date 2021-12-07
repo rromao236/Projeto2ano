@@ -11,10 +11,20 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    //'modules' => [],
+    'modules' => [
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' =>
+                [
+                    'application/json' => 'yii\web\JsonParser',
+                ],
+
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -37,14 +47,44 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
+                //API:
+                //Hoteis:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'hotels',
+                    'pluralize' => false,
+                ],
+                //Pacotes:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/packages',
+                    'pluralize' => false,
+
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ],
+
+                    'extraPatterns' => [
+                        'GET {id}/detalhes' => 'detalhes', // 'detalhes' é 'actionDetalhes'
+                    ],
+                ],
+                //Atividades:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/activities',
+                    'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'POST activitie' => 'activitie', // 'activitie' é 'actionActivitie'
+                    ],
+                ],
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
