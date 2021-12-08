@@ -12,12 +12,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'usedpoints')->textInput() ?>
+    <?= $form->field($model, 'usedpoints')->textInput(['value' => $model->isNewRecord ? '0' : $model->some_field])->label('Pontos a Usar') ?>
 
-    <?= $form->field($model, 'nrpeople')->textInput() ?>
+    <?= $form->field($model, 'nrpeople')->textInput()->label('Nº de Pessoas')?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Confirmar', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
