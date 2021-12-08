@@ -18,6 +18,37 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+
+    <?= DetailView::widget([
+
+        'model' => $model,
+        'attributes' => [
+            [
+                'label'=>'Data de Compra',
+                'value'=>$model->purchasedate,
+            ],
+            [
+                'label'=>'Pontos Usados',
+                'value'=>$model->usedpoints,
+            ],
+            [
+                'label'=>'Nº de Pessoas',
+                'value'=>$model->nrpeople,
+            ],
+            [
+                'label'=>'Referência',
+                'value'=>$model->referencia,
+            ],
+            [
+                'label'=>'Entidade',
+                'value'=>$model->entity,
+            ],
+            [
+                    'label'=>'Preço',
+                    'value'=>$model->price,
+            ],
+        ],
+    ]) ?>
     <p>
         <?= Html::a('Confirmar', ['pontos', 'pontos' => $model->usedpoints], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Cancelar', ['cancelar', 'id' => $model->id], [
@@ -28,20 +59,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id_user',
-            'id_package',
-            'purchasedate',
-            'referencia',
-            'price',
-            'entity',
-            'estado',
-            'usedpoints',
-            'nrpeople',
-        ],
-    ]) ?>
 
 </div>
