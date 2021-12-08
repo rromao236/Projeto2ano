@@ -2,13 +2,18 @@
 
 namespace backend\controllers;
 
+
 use app\models\User;
 use app\models\UserSearch;
 use backend\models\SignupForm;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -47,6 +52,7 @@ class UserController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
 
     /**
      * Displays a single User model.
@@ -159,5 +165,59 @@ class UserController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionUsers(){
+
+        $query = new Query();
+        $provider = new ActiveDataProvider([
+            'query' => $query->from('user')
+                ->where('id IN (SELECT user_id FROM auth_assignment WHERE item_name = "user")')
+        ]);
+
+        $searchModel = new UserSearch();
+
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $provider,
+        ]);
+
+    }
+
+    public function actionFuncs(){
+
+        $query = new Query();
+        $provider = new ActiveDataProvider([
+            'query' => $query->from('user')
+                ->where('id IN (SELECT user_id FROM auth_assignment WHERE item_name = "funcionario")')
+        ]);
+
+        $searchModel = new UserSearch();
+
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $provider,
+        ]);
+
+    }
+
+    public function actionAdmins(){
+
+        $query = new Query();
+        $provider = new ActiveDataProvider([
+            'query' => $query->from('user')
+                ->where('id IN (SELECT user_id FROM auth_assignment WHERE item_name = "admin")')
+        ]);
+
+        $searchModel = new UserSearch();
+
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $provider,
+        ]);
+
     }
 }
