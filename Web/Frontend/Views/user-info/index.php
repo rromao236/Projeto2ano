@@ -14,36 +14,36 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2>Perfil:</h2><br>
 
     <div class="top-margin">
-        <label>Nif: <?php echo $utilizador->nif; ?></label>
+        <label><b>Nome: </b><?php echo $utilizador->name; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Nome: <?php echo $utilizador->name; ?></label>
+        <label><b>Morada: </b><?php echo $utilizador->adress; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Morada: <?php echo $utilizador->adress; ?></label>
+        <label><b>NIF: </b><?php echo $utilizador->nif; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Telemovel: <?php echo $utilizador->phone; ?></label>
+        <label><b>Telemóvel: </b><?php echo $utilizador->phone; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Data de nascimento: <?php echo $utilizador->birthdate; ?></label>
+        <label><b>Data de Nascimento: </b><?php echo $utilizador->birthdate; ?></label>
     </div>
 
     <div class="top-margin">
-        <label>Pontos: <?php echo $utilizador->points; ?></label>
+        <label><b>Pontos: </b><?php echo $utilizador->points; ?></label>
     </div>
 
     <div class="top-margin">
         <br>
         <?= Html::a('Editar Perfil', ['update', 'userid'=>$utilizador->userid], ['class'=>'btn btn-info']) ?>
 
-        <?= Html::a('Historico', ['userspackages/index'], ['class'=>'btn btn-info']) ?>
+        <?= Html::a('Histórico Compras', ['userspackages/index'], ['class'=>'btn btn-info']) ?>
 
-        <?= Html::a('Mudar password', [''], ['class'=>'btn btn-info']) ?>
+        <?= Html::a('Alterar Password', [''], ['class'=>'btn btn-info']) ?>
     </div>
 
 </form>
