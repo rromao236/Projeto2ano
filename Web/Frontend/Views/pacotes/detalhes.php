@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Packageimages;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use app\models\Activities;
@@ -122,11 +123,11 @@ $this->title = 'RAR Travels';
     .button1 {
         background-color: white;
         color: black;
-        border: 2px solid #4CAF50;
+        border: 2px solid #2667e0;
     }
 
     .button1:hover {
-        background-color: #4CAF50;
+        background-color: #2667e0;/*#2667e0  #0000cd*/
         color: white;
     }
 </style>
@@ -134,11 +135,11 @@ $this->title = 'RAR Travels';
 <div class="body-content">
 
     <div class="site-index">
-            <h1 align="center" style="text-transform: uppercase"><?php echo $pacote_detalhe->title; ?></h1>
+        <h1 align="center" style="text-transform: uppercase"><?php echo $pacote_detalhe->title; ?></h1>
         <!-- Slideshow container -->
-            <div class="slideshow-container">
+        <div class="slideshow-container">
 
-                <?php
+            <?php
             $imagens = Packageimages::find()
                 ->where(['package_id' => $pacote_detalhe->id])
                 ->all();
@@ -154,7 +155,7 @@ $this->title = 'RAR Travels';
                     <div class="text"></div>
                 </div>
 
-            <?php
+                <?php
             }
             ?>
 
@@ -271,18 +272,17 @@ $this->title = 'RAR Travels';
 
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Voo de Ida</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                <b>&#8226 Início:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightstart; ?><br>
+                <b>&#8226 Partida:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightstart; ?><br>
                 <b>&#8226 Chegada:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightend; ?><br><br>
             </p>
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Voo de Volta</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                <b>&#8226 Início:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightbackstart; ?><br>
+                <b>&#8226 Partida:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightbackstart; ?><br>
                 <b>&#8226 Chegada:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightbackend; ?><br><br>
             </p>
         </div>
         <div style="margin-left: 290px">
-            <?= Html::a('Comprar', ['/pacotes/compra', 'id_pacote'=>$pacote_detalhe->id], ['class'=>'button button1']) ?>
+            <?= Html::a('COMPRAR', ['/pacotes/compra', 'id_pacote'=>$pacote_detalhe->id], ['class'=>'button button1']) ?>
         </div>
     </div>
 </div>
-
