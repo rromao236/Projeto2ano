@@ -20,6 +20,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            //Este codigo serve para meter os POST da api a funcionar
             'parsers' =>
                 [
                     'application/json' => 'yii\web\JsonParser',
@@ -64,14 +65,6 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/packages',
                     'pluralize' => false,
-
-                    'tokens' => [
-                        '{id}' => '<id:\\d+>',
-                    ],
-
-                    'extraPatterns' => [
-                        'GET {id}/detalhes' => 'detalhes', // 'detalhes' é 'actionDetalhes'
-                    ],
                 ],
                 //Atividades:
                 [
@@ -81,6 +74,45 @@ return [
 
                     'extraPatterns' => [
                         'POST activitie' => 'activitie', // 'activitie' é 'actionActivitie'
+                    ],
+                ],
+                //Atividades por pacote:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'activitiespackages',
+                    'pluralize' => false,
+                ],
+                //Aeroportos:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'airports',
+                    'pluralize' => false,
+                ],
+                //Imagens dos pacotes:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'packageimages',
+                    'pluralize' => false,
+                ],
+                //Info dos users:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'usersinfo',
+                    'pluralize' => false,
+
+                    //Não funciona
+                    'extraPatterns' => [
+                        'PUT update/{id}' => 'update', // 'update' é 'actionUpdate'
+                    ],
+                ],
+                //Packages dos users:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'userspackages',
+                    'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'POST compra' => 'compra', // 'update' é 'actionCompra'
                     ],
                 ],
             ],
