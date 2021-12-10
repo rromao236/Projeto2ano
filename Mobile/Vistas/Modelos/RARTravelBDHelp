@@ -1,0 +1,204 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class RARTravelBDHelp extends SQLiteOpenHelper {
+
+    private static final String DB_NOME = "rartravel";
+    private static final int VERSAO = 1;
+
+    private static final String TABELA_ACTIVITIES = "activities";
+    private static final String ID_ACTIVITIE = "id";
+    private static final String NAME_ACTIVITIE = "name";
+
+    private static final String TABELA_AIRPORTS = "airports";
+    private static final String ID_AIRPORT = "id";
+    private static final String NAME_AIRPORT = "name";
+    private static final String COUNTRY_AIRPORT = "country";
+    private static final String CITY_AIRPORT = "city";
+
+    private static final String TABELA_HOTELS = "hotels";
+    private static final String ID_HOTEL = "id";
+    private static final String NAME_HOTEL = "name";
+    private static final String ADRESS_HOTEL = "adress";
+    private static final String CITY_HOTEL = "city";
+    private static final String COUNTRY_HOTEL = "country";
+    private static final String DESCRIPTION_HOTEL = "description";
+    private static final String NIGHTPRICE_HOTEL = "nightprice";
+    private static final String RATING_HOTEL = "rating";
+
+    private static final String TABELA_PACKAGES = "packages";
+    private static final String ID_PACKAGE = "id";
+    private static final String TITLE_PACKAGE = "title";
+    private static final String DESCRIPTION_PACKAGE = "description";
+    private static final String PRICE_PACKAGE = "price";
+    private static final String RATING_PACKAGE = "rating";
+    private static final String FLIGHTSTART_PACKAGE = "flightstart";
+    private static final String FLIGHTEND_PACKAGE = "flightend";
+    private static final String FLIGHTBACKSTART_PACKAGE = "flightbackstart";
+    private static final String FLIGHTBACKEND_PACKAGE = "flightbackend";
+    private static final String ID_HOTEL_PACKAGE = "id_hotel";
+    private static final String ID_AIRPORTSTART_PACKAGE = "id_airportstart";
+    private static final String ID_AIRPORTEND_PACKAGE = "id_airportend";
+
+    private static final String TABELA_ACTIVITIES_PACKAGES = "activitiespackages";
+    private static final String ID_ACTIVITIES_PACKAGES = "id";
+    private static final String ID_ACTIVITY_ACTIVITIES_PACKAGES = "id_activity";
+    private static final String ID_PACKAGE_ACTIVITIES_PACKAGES = "id_package";
+    private static final String RESPONSIBLE_ACTIVITIES_PACKAGES = "responsible";
+    private static final String TIMESTART_ACTIVITIES_PACKAGES = "timestart";
+    private static final String DURATION_ACTIVITIES_PACKAGES = "duration";
+
+    private static final String TABELA_PACKAGE_IMAGES = "package_images";
+    private static final String ID_IMAGE_PACKAGE_IMAGES = "id_image";
+    private static final String NAME_PACKAGE_IMAGES = "name";
+    private static final String IMAGE_PACKAGE_IMAGES = "image";
+    private static final String PACKAGE_ID_PACKAGE_IMAGES = "package_id";
+
+    private static final String TABELA_USERS_INFO = "usersinfo";
+    private static final String USERID_USERS_INFO = "userid";
+    private static final String NIF_USERS_INFO = "nif";
+    private static final String NAME_USERS_INFO = "name";
+    private static final String ADRESS_USERS_INFO = "adress";
+    private static final String PHONE_USERS_INFO = "phone";
+    private static final String BIRTHDATE_USERS_INFO = "birthdate";
+    private static final String POINTS_USERS_INFO = "points";
+
+    private static final String TABELA_USERS_PACKAGES = "userspackages";
+    private static final String ID_USERS_PACKAGES = "id";
+    private static final String ID_USER_USERS_PACKAGES = "id_user";
+    private static final String ID_PACKAGE_USERS_PACKAGES = "id_package";
+    private static final String PURCHSEDATE_USERS_PACKAGES = "purchasedate";
+    private static final String REFERENCIA_USERS_PACKAGES = "referencia";
+    private static final String PRICE_USERS_PACKAGES = "price";
+    private static final String ENTITY_USERS_PACKAGES = "entity";
+    private static final String ESTADO_USERS_PACKAGES = "estado";
+    private static final String USEDPOINTS_USERS_PACKAGES = "usedpoints";
+    private static final String NRPEOPLE_USERS_PACKAGES = "nrpeople";
+
+    private SQLiteDatabase bd;
+
+    public RARTravelBDHelp(Context context) {
+        super(context, DB_NOME, null, VERSAO);
+        bd = getWritableDatabase();
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String SQL1 = "CREATE TABLE " + TABELA_ACTIVITIES + "(" +
+                ID_ACTIVITIE + " INTEGER PRIMARY KEY, " +
+                NAME_ACTIVITIE + " TEXT NOT NULL)";
+        db.execSQL(SQL1);
+
+        String SQL2 = "CREATE TABLE " + TABELA_AIRPORTS + "(" +
+                ID_AIRPORT + " INTEGER PRIMARY KEY, " +
+                NAME_AIRPORT + " TEXT NOT NULL, " +
+                COUNTRY_AIRPORT + " TEXT NOT NULL, " +
+                CITY_AIRPORT + " TEXT NOT NULL)";
+        db.execSQL(SQL2);
+
+        String SQL3 = "CREATE TABLE " + TABELA_HOTELS + "(" +
+                ID_HOTEL + " INTEGER PRIMARY KEY, " +
+                NAME_HOTEL + " TEXT NOT NULL, " +
+                ADRESS_HOTEL + " TEXT NOT NULL, " +
+                CITY_HOTEL + " TEXT NOT NULL, " +
+                COUNTRY_HOTEL + " TEXT NOT NULL, " +
+                DESCRIPTION_HOTEL + " TEXT NOT NULL, " +
+                NIGHTPRICE_HOTEL + " INT NOT NULL, " +
+                RATING_HOTEL + " INT NOT NULL)";
+        db.execSQL(SQL3);
+
+        String SQL4 = "CREATE TABLE " + TABELA_PACKAGES + "(" +
+                ID_PACKAGE + " INTEGER PRIMARY KEY, " +
+                TITLE_PACKAGE + " TEXT NOT NULL, " +
+                DESCRIPTION_PACKAGE + " TEXT NOT NULL, " +
+                PRICE_PACKAGE + " INT NOT NULL, " +
+                RATING_PACKAGE + " INT NOT NULL, " +
+                FLIGHTSTART_PACKAGE + " TEXT NOT NULL, " +
+                FLIGHTEND_PACKAGE + " INT NOT NULL, " +
+                FLIGHTBACKSTART_PACKAGE + " INT NOT NULL, " +
+                FLIGHTBACKEND_PACKAGE + " INT NOT NULL, " +
+                " FOREIGN KEY (" + ID_HOTEL_PACKAGE + ") REFERENCES " + TABELA_HOTELS + "(" + ID_HOTEL + "), " +
+                " FOREIGN KEY (" + ID_AIRPORTSTART_PACKAGE + ") REFERENCES " + TABELA_AIRPORTS + "(" + ID_AIRPORT + "), " +
+                " FOREIGN KEY (" + ID_AIRPORTEND_PACKAGE + ") REFERENCES " + TABELA_AIRPORTS + "(" + ID_AIRPORT + "))";
+        db.execSQL(SQL4);
+
+        String SQL5 = "CREATE TABLE " + TABELA_ACTIVITIES_PACKAGES + "(" +
+                ID_ACTIVITIES_PACKAGES + " INTEGER PRIMARY KEY, " +
+                RESPONSIBLE_ACTIVITIES_PACKAGES + " TEXT NOT NULL, " +
+                TIMESTART_ACTIVITIES_PACKAGES + " TEXT NOT NULL, " +
+                DURATION_ACTIVITIES_PACKAGES + " INT NOT NULL, " +
+                " FOREIGN KEY (" + ID_ACTIVITY_ACTIVITIES_PACKAGES + ") REFERENCES " + TABELA_ACTIVITIES + "(" + ID_ACTIVITIE + "), " +
+                " FOREIGN KEY (" + ID_PACKAGE_ACTIVITIES_PACKAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + ")) ";
+        db.execSQL(SQL5);
+
+        String SQL6 = "CREATE TABLE " + TABELA_PACKAGE_IMAGES + "(" +
+                ID_IMAGE_PACKAGE_IMAGES + " INTEGER PRIMARY KEY, " +
+                NAME_PACKAGE_IMAGES + " TEXT NOT NULL, " +
+                IMAGE_PACKAGE_IMAGES + " TEXT NOT NULL, " +
+                " FOREIGN KEY (" + PACKAGE_ID_PACKAGE_IMAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + "))";
+        db.execSQL(SQL6);
+
+        String SQL7 = "CREATE TABLE " + TABELA_USERS_INFO + "(" +
+                USERID_USERS_INFO + " INTEGER PRIMARY KEY, " +
+                NIF_USERS_INFO + " INT NOT NULL, " +
+                NAME_USERS_INFO + " TEXT NOT NULL, " +
+                ADRESS_USERS_INFO + " TEXT NOT NULL, " +
+                PHONE_USERS_INFO + " INT NOT NULL, " +
+                BIRTHDATE_USERS_INFO + " TEXT NOT NULL, " +
+                POINTS_USERS_INFO + " INT NOT NULL) ";
+        db.execSQL(SQL7);
+
+        String SQL8 = "CREATE TABLE " + TABELA_USERS_PACKAGES + "(" +
+                ID_USER_USERS_PACKAGES + " INTEGER PRIMARY KEY, " +
+                PURCHSEDATE_USERS_PACKAGES + " TEXT NOT NULL, " +
+                REFERENCIA_USERS_PACKAGES + " INT NOT NULL, " +
+                PRICE_USERS_PACKAGES + " INT NOT NULL, " +
+                ENTITY_USERS_PACKAGES + " INT NOT NULL, " +
+                ESTADO_USERS_PACKAGES + " TEXT NOT NULL, " +
+                USEDPOINTS_USERS_PACKAGES + " INT NOT NULL, " +
+                NRPEOPLE_USERS_PACKAGES + " INT NOT NULL, " +
+                " FOREIGN KEY (" + ID_USER_USERS_PACKAGES + ") REFERENCES " + TABELA_ACTIVITIES + "(" + ID_ACTIVITIE + "), " +
+                " FOREIGN KEY (" + ID_PACKAGE_USERS_PACKAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + ")) ";
+        db.execSQL(SQL8);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        String SQL1 = "DROP TABLE IF EXISTS " + TABELA_USERS_PACKAGES;
+        db.execSQL(SQL1);
+        this.onCreate(db);
+
+        String SQL2 = "DROP TABLE IF EXISTS " + TABELA_PACKAGES;
+        db.execSQL(SQL2);
+        this.onCreate(db);
+
+        String SQL3 = "DROP TABLE IF EXISTS " + TABELA_USERS_INFO;
+        db.execSQL(SQL3);
+        this.onCreate(db);
+
+        String SQL4 = "DROP TABLE IF EXISTS " + TABELA_AIRPORTS;
+        db.execSQL(SQL4);
+        this.onCreate(db);
+
+        String SQL5 = "DROP TABLE IF EXISTS " + TABELA_ACTIVITIES;
+        db.execSQL(SQL5);
+        this.onCreate(db);
+
+        String SQL6 = "DROP TABLE IF EXISTS " + TABELA_PACKAGE_IMAGES;
+        db.execSQL(SQL6);
+        this.onCreate(db);
+
+        String SQL7 = "DROP TABLE IF EXISTS " + TABELA_HOTELS;
+        db.execSQL(SQL7);
+        this.onCreate(db);
+
+        String SQL8 = "DROP TABLE IF EXISTS " + TABELA_ACTIVITIES_PACKAGES;
+        db.execSQL(SQL8);
+        this.onCreate(db);
+    }
+}
