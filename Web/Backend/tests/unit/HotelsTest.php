@@ -113,4 +113,19 @@ class HotelsTest extends \Codeception\Test\Unit
             ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
             ['nightprice' => 230], ['rating' => 5]);
     }
+
+    public function testDeleteHotel(){
+        $this->tester->haveRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
+            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
+            ['nightprice' => 230], ['rating' => 5]);
+
+        $hotel = Hotels::find()
+            ->where(['name' => 'Hotel Paradise'])
+            ->one();
+        $hotel->delete();
+
+        $this->tester->dontseeRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
+            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
+            ['nightprice' => 230], ['rating' => 5]);
+    }
 }
