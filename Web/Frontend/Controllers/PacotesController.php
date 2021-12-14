@@ -6,6 +6,8 @@ use app\models\Activities;
 use app\models\ActivitiesPackages;
 use app\models\Airports;
 use app\models\Hotels;
+use app\models\Usersinfo;
+use app\models\Userspackages;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -20,6 +22,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use app\models\Packages;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -73,10 +76,12 @@ class PacotesController extends Controller
 
     public function actionCompra($id_pacote)
     {
-        if(Yii::$app->user->isGuest){
-            return $this->redirect(['site/login']);
+        {
+            if (Yii::$app->user->isGuest) {
+                return $this->redirect(['site/login']);
+            }
         }
-        
+
         $session = Yii::$app->session;
         $session->open();
         $pac=$session['pac'];
@@ -125,16 +130,20 @@ class PacotesController extends Controller
                 $model->id_package=$pacoteinfo->id;
                 $model->purchasedate=date('Y-m-d H:i:s');
                 $model->referencia=rand(900000000,999999999);
+
+                $refer = (string)$model->referencia;
+                $referFormat = substr($refer, 0, 3) .' '. substr($refer, 3, 3) .' '. substr($refer, 6);
+
                 $model->price=$precofinal;
                 $model->entity=11236;
                 $model->estado="Por pagar";
-
                 $model->save();
-
 
 
                 return $this->render('view', [
                     'model' => $model,
+                    'pacote' => $pacote,
+                    'referFormat' => $referFormat,
                 ]);
             }
 
@@ -169,7 +178,7 @@ class PacotesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    
+
     public function actionPontos($pontos){
 
         $model = Usersinfo::find()
