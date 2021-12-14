@@ -9,7 +9,7 @@ class ActivitiesTest extends \Codeception\Test\Unit
      * @var \backend\tests\UnitTester
      */
     protected $tester;
-    
+
     protected function _before()
     {
     }
@@ -53,6 +53,17 @@ class ActivitiesTest extends \Codeception\Test\Unit
         $this->tester->seeRecord('app\models\Activities', ['name' => 'Walking']);
         $this->tester->dontseeRecord('app\models\Activities', ['name' => 'Skydive']);
 
+    }
+
+    public function testDeleteActivitie(){
+        $this->tester->haveRecord('app\models\Activities', ['name' => 'Skydive']);
+
+        $activitie = Activities::find()
+            ->where(['name' => 'Skydive'])
+            ->one();
+        $activitie->delete();
+
+        $this->tester->dontseeRecord('app\models\Activities', ['name' => 'Skydive']);
     }
 
 }
