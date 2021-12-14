@@ -47,10 +47,11 @@
                     ],
                     ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],*/
                     ['label' => 'Gestão:', 'header' => true],
-                    ['label' => 'Hoteis',  'icon' => 'fas fa-hotel', 'url' => ['hotels/index']],
+                    ['label' => 'Hotéis',  'icon' => 'fas fa-hotel', 'url' => ['hotels/index']],
                     ['label' => 'Aeroportos',  'icon' => 'fas fa-plane-departure', 'url' => ['airports/index']],
                     ['label' => 'Pacotes',  'icon' => 'fas fa-box', 'url' => ['packages/index']],
-                    ['label' => 'Actividades',  'icon' => 'fas fa-snowboarding', 'url' => ['activities/index']],
+                    ['label' => 'Atividades',  'icon' => 'fas fa-snowboarding', 'url' => ['activities/index']],
+                    ['label' => 'Compras',  'icon' => 'fas fa-shopping-cart', 'url' => ['userspackages/compras']],
 
                     ['label' => 'Gestão de Utilizadores:', 'header' => true, 'visible' => Yii::$app->user->can('gerirUsers')],
                     ['label' => 'Utilizadores',  'icon' => 'fas fa-users', 'url' => ['user/index'], 'visible' => Yii::$app->user->can('gerirUsers')],
