@@ -1,5 +1,8 @@
 <?php
+
 namespace backend\tests;
+
+
 
 use app\models\Hotels;
 
@@ -47,7 +50,7 @@ class HotelsTest extends \Codeception\Test\Unit
         $this->assertFalse($hotel->validate(['country']));
         $hotel->country = "olaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         $this->assertFalse($hotel->validate(['country']));
-        $hotel->country = "Estados Unidos da América";
+        $hotel->country = "Estados Unidos";
         $this->assertTrue($hotel->validate(['country']));
 
         $hotel->description = null;
@@ -57,16 +60,12 @@ class HotelsTest extends \Codeception\Test\Unit
 
         $hotel->nightprice = "teste";
         $this->assertFalse($hotel->validate(['nightprice']));
-        $hotel->nightprice = 111111111111;
-        $this->assertFalse($hotel->validate(['nightprice']));
         $hotel->nightprice = null;
         $this->assertFalse($hotel->validate(['nightprice']));
         $hotel->nightprice = 230;
         $this->assertTrue($hotel->validate(['nightprice']));
 
         $hotel->rating = "teste";
-        $this->assertFalse($hotel->validate(['rating']));
-        $hotel->rating = 11111111111;
         $this->assertFalse($hotel->validate(['rating']));
         $hotel->rating = null;
         $this->assertFalse($hotel->validate(['rating']));
@@ -77,27 +76,41 @@ class HotelsTest extends \Codeception\Test\Unit
     public function testInsertHotel(){
 
         $this->tester->haveRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
-                                ['country' => 'Estados Unidos da América'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
-                                ['nightprice' => 230], ['rating' => 5]);
+            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
+            ['nightprice' => 230], ['rating' => 5]);
         $this->tester->seeRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
-                                ['country' => 'Estados Unidos da América'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
-                                ['nightprice' => 230], ['rating' => 5]);
+            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
+            ['nightprice' => 230], ['rating' => 5]);
     }
 
     public function testAlterHotel(){
-        $id = $this->tester->haveRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
-                                        ['country' => 'Estados Unidos da América'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
-                                        ['nightprice' => 230], ['rating' => 5]);
+        /*$this->tester->haveRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
+            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
+            ['nightprice' => 230], ['rating' => 5]);*/
 
-        $hotel = Hotels::find($id);
+        $hotelnew = new Hotels();
+        $hotelnew->name = "Hotel Paradise";
+        $hotelnew->adress = "Estrada das Nuvens";
+        $hotelnew->city = "Los Angeles";
+        $hotelnew->country = "Estados Unidos";
+        $hotelnew->description = "Hotel localizado num dos locais mais de bonitos de Los Angeles";
+        $hotelnew->nightprice = 230;
+        $hotelnew->rating = 5;
+        $hotelnew->save();
+
+        $hotel = Hotels::find()
+            ->where(['name' => 'Hotel Paradise'])
+            ->one();
+
         $hotel->name = "Hotel Hell";
-        $hotel->save();
+        expect_that($hotel->save(true));
+
 
         $this->tester->seeRecord('app\models\Hotels', ['name' => 'Hotel Hell'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
-                                ['country' => 'Estados Unidos da América'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
-                                ['nightprice' => 230], ['rating' => 5]);
+            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
+            ['nightprice' => 230], ['rating' => 5]);
         $this->tester->dontseeRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
-                                ['country' => 'Estados Unidos da América'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
-                                ['nightprice' => 230], ['rating' => 5]);
+            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
+            ['nightprice' => 230], ['rating' => 5]);
     }
 }

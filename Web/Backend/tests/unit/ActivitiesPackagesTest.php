@@ -5,6 +5,7 @@ use app\models\ActivitiesPackages;
 
 class ActivitiesPackagesTest extends \Codeception\Test\Unit
 {
+    //Acho que temos de adicionar um campo chamdado id a tabela para ser auto increment e chave primaria.
     /**
      * @var \backend\tests\UnitTester
      */
@@ -20,71 +21,83 @@ class ActivitiesPackagesTest extends \Codeception\Test\Unit
 
     // tests
     public function testValidations(){
-        $activitie_package = new ActivitiesPackages();
+        $activitiepackage = new ActivitiesPackages();
 
-        $activitie_package->id_activity = null;
-        $this->assertFalse($activitie_package->validate(['id_activity']));
-        $activitie_package->id_activity = "teste";
-        $this->assertFalse($activitie_package->validate(['id_activity']));
-        $activitie_package->id_activity = 11111111111;
-        $this->assertFalse($activitie_package->validate(['id_activity']));
-        $activitie_package->id_activity = 1;
-        $this->assertTrue($activitie_package->validate(['id_activity']));
+        $activitiepackage->id_activity = "teste";
+        $this->assertFalse($activitiepackage->validate(['id_activity']));
+        $activitiepackage->id_activity = 1;
+        $this->assertTrue($activitiepackage->validate(['id_activity']));
 
-        $activitie_package->id_package = null;
-        $this->assertFalse($activitie_package->validate(['id_package']));
-        $activitie_package->id_package = "teste";
-        $this->assertFalse($activitie_package->validate(['id_package']));
-        $activitie_package->id_package = 11111111111;
-        $this->assertFalse($activitie_package->validate(['id_package']));
-        $activitie_package->id_package = 1;
-        $this->assertTrue($activitie_package->validate(['id_package']));
+        $activitiepackage->id_package = "teste";
+        $this->assertFalse($activitiepackage->validate(['id_package']));
+        $activitiepackage->id_package = 2;
+        $this->assertTrue($activitiepackage->validate(['id_package']));
 
-        $activitie_package->responsible = "olaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        $this->assertFalse($activitie_package->validate(['responsible']));
-        $activitie_package->responsible = null;
-        $this->assertFalse($activitie_package->validate(['responsible']));
-        $activitie_package->responsible = "sasha";
-        $this->assertTrue($activitie_package->validate(['responsible']));
+        $activitiepackage->responsible = "olaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        $this->assertFalse($activitiepackage->validate(['responsible']));
+        $activitiepackage->responsible = null;
+        $this->assertFalse($activitiepackage->validate(['responsible']));
+        $activitiepackage->responsible = "sasha";
+        $this->assertTrue($activitiepackage->validate(['responsible']));
 
-        $activitie_package->timestart = "teste";
-        $this->assertFalse($activitie_package->validate(['timestart']));
-        $activitie_package->timestart = 11111111111;
-        $this->assertFalse($activitie_package->validate(['timestart']));
-        $activitie_package->timestart = null;
-        $this->assertFalse($activitie_package->validate(['timestart']));
-        $activitie_package->timestart = "2022-03-14 10:00:00";
-        $this->assertTrue($activitie_package->validate(['timestart']));
+        $activitiepackage->timestart = null;
+        $this->assertFalse($activitiepackage->validate(['timestart']));
+        $activitiepackage->timestart = "2022-03-14 10:00:00";
+        $this->assertTrue($activitiepackage->validate(['timestart']));
 
-        $activitie_package->duration = "teste";
-        $this->assertFalse($activitie_package->validate(['duration']));
-        $activitie_package->duration = 11111111111;
-        $this->assertFalse($activitie_package->validate(['duration']));
-        $activitie_package->duration = null;
-        $this->assertFalse($activitie_package->validate(['duration']));
-        $activitie_package->duration = 20;
-        $this->assertTrue($activitie_package->validate(['duration']));
+        $activitiepackage->duration = "teste";
+        $this->assertFalse($activitiepackage->validate(['duration']));
+        $activitiepackage->duration = null;
+        $this->assertFalse($activitiepackage->validate(['duration']));
+        $activitiepackage->duration = 20;
+        $this->assertTrue($activitiepackage->validate(['duration']));
 
     }
     public function testInsertActivitiePackage(){
 
-        $this->tester->haveRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'Sasha'],
-                                ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
+        /*$this->tester->haveRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'Sasha'],
+            ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);*/
+        $activitiepackagenew = new ActivitiesPackages();
+        $activitiepackagenew->id_activity = 1;
+        $activitiepackagenew->id_package = 2;
+        $activitiepackagenew->responsible = "Sasha";
+        $activitiepackagenew->timestart = "2022-03-14 10:00:00";
+        $activitiepackagenew->duration = 20;
+        $activitiepackagenew->save();
+
         $this->tester->seeRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'Sasha'],
-                                ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
+            ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
     }
 
     public function testAlterActivitiePackage(){
-        $id = $this->tester->haveRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'Sasha'],
-                                        ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
+        /*$this->tester->haveRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 2], ['responsible' => 'Sasha'],
+            ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);*/
+        $activitiepackagenew = new ActivitiesPackages();
+        $activitiepackagenew->id_activity = 1;
+        $activitiepackagenew->id_package = 2;
+        $activitiepackagenew->responsible = "Sasha";
+        $activitiepackagenew->timestart = "2022-03-14 10:00:00";
+        $activitiepackagenew->duration = 20;
+        $activitiepackagenew->save();
 
-        $activitie_package=ActivitiesPackages::find($id);
-        $activitie_package->responsible = "John";
-        $activitie_package->save();
+        $activitiepackage=ActivitiesPackages::find()
+            ->where(['id_activity' => 1,
+                'id_package' => 2,
+                'responsible' => 'Sasha',
+                'timestart' => '2022-03-14 10:00:00',
+                'duration' => 20])
+            ->one();
 
-        $this->tester->seeRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'John'],
+        $activitiepackage->id_activity = 3;
+        $activitiepackage->save();
+
+        $this->tester->seeRecord('app\models\ActivitiesPackages', ['id_activity' => 3], ['id_package' => 2], ['responsible' => 'John'],
             ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
-        $this->tester->dontseeRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'Sasha'],
+        $this->tester->dontseeRecord('app\models\ActivitiesPackages', ['id_activity' => 4], ['id_package' => 2], ['responsible' => 'Sasha'],
             ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
+    }
+
+    public function testDeleteActivitiePackage(){
+
     }
 }

@@ -52,9 +52,17 @@ class AirportsTest extends \Codeception\Test\Unit
     }
 
     public function testAlterAirport(){
-        $id = $this->tester->haveRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);
+        /*$this->tester->haveRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);*/
+        $airportnew = new Airports();
+        $airportnew->name = "Aeroporto de São Sebastião";
+        $airportnew->country = "Portugal";
+        $airportnew->city = "Porto";
+        $airportnew->save();
 
-        $airport = Airports::find($id);
+        $airport = Airports::find()
+            ->where(['name' => 'Aeroporto de São Sebastião'])
+            ->one();
+
         $airport->name = "Aeroporto de Lucifer";
         $airport->save();
 
