@@ -8,6 +8,8 @@ use yii\grid\GridView;
 
 $this->title = 'Perfil';
 $this->params['breadcrumbs'][] = $this->title;
+
+
 ?>
 
 <form class="container">
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="top-margin">
-        <label><b>Data de Nascimento: </b><?php echo $utilizador->birthdate; ?></label>
+        <label><b>Data de Nascimento: </b><?php echo DateTime::createFromFormat('Y-m-d', $utilizador->birthdate)->format('F d, Y'); ?></label>
     </div>
 
     <div class="top-margin">
@@ -42,10 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Editar Perfil', ['update', 'userid'=>$utilizador->userid], ['class'=>'btn btn-info']) ?>
 
         <?= Html::a('Histórico Compras', ['userspackages/index'], ['class'=>'btn btn-info']) ?>
-
-        <?= Html::a('Alterar Password', [''], ['class'=>'btn btn-info']) ?>
     </div>
 
 </form>
-
-
