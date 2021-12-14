@@ -86,4 +86,24 @@ class UserInfoTest extends \Codeception\Test\Unit
         $this->tester->dontseeRecord('app\models\Usersinfo', ['userid' => 1], ['nif' => 1234567891], ['name' => "teste"], ['adress' => 'Estrada das Flores N4'],
             ['phone' => 912565842], ['birthdate' => "2001-05-12"], ['points' => 20]);
     }
+
+    public function testDeleteUserInfo(){
+        $userinfonew = new Usersinfo();
+        $userinfonew->userid = 1;
+        $userinfonew->nif = 1234567891;
+        $userinfonew->name = "teste";
+        $userinfonew->adress = "Estrada das Flores N4";
+        $userinfonew->phone = 912565842;
+        $userinfonew->birthdate = "2001-05-12";
+        $userinfonew->points = 20;
+        $userinfonew->save();
+
+        $user = Usersinfo::find()
+            ->where(['name' => 'teste'])
+            ->one();
+        $user->delete();
+
+        $this->tester->dontseeRecord('app\models\Usersinfo', ['userid' => 1], ['nif' => 1234567891], ['name' => "teste"], ['adress' => 'Estrada das Flores N4'],
+            ['phone' => 912565842], ['birthdate' => "2001-05-12"], ['points' => 20]);
+    }
 }
