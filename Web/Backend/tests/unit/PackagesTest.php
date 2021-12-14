@@ -156,4 +156,32 @@ class PackagesTest extends \Codeception\Test\Unit
             ['flightbackstart' => '2022-03-18 22:00:00'], ['flightbackend' => '2022-03-19 22:00:00'],
             ['id_hotel' => 1], ['id_airportstart' => 1], ['id_airportend' => 2]);
     }
+
+    public function testDeletePackage(){
+        $packagenew = new Packages();
+        $packagenew->title = "Toquio";
+        $packagenew->description = "Tóquio, a movimentada capital do Japão, combina o estilo ultramoderno com o tradicional, 
+        desde arranha-céus iluminados por neon a templos históricos. O opulento santuário xintoísta Meiji é conhecido por seu altíssimo 
+        portão e pelas florestas circundantes. O Palácio Imperial fica localizado em meio a jardins públicos.";
+        $packagenew->price = 150;
+        $packagenew->rating = 4;
+        $packagenew->flightstart = "2022-03-12 22:00:00";
+        $packagenew->flightend = "2022-03-13 22:00:00";
+        $packagenew->flightbackstart = "2022-03-18 22:00:00";
+        $packagenew->flightbackend = "2022-03-19 22:00:00";
+        $packagenew->id_hotel = 1;
+        $packagenew->id_airportstart = 1;
+        $packagenew->id_airportend = 2;
+        $packagenew->save();
+
+        $package= Packages::find()
+            ->where(['title' => 'Toquio'])
+            ->one();
+        $package->delete();
+
+        $this->tester->dontseeRecord('app\models\Packages', ['title' => 'Toquio'], ['description' => 'Tóquio, a movimentada capital do Japão, combina o estilo ultramoderno com o tradicional, desde arranha-céus iluminados por neon a templos históricos. O opulento santuário xintoísta Meiji é conhecido por seu altíssimo portão e pelas florestas circundantes. O Palácio Imperial fica localizado em meio a jardins públicos.'],
+            ['price' => 150], ['rating' => 4], ['flightstart' => '2022-03-12 22:00:00'], ['flightend' => '2022-03-13 22:00:00'],
+            ['flightbackstart' => '2022-03-18 22:00:00'], ['flightbackend' => '2022-03-19 22:00:00'],
+            ['id_hotel' => 1], ['id_airportstart' => 1], ['id_airportend' => 2]);
+    }
 }
