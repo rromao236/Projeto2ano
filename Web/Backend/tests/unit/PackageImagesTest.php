@@ -59,19 +59,35 @@ class PackageImagesTest extends \Codeception\Test\Unit
     public function testAlterPackageImage(){
         /*$this->tester->haveRecord('app\models\Packageimages', ['name' => "LondresCapa"], ['image' => "images/pacotes/LondresCapa3316.jpg"], ['package_id' => 1]);*/
         $package_imagenew = new Packageimages();
-        $package_imagenew->name = "LondresCapa";
-        $package_imagenew->image = "images/pacotes/LondresCapa3316.jpg";
+        $package_imagenew->name = "NovaIorqueCapa";
+        $package_imagenew->image = "images/pacotes/NovaIorqueCapa3316.jpg";
         $package_imagenew->package_id = 1;
         $package_imagenew->save();
 
         $package_image = Packageimages::find()
-            ->where(['name' => "LondresCapa"])
+            ->where(['name' => "NovaIorqueCapa"])
             ->one();
 
         $package_image->name = "ParisCapa";
         $package_image->save();
 
         $this->tester->seeRecord('app\models\Packageimages', ['name' => "ParisCapa"], ['image' => "images/pacotes/LondresCapa3316.jpg"], ['package_id' => 1]);
-        $this->tester->dontseeRecord('app\models\Packageimages', ['name' => "LondresCapa"], ['image' => "images/pacotes/LondresCapa3316.jpg"], ['package_id' => 1]);
+        $this->tester->dontseeRecord('app\models\Packageimages', ['name' => "NovaIorqueCapa"], ['image' => "images/pacotes/NovaIorqueCapa3316.jpg"], ['package_id' => 1]);
+    }
+
+    public function testDeletePackageImage(){
+        $package_imagenew = new Packageimages();
+        $package_imagenew->name = "NovaIorqueCapa";
+        $package_imagenew->image = "images/pacotes/NovaIorqueCapa3316.jpg";
+        $package_imagenew->package_id = 1;
+        $package_imagenew->save();
+
+        $package_image = Packageimages::find()
+            ->where(['name' => "NovaIorqueCapa"])
+            ->one();
+        $package_image->delete();
+
+        $this->tester->dontseeRecord('app\models\Packageimages', ['name' => "NovaIorqueCapa"], ['image' => "images/pacotes/NovaIorqueCapa3316.jpg"], ['package_id' => 1]);
+
     }
 }
