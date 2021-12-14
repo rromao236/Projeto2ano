@@ -25,7 +25,7 @@ class ActivitiesPackagesTest extends \Codeception\Test\Unit
 
         $activitiepackage->id_activity = "teste";
         $this->assertFalse($activitiepackage->validate(['id_activity']));
-        $activitiepackage->id_activity = 1;
+        $activitiepackage->id_activity = 4;
         $this->assertTrue($activitiepackage->validate(['id_activity']));
 
         $activitiepackage->id_package = "teste";
@@ -58,14 +58,14 @@ class ActivitiesPackagesTest extends \Codeception\Test\Unit
         /*$this->tester->haveRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'Sasha'],
             ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);*/
         $activitiepackagenew = new ActivitiesPackages();
-        $activitiepackagenew->id_activity = 1;
+        $activitiepackagenew->id_activity = 4;
         $activitiepackagenew->id_package = 2;
         $activitiepackagenew->responsible = "Sasha";
         $activitiepackagenew->timestart = "2022-03-14 10:00:00";
         $activitiepackagenew->duration = 20;
         $activitiepackagenew->save();
 
-        $this->tester->seeRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 1], ['responsible' => 'Sasha'],
+        $this->tester->seeRecord('app\models\ActivitiesPackages', ['id_activity' => 4], ['id_package' => 1], ['responsible' => 'Sasha'],
             ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
     }
 
@@ -73,7 +73,7 @@ class ActivitiesPackagesTest extends \Codeception\Test\Unit
         /*$this->tester->haveRecord('app\models\ActivitiesPackages', ['id_activity' => 1], ['id_package' => 2], ['responsible' => 'Sasha'],
             ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);*/
         $activitiepackagenew = new ActivitiesPackages();
-        $activitiepackagenew->id_activity = 1;
+        $activitiepackagenew->id_activity = 4;
         $activitiepackagenew->id_package = 2;
         $activitiepackagenew->responsible = "Sasha";
         $activitiepackagenew->timestart = "2022-03-14 10:00:00";
@@ -81,23 +81,41 @@ class ActivitiesPackagesTest extends \Codeception\Test\Unit
         $activitiepackagenew->save();
 
         $activitiepackage=ActivitiesPackages::find()
-            ->where(['id_activity' => 1,
+            ->where(['id_activity' => 4,
                 'id_package' => 2,
                 'responsible' => 'Sasha',
                 'timestart' => '2022-03-14 10:00:00',
                 'duration' => 20])
             ->one();
 
-        $activitiepackage->id_activity = 3;
+        $activitiepackage->id_activity = 5;
         $activitiepackage->save();
 
-        $this->tester->seeRecord('app\models\ActivitiesPackages', ['id_activity' => 3], ['id_package' => 2], ['responsible' => 'John'],
+        $this->tester->seeRecord('app\models\ActivitiesPackages', ['id_activity' => 5], ['id_package' => 2], ['responsible' => 'John'],
             ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
         $this->tester->dontseeRecord('app\models\ActivitiesPackages', ['id_activity' => 4], ['id_package' => 2], ['responsible' => 'Sasha'],
             ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
     }
 
     public function testDeleteActivitiePackage(){
+        $activitiepackagenew = new ActivitiesPackages();
+        $activitiepackagenew->id_activity = 4;
+        $activitiepackagenew->id_package = 2;
+        $activitiepackagenew->responsible = "Sasha";
+        $activitiepackagenew->timestart = "2022-03-14 10:00:00";
+        $activitiepackagenew->duration = 20;
+        $activitiepackagenew->save();
 
+        $activitiepackage=ActivitiesPackages::find()
+            ->where(['id_activity' => 4,
+                'id_package' => 2,
+                'responsible' => 'Sasha',
+                'timestart' => '2022-03-14 10:00:00',
+                'duration' => 20])
+            ->one();
+        $activitiepackage->delete();
+
+        $this->tester->dontseeRecord('app\models\ActivitiesPackages', ['id_activity' => 4], ['id_package' => 2], ['responsible' => 'Sasha'],
+            ['timestart' => '2022-03-14 10:00:00'], ['duration' => 20]);
     }
 }
