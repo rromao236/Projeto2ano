@@ -237,7 +237,7 @@ $this->title = 'RAR Travels';
                     <b><?php echo $ativ->name; ?>:</b><br>
                     <b>&#8226 </b>Responsável: <?php echo $atividade->responsible; ?><br>
                     <b>&#8226 </b>Duração: <?php echo $atividade->duration; ?> minutos<br>
-                    <b>&#8226 </b>Data e hora: <?php echo $atividade->timestart; ?><br><br>
+                    <b>&#8226 </b>Data e hora: <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $atividade->timestart)->format('d-m-Y, H:i')?><br><br>
                 <?php }?>
             </p>
 
@@ -272,13 +272,13 @@ $this->title = 'RAR Travels';
 
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Voo de Ida</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                <b>&#8226 Partida:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightstart; ?><br>
-                <b>&#8226 Chegada:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightend; ?><br><br>
+                <b>&#8226 Partida:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $pacote_detalhe->flightstart)->format('d-m-Y, H:i'); ?><br>
+                <b>&#8226 Chegada:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $pacote_detalhe->flightend)->format('d-m-Y, H:i'); ?><br><br>
             </p>
             <h3 style="margin-left: 290px; margin-right: 290px; text-align: left;"><u>Voo de Volta</u></h3>
             <p style="margin-left: 290px; margin-right: 290px; text-align: left;">
-                <b>&#8226 Partida:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightbackstart; ?><br>
-                <b>&#8226 Chegada:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo $pacote_detalhe->flightbackend; ?><br><br>
+                <b>&#8226 Partida:</b> <?php echo $aeroporto_end->name; ?> <b>|</b> <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $pacote_detalhe->flightbackstart)->format('d-m-Y, H:i')?><br>
+                <b>&#8226 Chegada:</b> <?php echo $aeroporto_start->name; ?> <b>|</b> <?php echo DateTime::createFromFormat('Y-m-d H:i:s', $pacote_detalhe->flightbackend)->format('d-m-Y, H:i')?><br><br>
             </p>
         </div>
         <div style="margin-left: 290px">
