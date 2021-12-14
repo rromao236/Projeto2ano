@@ -69,4 +69,16 @@ class AirportsTest extends \Codeception\Test\Unit
         $this->tester->seeRecord('app\models\Airports', ['name' => 'Aeroporto de Lucifer'], ['country' => 'Portugal'], ['city' => 'Porto']);
         $this->tester->dontseeRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);
     }
+
+    public function testDeleteAirport(){
+        $this->tester->haveRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);
+
+        $airport = Airports::find()
+            ->where(['name' => 'Aeroporto de São Sebastião'])
+            ->one();
+        $airport->delete();
+
+        $this->tester->dontseeRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);
+
+    }
 }
