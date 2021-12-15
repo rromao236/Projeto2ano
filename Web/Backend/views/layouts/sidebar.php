@@ -47,10 +47,10 @@
                     ],
                     ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],*/
                     ['label' => 'Gestão:', 'header' => true],
-                    ['label' => 'Hotéis',  'icon' => 'fas fa-hotel', 'url' => ['hotels/index']],
+                    ['label' => 'Hoteis',  'icon' => 'fas fa-hotel', 'url' => ['hotels/index']],
                     ['label' => 'Aeroportos',  'icon' => 'fas fa-plane-departure', 'url' => ['airports/index']],
                     ['label' => 'Pacotes',  'icon' => 'fas fa-box', 'url' => ['packages/index']],
-                    ['label' => 'Atividades',  'icon' => 'fas fa-snowboarding', 'url' => ['activities/index']],
+                    ['label' => 'Actividades',  'icon' => 'fas fa-snowboarding', 'url' => ['activities/index']],
                     ['label' => 'Compras',  'icon' => 'fas fa-shopping-cart', 'url' => ['userspackages/compras']],
 
                     ['label' => 'Gestão de Utilizadores:', 'header' => true, 'visible' => Yii::$app->user->can('gerirUsers')],
@@ -59,9 +59,9 @@
                     ['label' => 'Inserir Admin',  'icon' => 'fas fa-user-cog', 'url' => ['user/signupadmin'], 'visible' => Yii::$app->user->can('gerirUsers')],
 
                     /*['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],*/
-                    ['label' => 'Utilitários:', 'header' => true],
-                    ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],
-                    ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
+                    ['label' => 'Utilitários:', 'header' => true, 'visible' => Yii::$app->user->can('gerirUsers')],
+                    ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank', 'visible' => Yii::$app->user->can('gerirUsers')],
+                    ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank', 'visible' => Yii::$app->user->can('gerirUsers')],
 
                     /*['label' => 'MULTI LEVEL EXAMPLE', 'header' => true],
                     ['label' => 'Level1'],
