@@ -159,7 +159,15 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            $auth = Yii::$app->authManager;
+
+            if($auth->checkAccess(Yii::$app->user->getId(), "backoffice")){
+                echo '<script>alert("Não tem permisão para entrar nesta página!")</script>';
+                Yii::$app->user->logout();
+
+            }else{
+                return $this->goBack();
+            }
         }
 
         $model->password = '';
