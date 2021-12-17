@@ -94,11 +94,13 @@ class SiteController extends Controller
                 return $this->goBack();
             }else{
                 echo '<script>alert("Não tem permisão para entrar nesta página!")</script>';
+
                 Yii::$app->user->logout();
             }
-            return $this->goBack();
+            //return $this->goBack();
         }
 
+        $model->username = '';
         $model->password = '';
 
         return $this->render('login', [
