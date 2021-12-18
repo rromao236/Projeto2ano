@@ -46,7 +46,12 @@ class AirportsTest extends \Codeception\Test\Unit
     }
     public function testInsertAirport(){
 
-        $this->tester->haveRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);
+        $airportnew = new Airports();
+        $airportnew->name = "Aeroporto de São Sebastião";
+        $airportnew->country = "Portugal";
+        $airportnew->city = "Porto";
+        $airportnew->save();
+
         $this->tester->seeRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);
 
     }
@@ -71,7 +76,11 @@ class AirportsTest extends \Codeception\Test\Unit
     }
 
     public function testDeleteAirport(){
-        $this->tester->haveRecord('app\models\Airports', ['name' => 'Aeroporto de São Sebastião'], ['country' => 'Portugal'], ['city' => 'Porto']);
+        $airportnew = new Airports();
+        $airportnew->name = "Aeroporto de São Sebastião";
+        $airportnew->country = "Portugal";
+        $airportnew->city = "Porto";
+        $airportnew->save();
 
         $airport = Airports::find()
             ->where(['name' => 'Aeroporto de São Sebastião'])
