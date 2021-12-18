@@ -75,9 +75,16 @@ class HotelsTest extends \Codeception\Test\Unit
     }
     public function testInsertHotel(){
 
-        $this->tester->haveRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
-            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
-            ['nightprice' => 230], ['rating' => 5]);
+        $hotelnew = new Hotels();
+        $hotelnew->name = "Hotel Paradise";
+        $hotelnew->adress = "Estrada das Nuvens";
+        $hotelnew->city = "Los Angeles";
+        $hotelnew->country = "Estados Unidos";
+        $hotelnew->description = "Hotel localizado num dos locais mais de bonitos de Los Angeles";
+        $hotelnew->nightprice = 230;
+        $hotelnew->rating = 5;
+        $hotelnew->save();
+
         $this->tester->seeRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
             ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
             ['nightprice' => 230], ['rating' => 5]);
@@ -115,9 +122,15 @@ class HotelsTest extends \Codeception\Test\Unit
     }
 
     public function testDeleteHotel(){
-        $this->tester->haveRecord('app\models\Hotels', ['name' => 'Hotel Paradise'], ['adress' => 'Estrada das Nuvens'], ['city' => 'Los Angeles'],
-            ['country' => 'Estados Unidos'], ['description' => 'Hotel localizado num dos locais mais de bonitos de Los Angeles'],
-            ['nightprice' => 230], ['rating' => 5]);
+        $hotelnew = new Hotels();
+        $hotelnew->name = "Hotel Paradise";
+        $hotelnew->adress = "Estrada das Nuvens";
+        $hotelnew->city = "Los Angeles";
+        $hotelnew->country = "Estados Unidos";
+        $hotelnew->description = "Hotel localizado num dos locais mais de bonitos de Los Angeles";
+        $hotelnew->nightprice = 230;
+        $hotelnew->rating = 5;
+        $hotelnew->save();
 
         $hotel = Hotels::find()
             ->where(['name' => 'Hotel Paradise'])
