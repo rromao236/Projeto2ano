@@ -193,6 +193,7 @@ class PacotesController extends Controller
         $pacotes = Packages::find()
             ->all();
 
+        Yii::$app->session->setFlash('success', 'Thank you for your purchase.');
         return $this->render('index', [
             'pacotes' => $pacotes,
         ]);
