@@ -84,7 +84,7 @@ class SiteController extends Controller
         $pac3v=0;
 
         $pacotes= Packages::find()
-        ->all();
+            ->all();
 
 
         do{
@@ -137,12 +137,12 @@ class SiteController extends Controller
 
 
         return $this->render('index', [
-        'pacote1' => $pacote1,
-        'pacote2' => $pacote2,
-        'pacote3' => $pacote3,
-        'imagem1' => $imagem1,
-        'imagem2' => $imagem2,
-        'imagem3' => $imagem3,
+            'pacote1' => $pacote1,
+            'pacote2' => $pacote2,
+            'pacote3' => $pacote3,
+            'imagem1' => $imagem1,
+            'imagem2' => $imagem2,
+            'imagem3' => $imagem3,
         ]);
     }
 
@@ -159,15 +159,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $auth = Yii::$app->authManager;
-
-            if($auth->checkAccess(Yii::$app->user->getId(), "backoffice")){
-                echo '<script>alert("Não tem permisão para entrar nesta página!")</script>';
-                Yii::$app->user->logout();
-
-            }else{
-                return $this->goBack();
-            }
+            return $this->goBack();
         }
 
         $model->password = '';
@@ -231,7 +223,7 @@ class SiteController extends Controller
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            Yii::$app->session->setFlash('success', 'Thank you for registration.');
             return $this->goHome();
         }
 
@@ -333,4 +325,3 @@ class SiteController extends Controller
         ]);
     }
 }
-
