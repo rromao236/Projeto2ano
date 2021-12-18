@@ -84,10 +84,20 @@ class UsersPackagesTest extends \Codeception\Test\Unit
     }
     public function testInsertUserPackage(){
 
-        $this->tester->haveRecord('app\models\Userspackages', ['id_user' => 1], ['id_package' => 1], ['purchasedate' => "2021-12-07 12:58:41"],
-            ['referencia' => '976139014'], ['price' => 110], ['entity' => 11236], ['estado' => 'Por pagar'], ['usedpoints' => 5], ['nrpeople' => 1]);
+        $users_packagesnew = new Userspackages();
+        $users_packagesnew->id_user = 1;
+        $users_packagesnew->id_package = 1;
+        $users_packagesnew->purchasedate = "2021-12-07 12:58:41";
+        $users_packagesnew->referencia = 976139014;
+        $users_packagesnew->price = 110;
+        $users_packagesnew->entity = 11236;
+        $users_packagesnew->estado = "Por pagar";
+        $users_packagesnew->usedpoints = 5;
+        $users_packagesnew->nrpeople = 1;
+        $users_packagesnew->save();
+
         $this->tester->seeRecord('app\models\Userspackages', ['id_user' => 1], ['id_package' => 1], ['purchasedate' => "2021-12-07 12:58:41"],
-            ['referencia' => '976139014'], ['price' => 110], ['entity' => 11236], ['estado' => 'Por pagar'], ['usedpoints' => 5], ['nrpeople' => 1]);
+            ['referencia' => 976139014], ['price' => 110], ['entity' => 11236], ['estado' => 'Por pagar'], ['usedpoints' => 5], ['nrpeople' => 1]);
     }
 
     public function testAlterUserPackage(){
