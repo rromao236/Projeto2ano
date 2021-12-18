@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="activities-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'activities-form']); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
