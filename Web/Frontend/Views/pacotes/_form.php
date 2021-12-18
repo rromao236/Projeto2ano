@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="userspackages-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'compra-form']); ?>
 
     <?= $form->field($model, 'usedpoints')->textInput(['value' => $model->isNewRecord ? '0' : $model->some_field])->label('Pontos a Usar') ?>
 
