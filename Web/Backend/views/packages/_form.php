@@ -14,7 +14,7 @@ use app\models\Airports;
 
 <div class="packages-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'packages-form']); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
