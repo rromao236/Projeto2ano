@@ -57,7 +57,7 @@ return [
                 //Hoteis:
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'hotels',
+                    'controller' => 'api/hotels',
                     'pluralize' => false,
                 ],
                 //Pacotes:
@@ -65,6 +65,10 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/packages',
                     'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'GET detalhes/{id}' => 'detalhes', // 'detalhes' é 'actionDetalhes'
+                    ],
                 ],
                 //Atividades:
                 [
@@ -73,34 +77,35 @@ return [
                     'pluralize' => false,
 
                     'extraPatterns' => [
+                        'GET all/{id}' => 'all', // 'all' é 'actionAll'
+                        //Esta era so para teste
                         'POST activitie' => 'activitie', // 'activitie' é 'actionActivitie'
                     ],
                 ],
                 //Atividades por pacote:
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'activitiespackages',
+                    'controller' => 'api/activitiespackages',
                     'pluralize' => false,
                 ],
                 //Aeroportos:
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'airports',
+                    'controller' => 'api/airports',
                     'pluralize' => false,
                 ],
                 //Imagens dos pacotes:
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'packageimages',
+                    'controller' => 'api/packageimages',
                     'pluralize' => false,
                 ],
                 //Info dos users:
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'usersinfo',
+                    'controller' => 'api/usersinfo',
                     'pluralize' => false,
 
-                    //Não funciona
                     'extraPatterns' => [
                         'PUT update/{id}' => 'update', // 'update' é 'actionUpdate'
                     ],
@@ -108,11 +113,31 @@ return [
                 //Packages dos users:
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'userspackages',
+                    'controller' => 'api/userspackages',
                     'pluralize' => false,
 
                     'extraPatterns' => [
                         'POST compra' => 'compra', // 'update' é 'actionCompra'
+                    ],
+                ],
+                //Registo:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/registar',
+                    'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'POST user' => 'user', // 'update' é 'actionUser'
+                    ],
+                ],
+                //Login:
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/login',
+                    'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'POST user' => 'user', // 'update' é 'actionUser'
                     ],
                 ],
             ],
