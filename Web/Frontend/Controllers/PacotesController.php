@@ -118,8 +118,9 @@ class PacotesController extends Controller
             $pessoas=$model->nrpeople;
             $pontos=$model->usedpoints;
 
-            if($pontos>$pontospossuidos){
-                return $this->redirect(['index']);
+            if($pontos>$pontospossuidos || $pessoas==0){
+                Yii::$app->session->setFlash('success', 'Quantidade de pontos ou numero de pessoas invalido!');
+                //return $this->redirect(['index']);
             } else{
 
                 $precofinal=$preco*$pessoas;
