@@ -2,6 +2,7 @@
 
 namespace app\modules\api\controllers;
 
+use yii\filters\auth\QueryParamAuth;
 use yii\web\Controller;
 use yii\filters\auth\HttpBasicAuth;
 use app\models\Packages;
@@ -29,22 +30,17 @@ class PackagesController extends \yii\rest\ActiveController
         return $this->render('index');
     }
 
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-            'auth' => function ($username, $password)
-            {
-                $user = \common\models\User::findByUsername($username);
-                if ($user && $user->validatePassword($password))
-                {
-                    return $user;
-                }
-            }
+            'class' => QueryParamAuth::className(),
+
         ];
         return $behaviors;
     }
+
 
     /*
     public function actionDetalhes($id){
@@ -60,6 +56,7 @@ class PackagesController extends \yii\rest\ActiveController
         $aeroChegada = Airports::find()
             ->where(['id' => $pacote->id_airportend])
             ->one();
+
 
         $atividades[] = null;
         $activity = Activitiespackages::find()
@@ -79,19 +76,23 @@ class PackagesController extends \yii\rest\ActiveController
             $atividades[] = $atividade;
         }
 
+
         $imagens = Packageimages::find()
             ->where(['package_id' => $pacote->id])
             ->all();
+
 
         return[
             'pacote' => $pacote,
             'hotel' => $hotel,
             'aeroportoPartida' => $aeroPartida,
             'aeroportoChegada' => $aeroChegada,
-            'atividades' => $atividades,
-            'imagens' => $imagens
+            //'atividades' => $atividades,
+            //'imagens' => $imagens
         ];
+
 
     }
     */
+
 }

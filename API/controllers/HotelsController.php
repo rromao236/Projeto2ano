@@ -3,6 +3,7 @@
 namespace app\modules\api\controllers;
 
 use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\web\Controller;
 
 /**
@@ -22,20 +23,15 @@ class HotelsController extends \yii\rest\ActiveController
         return $this->render('index');
     }
 
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-            'auth' => function ($username, $password)
-            {
-                $user = \common\models\User::findByUsername($username);
-                if ($user && $user->validatePassword($password))
-                {
-                    return $user;
-                }
-            }
+            'class' => QueryParamAuth::className(),
+
         ];
         return $behaviors;
     }
+
 }

@@ -51,7 +51,7 @@ class ActivitiesController extends \yii\rest\ActiveController
 
     }
 
-    //Exemplo
+    /*Exemplo
     public function actionActivitie(){
         $name= Yii::$app->request->post('name');
         $ativmodel = new $this->modelClass;
@@ -61,8 +61,9 @@ class ActivitiesController extends \yii\rest\ActiveController
             'SaveError' => $ret,
         ];
     }
+    */
 
-    /*
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -72,5 +73,5 @@ class ActivitiesController extends \yii\rest\ActiveController
         ];
         return $behaviors;
     }
-    */
+
 }

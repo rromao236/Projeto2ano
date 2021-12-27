@@ -4,6 +4,7 @@ namespace app\modules\api\controllers;
 
 use app\models\Userspackages;
 use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\web\Controller;
 
 /**
@@ -23,14 +24,22 @@ class UserspackagesController extends \yii\rest\ActiveController
         return $this->render('index');
     }
 
+    public function actionHistorico($id){
+        $historico = Userspackages::find()
+            ->where(['id_user' => $id])
+            ->all();
+
+        return $historico;
+    }
+
     public function actionCompra(){
         $iduser=\Yii::$app->request->post('iduser');
         $idpackage=\Yii::$app->request->post('idpackage');
-        $purchasedate=\Yii::$app->request->post('purchasedate');
-        $referencia=\Yii::$app->request->post('referencia');
+        $purchasedate=\Yii::$app->request->post('purchasedate');//por nos
+        $referencia=\Yii::$app->request->post('referencia');//por nos
         $price=\Yii::$app->request->post('price');
-        $entity=\Yii::$app->request->post('entity');
-        $estado=\Yii::$app->request->post('estado');
+        $entity=\Yii::$app->request->post('entity');//por nos
+        $estado=\Yii::$app->request->post('estado');//por nos
         $usedpoints=\Yii::$app->request->post('usedpoints');
         $nrpeople=\Yii::$app->request->post('nrpeople');
 
@@ -49,20 +58,15 @@ class UserspackagesController extends \yii\rest\ActiveController
         return ['SaveError' => $ret];
     }
 
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-            'auth' => function ($username, $password)
-            {
-                $user = \common\models\User::findByUsername($username);
-                if ($user && $user->validatePassword($password))
-                {
-                    return $user;
-                }
-            }
+            'class' => QueryParamAuth::className(),
+
         ];
         return $behaviors;
     }
+
 }

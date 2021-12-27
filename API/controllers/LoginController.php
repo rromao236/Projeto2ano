@@ -41,7 +41,7 @@ class LoginController extends \yii\rest\ActiveController
                     ->where(['username' => $username])
                     ->one();
 
-                return (['success' => true, 'token' => $user->auth_key]);
+                return (['success' => true, 'token' => $user->verification_token, 'userid' => $user->id]);
             }
 
         }
