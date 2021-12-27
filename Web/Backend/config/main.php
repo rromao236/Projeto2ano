@@ -108,6 +108,7 @@ return [
 
                     'extraPatterns' => [
                         'PUT update/{id}' => 'update', // 'update' é 'actionUpdate'
+                        'GET buscar/{id}' => 'buscar', // 'buscar' é 'actionBuscar'
                     ],
                 ],
                 //Packages dos users:
@@ -118,6 +119,7 @@ return [
 
                     'extraPatterns' => [
                         'POST compra' => 'compra', // 'update' é 'actionCompra'
+                        'GET historico/{id}' => 'historico', // 'update' é 'actionHistorico'
                     ],
                 ],
                 //Registo:
