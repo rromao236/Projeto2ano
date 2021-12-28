@@ -59,6 +59,14 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/hotels',
                     'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'GET information/{id}' => 'information', // 'information' é 'actionInformation'
+                        'GET total' => 'total', // 'total' é 'actionTotal'
+                        'DELETE apagar/{id}' => 'apagar', // 'apagar' é 'actionApagar'
+                        'PUT update/{id}' => 'update', // 'update' é 'actionUpdate'
+                        'POST hotel' => 'hotel', // 'hotel' é 'actionHotel'
+                    ],
                 ],
                 //Pacotes:
                 [
@@ -68,6 +76,10 @@ return [
 
                     'extraPatterns' => [
                         'GET detalhes/{id}' => 'detalhes', // 'detalhes' é 'actionDetalhes'
+                        'GET information/{id}' => 'information', // 'information' é 'actionInformation'
+                        'GET total' => 'total', // 'total' é 'actionTotal'
+                        'DELETE apagar/{id}' => 'apagar', // 'apagar' é 'actionApagar'
+                        'PUT update/{id}' => 'update', // 'update' é 'actionUpdate'
                     ],
                 ],
                 //Atividades:
@@ -78,8 +90,11 @@ return [
 
                     'extraPatterns' => [
                         'GET all/{id}' => 'all', // 'all' é 'actionAll'
-                        //Esta era so para teste
+                        'GET information/{id}' => 'information', // 'information' é 'actionInformation'
+                        'GET total' => 'total', // 'total' é 'actionTotal'
                         'POST activitie' => 'activitie', // 'activitie' é 'actionActivitie'
+                        'DELETE apagar/{id}' => 'apagar', // 'apagar' é 'actionApagar'
+                        'PUT update/{id}' => 'update', // 'update' é 'actionUpdate'
                     ],
                 ],
                 //Atividades por pacote:
@@ -87,18 +102,35 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/activitiespackages',
                     'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'GET total' => 'total', // 'total' é 'actionTotal'
+                    ],
                 ],
                 //Aeroportos:
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/airports',
                     'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'GET information/{id}' => 'information', // 'information' é 'actionInformation'
+                        'GET total' => 'total', // 'total' é 'actionTotal'
+                        'DELETE apagar/{id}' => 'apagar', // 'apagar' é 'actionApagar'
+                        'PUT update/{id}' => 'update', // 'update' é 'actionUpdate'
+                        'POST airport' => 'airport', // 'activitie' é 'actionAirport'
+                    ],
                 ],
                 //Imagens dos pacotes:
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/packageimages',
                     'pluralize' => false,
+
+                    'extraPatterns' => [
+                        'GET information/{id}' => 'information', // 'information' é 'actionInformation'
+                        'GET total' => 'total', // 'total' é 'actionTotal'
+                    ],
                 ],
                 //Info dos users:
                 [
@@ -120,6 +152,7 @@ return [
                     'extraPatterns' => [
                         'POST compra' => 'compra', // 'update' é 'actionCompra'
                         'GET historico/{id}' => 'historico', // 'update' é 'actionHistorico'
+                        'GET total' => 'total', // 'total' é 'actionTotal'
                     ],
                 ],
                 //Registo:
