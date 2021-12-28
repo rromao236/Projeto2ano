@@ -7,6 +7,7 @@ use Yii;
 use yii\filters\auth\QueryParamAuth;
 use yii\web\Controller;
 use app\models\Activities;
+use yii\web\NotFoundHttpException;
 
 /**
  * Default controller for the `api` module
@@ -51,7 +52,47 @@ class ActivitiesController extends \yii\rest\ActiveController
 
     }
 
-    /*Exemplo
+    //get activitie
+    public function actionInformation($id){
+        $activity = Activities::find()
+            ->where(['id' => $id])
+            ->one();
+
+        return $activity;
+    }
+
+    //delete activitie
+    public function actionApagar($id){
+        $climodel = new $this->modelClass;
+        $ret=$climodel->deleteAll("id=".$id);
+        if($ret)
+            return ['DelError' => $ret];
+        throw new \yii\web\NotFoundHttpException("Client id not found!");
+    }
+
+    //count activities
+    public function actionTotal(){
+        $climodel = new $this->modelClass;
+        $recs = $climodel::find()->all();
+        return ['total' => count($recs)];
+    }
+
+    //update activitie
+    public function actionUpdate($id){
+        $name =\Yii::$app->request->post('name');
+
+
+        $activity = Activities::find()->where("id = ".$id)->one();
+        if($activity != null){
+            $activity->name = $name;
+            $activity->save();
+
+            return (['success' => true]);
+        }
+        return (['success' => false]);
+    }
+
+    //post activitie
     public function actionActivitie(){
         $name= Yii::$app->request->post('name');
         $ativmodel = new $this->modelClass;
@@ -61,7 +102,6 @@ class ActivitiesController extends \yii\rest\ActiveController
             'SaveError' => $ret,
         ];
     }
-    */
 
 
     public function behaviors()
