@@ -58,6 +58,13 @@ class UserspackagesController extends \yii\rest\ActiveController
         return ['SaveError' => $ret];
     }
 
+    //count userspackages
+    public function actionTotal(){
+        $climodel = new $this->modelClass;
+        $recs = $climodel::find()->all();
+        return ['total' => count($recs)];
+    }
+
 
     public function behaviors()
     {
