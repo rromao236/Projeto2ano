@@ -1,0 +1,76 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.adaptadores;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Activities_packages;
+
+public class ListaAtividadesAdaptador extends BaseAdapter {
+
+    private Context contexto;
+    private ArrayList<Activities_packages> listaActivitiesPackages;
+    private LayoutInflater inflater;
+
+    public ListaAtividadesAdaptador(Context context, ArrayList<Activities_packages> lista){
+        this.contexto = context;
+        this.listaActivitiesPackages = lista;
+    }
+
+    @Override
+    public int getCount() {
+        return listaActivitiesPackages.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return listaActivitiesPackages.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return listaActivitiesPackages.get(i).getId();
+    }
+
+    @Override
+    public View getView(int i, View convertview, ViewGroup parent) {
+        if(inflater == null){
+            inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        if(convertview == null){
+            convertview = inflater.inflate(R.layout.item_lista_atividades, null);
+        }
+
+        ViewHolderLista holder = new ViewHolderLista(convertview);
+        holder.update(listaActivitiesPackages.get(i));
+
+        return convertview;
+    }
+
+    private class ViewHolderLista{
+
+        private TextView tvNome, tvDataHora, tvResponsavel, tvDuracao;
+
+        public ViewHolderLista(View view){
+            tvNome = view.findViewById(R.id.tvNomeAtividade);
+            tvDataHora = view.findViewById(R.id.tvDataHoraAtividade);
+            tvResponsavel = view.findViewById(R.id.tvResponsavelAtividade);
+            tvDuracao = view.findViewById(R.id.tvDuracaoAtividade);
+        }
+
+        public void update(Activities_packages activities_packages){
+            tvNome.setText(activities_packages.getName());
+            tvDataHora.setText(activities_packages.getTimestart());
+            tvResponsavel.setText(activities_packages.getResponsible());
+            tvDuracao.setText(activities_packages.getDuration() +" Horas");
+        }
+
+    }
+}
