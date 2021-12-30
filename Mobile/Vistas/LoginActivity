@@ -1,0 +1,84 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.LoginListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.SingletonAuth;
+
+public class LoginActivity extends AppCompatActivity implements LoginListener {
+
+    public static final String TOKEN_LOGIN = "token";
+    public static final String USER_ID = "userid";
+    private EditText edituser, editpass;
+    String token;
+    String userid;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        setContentView(R.layout.activity_login);
+
+        edituser = findViewById(R.id.txtUser);
+        editpass = findViewById(R.id.txtPassword);
+
+        //Para o login
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(HomeActivity.TOKEN, "");
+        userid = sharedPreferences.getString(HomeActivity.USERID, "");
+        if(!token.equals("") && !userid.equals("")){
+            Intent intentmenu = new Intent(this, HomeActivity.class);
+            intentmenu.putExtra(TOKEN_LOGIN, token);
+            intentmenu.putExtra(USER_ID, userid);
+            startActivity(intentmenu);
+        }else{
+            SingletonAuth.getInstancia(this).setLoginListener(this);
+        }
+
+
+    }
+
+    public void validarLogin(View view) {
+        String user = edituser.getText().toString();
+        String pass = editpass.getText().toString();
+
+        SingletonAuth.getInstancia(this).loginAPI(user, pass, this);
+
+    }
+
+    @Override
+    public void onValidateLogin(String[] dados) {
+
+        if(dados[0] != null){
+            Intent intentmenu = new Intent(this, HomeActivity.class);
+            intentmenu.putExtra(TOKEN_LOGIN, dados[0]);
+            intentmenu.putExtra(USER_ID, dados[1]);
+            startActivity(intentmenu);
+        }else{
+            Toast.makeText(this, R.string.login_invalido, Toast.LENGTH_SHORT).show();
+            edituser.setText("");
+            editpass.setText("");
+        }
+
+    }
+
+    public void Registar(View view) {
+        Intent intentregistar = new Intent(this, RegistoActivity.class);
+        startActivity(intentregistar);
+    }
+}
