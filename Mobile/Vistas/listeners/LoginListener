@@ -1,0 +1,5 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.listeners;
+
+public interface LoginListener {
+    void onValidateLogin(final String[] dados);
+}
