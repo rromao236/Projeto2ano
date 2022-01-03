@@ -1,0 +1,140 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+public class Packages {
+
+    private int id;
+    private String image;
+    private String title;
+    private String description;
+    private int price;
+    private int rating;
+    private String flightstart;
+    private String flightend;
+    private String flightbackstart;
+    private String flightbackend;
+    private int id_hotel;
+    private int id_aeroportstart;
+    private int id_aeroportend;
+
+
+    public Packages(int id, String image, String title, String description, int price, int rating, String flightstart, String flightend, String flightbackstart, String flightbackend, int id_hotel, int id_aeroportstart, int id_aeroportend){
+        this.setId(id);
+        this.setImage(image);
+        this.setTitle(title);
+        this.setDescription(description);
+        this.setPrice(price);
+        this.setRating(rating);
+        this.setFlightstart(flightstart);
+        this.setFlightend(flightend);
+        this.setFlightbackstart(flightbackstart);
+        this.setFlightbackend(flightbackend);
+        this.setId_hotel(id_hotel);
+        this.setId_aeroportstart(id_aeroportstart);
+        this.setId_aeroportend(id_aeroportend);
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getFlightstart() {
+        return flightstart;
+    }
+
+    public void setFlightstart(String flightstart) {
+        this.flightstart = flightstart;
+    }
+
+    public String getFlightend() {
+        return flightend;
+    }
+
+    public void setFlightend(String flightend) {
+        this.flightend = flightend;
+    }
+
+    public String getFlightbackstart() {
+        return flightbackstart;
+    }
+
+    public void setFlightbackstart(String flightbackstart) {
+        this.flightbackstart = flightbackstart;
+    }
+
+    public String getFlightbackend() {
+        return flightbackend;
+    }
+
+    public void setFlightbackend(String flightbackend) {
+        this.flightbackend = flightbackend;
+    }
+
+    public int getId_hotel() {
+        return id_hotel;
+    }
+
+    public void setId_hotel(int id_hotel) {
+        this.id_hotel = id_hotel;
+    }
+
+    public int getId_aeroportstart() {
+        return id_aeroportstart;
+    }
+
+    public void setId_aeroportstart(int id_aeroportstart) {
+        this.id_aeroportstart = id_aeroportstart;
+    }
+
+    public int getId_aeroportend() {
+        return id_aeroportend;
+    }
+
+    public void setId_aeroportend(int id_aeroportend) {
+        this.id_aeroportend = id_aeroportend;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+}
