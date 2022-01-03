@@ -17,29 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <style>
 
-        #table-div{
-            /*overflow: scroll;*/
-        }
-        #table-div table{
-            /*float: left;*/
-        }
 
-        html>body #table-div {
-            /*overflow: hidden;
-            width: 100%;*/
-        }
-
-        #historico {
+        #historico{
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
             width: 100%;
-
-            /*position: relative;*/
         }
         #historico td, #historico th {
             border: 1px solid #ddd;
             padding: 8px;
-
+            vertical-align: baseline;
         }
         #historico #topo{
             text-transform: uppercase;
@@ -52,9 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
             background-color: #2667e0;
             color: white;
             font-size: 85%;
-
-            /*position: sticky;
-            top: 0;*/
         }
 
         #historico tr:nth-child(even){background-color: #f2f2f2;}
@@ -62,14 +46,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
         .btn:hover{
             color: #0000ff;
-            /*color: #005eff;*/
+        }
+
+        .table.sticky th{
+            position: sticky;
+            top: 14%;
         }
 
     </style>
 
     <br>
     <div class="body-content container" id="table-div">
-        <table id="historico">
+        <table id="historico" class="table sticky">
             <tr align="center" id="topo">
                 <th>Pacote</th>
                 <th>Data de Compra</th>
@@ -102,5 +90,5 @@ $this->params['breadcrumbs'][] = $this->title;
         </table><br><br>
     </div>
 
-
+</div>
 </div>
