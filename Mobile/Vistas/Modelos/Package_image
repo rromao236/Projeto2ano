@@ -1,0 +1,51 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+public class Package_images {
+
+    private int id_image;
+    private String name;
+    private String image;
+    private int package_id;
+
+
+    public Package_images(int id_image, String name, String image, int package_id){
+        this.setId_image(id_image);
+        this.setImage(name);
+        this.setImage(image);
+        this.setPackage_id(package_id);
+    }
+
+
+
+    public int getId_image() {
+        return id_image;
+    }
+
+    public void setId_image(int id_image) {
+        this.id_image = id_image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getPackage_id() {
+        return package_id;
+    }
+
+    public void setPackage_id(int package_id) {
+        this.package_id = package_id;
+    }
+}
