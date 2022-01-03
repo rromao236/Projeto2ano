@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="top-margin">
-        <label><b>Data de Nascimento: </b><?php echo DateTime::createFromFormat('Y-m-d', $utilizador->birthdate)->format('F d, Y'); ?></label>
+        <label><b>Data de Nascimento: </b><?php echo  DateTime::createFromFormat('Y-m-d', $utilizador->birthdate)->format('d-m-Y'); ?></label>
     </div>
 
     <div class="top-margin">
