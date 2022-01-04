@@ -1,0 +1,110 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Packages;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.SingletonGestao;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Users_info;
+
+public class CompraActivity extends AppCompatActivity {
+
+    public static final String POSITION_PACOTE = "position";
+    public static final String NAME_COMPRA = "name";
+    public static final String PONTOS_COMPRA = "pontos";
+    public static final String PESSOAS_COMPRA = "pessoas";
+    public static final String TOTAL_COMPRA = "total";
+    public static final String PACOTE_ID = "pacoteid";
+
+    TextView tvPacote, tvPreco, tvPontosUser, tvTotal;
+    EditText etPontosUsar, etNrPessoas;
+    Button btAplicar;
+
+    Packages pacote;
+    Users_info user;
+    double total;
+    int posicao;
+    double pontos;
+    int nrPessoas;
+    int pacoteid;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_compra);
+
+        tvPacote = findViewById(R.id.tvPacotePagamento);
+        tvPreco = findViewById(R.id.tvPrecoPagamento);
+        tvPontosUser = findViewById(R.id.tvPontosPagamento);
+        tvTotal = findViewById(R.id.tvTotalPagamento);
+        etPontosUsar = findViewById(R.id.etPontosUsadosPagamento);
+        etNrPessoas = findViewById(R.id.etNrPessoasPagamento);
+        btAplicar = findViewById(R.id.btAplicarPagamento);
+
+        posicao = getIntent().getIntExtra(DetalhesPacoteActivity.POSICAO_PACOTE, -1);
+
+        if(posicao != -1){
+            pacote = SingletonGestao.getInstancia(this).getPackages().get(posicao);
+            user = SingletonGestao.getInstancia(this).getUsers_info().get(0);
+
+            tvPacote.setText(pacote.getTitle());
+            tvPreco.setText(""+pacote.getPrice());
+
+            tvPontosUser.setText(""+ user.getPoints());
+            tvTotal.setText("Total: "+ pacote.getPrice() +"€");
+        }
+
+    }
+
+    public void aplicar(View view) {
+        int precoPacote = pacote.getPrice();
+        pacoteid = pacote.getId();
+        pontos = Integer.parseInt(etPontosUsar.getText().toString());
+        nrPessoas = Integer.parseInt(etNrPessoas.getText().toString());
+
+        if(nrPessoas != 0){
+            double desconto = (precoPacote * nrPessoas) * (pontos / 100);
+            total = (precoPacote * nrPessoas) - desconto;
+
+            tvTotal.setText("Total: "+ total +"€");
+        } else{
+            Toast.makeText(this, R.string.pessoas_invalidas, Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    public void cancelar(View view) {
+        Intent intent = new Intent(this, DetalhesPacoteActivity.class);
+        intent.putExtra(POSITION_PACOTE, posicao);
+        startActivity(intent);
+    }
+
+    public void confirmar(View view) {
+
+        if(nrPessoas != 0 && total != 0){
+            Intent intent = new Intent(this, PagamentoActivity.class);
+            intent.putExtra(NAME_COMPRA, tvPacote.getText());
+            intent.putExtra(PONTOS_COMPRA, pontos);
+            intent.putExtra(PESSOAS_COMPRA, nrPessoas);
+            intent.putExtra(TOTAL_COMPRA, total);
+            intent.putExtra(POSITION_PACOTE, posicao);
+            intent.putExtra(PACOTE_ID, pacoteid);
+            startActivity(intent);
+        } else{
+            Toast.makeText(this, R.string.tentativa_compra_falhou, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+}
