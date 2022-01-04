@@ -1,0 +1,5 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.listeners;
+
+public interface CompraListener {
+    void onComprar(boolean resposta);
+}
