@@ -1,0 +1,102 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Random;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.CompraListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.SingletonAuth;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.SingletonGestao;
+
+public class PagamentoActivity extends AppCompatActivity implements CompraListener {
+
+    public static final String POSITION_PACOTE = "position";
+
+    int posicao;
+    String name;
+    int pontos;
+    int pessoas;
+    double total;
+    int referencia;
+    int packageid;
+    double converter;
+
+    TextView txtName, txtPontos, txtPessoas;
+    EditText editValor, editEntidade, editReferencia;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pagamento);
+
+        editValor = findViewById(R.id.txtValor);
+        editEntidade = findViewById(R.id.txtEntidade);
+        editReferencia = findViewById(R.id.txtReferencia);
+
+        txtName = findViewById(R.id.tvNomePacote);
+        txtPontos = findViewById(R.id.tvPontosCompra);
+        txtPessoas = findViewById(R.id.tvPessoasCompra);
+
+
+        posicao = getIntent().getIntExtra(CompraActivity.POSITION_PACOTE, -1);
+        packageid = getIntent().getIntExtra(CompraActivity.PACOTE_ID, -1);
+        name = getIntent().getStringExtra(CompraActivity.NAME_COMPRA);
+        pessoas = getIntent().getIntExtra(CompraActivity.PESSOAS_COMPRA, -1);
+        total = getIntent().getDoubleExtra(CompraActivity.TOTAL_COMPRA, -1);
+
+        converter = getIntent().getDoubleExtra(CompraActivity.PONTOS_COMPRA, -1);
+        pontos = (int) converter;
+
+        final int min = 100000000;
+        final int max = 999999999;
+        referencia = new Random().nextInt((max - min) + 1) + min;
+
+        if(packageid != -1 || pontos != -1 || pessoas != -1 || total != -1) {
+            editValor.setText("" + total + "€");
+            editEntidade.setText("" + 11236);
+            editReferencia.setText(""+ referencia);
+            txtName.setText(name);
+            txtPontos.setText(""+ pontos);
+            txtPessoas.setText(""+ pessoas);
+        }
+
+    }
+
+    public void cancelar(View view) {
+        Intent intent = new Intent(this, DetalhesPacoteActivity.class);
+        intent.putExtra(POSITION_PACOTE, posicao);
+        startActivity(intent);
+    }
+
+    public void confirmar(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        int userid = Integer.parseInt(sharedPreferences.getString(HomeActivity.USERID, ""));
+        String token = sharedPreferences.getString(HomeActivity.TOKEN, "");
+
+        SingletonGestao.getInstancia(this).setCompraListener(this);
+        SingletonGestao.getInstancia(this).comprarAPI(token, userid, packageid, referencia , total, pontos, pessoas, this);
+    }
+
+    @Override
+    public void onComprar(boolean resposta) {
+        if(resposta){
+            Toast.makeText(this, R.string.sucesso_compra, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, R.string.falha_compra, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+        }
+    }
+}
