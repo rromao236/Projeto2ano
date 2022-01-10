@@ -1,0 +1,70 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+public class Activities_packages {
+
+    private int id;
+    private String name;
+    private int id_package;
+    private String responsible;
+    private String timestart;
+    private int duration;
+
+
+    public Activities_packages(int id, String name, int id_package, String responsible, String timestart, int duration){
+        this.setId(id);
+        this.setName(name);
+        this.setId_package(id_package);
+        this.setResponsible(responsible);
+        this.setTimestart(timestart);
+        this.setDuration(duration);
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId_package() {
+        return id_package;
+    }
+
+    public void setId_package(int id_package) {
+        this.id_package = id_package;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(String responsible) {
+        this.responsible = responsible;
+    }
+
+    public String getTimestart() {
+        return timestart;
+    }
+
+    public void setTimestart(String timestart) {
+        this.timestart = timestart;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+}
