@@ -1,0 +1,185 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.adaptadores.ListaAtividadesAdaptador;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.ActivitiesPackagesListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.AirportsListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.HotelsListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Activities_packages;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Airports;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Hotels;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Packages;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.SingletonGestao;
+
+public class DetalhesPacoteActivity extends AppCompatActivity implements HotelsListener, AirportsListener, ActivitiesPackagesListener {
+
+    public static final String POSICAO_PACOTE = "pacoteid";
+
+    private TextView tvTitulo, tvDescricao, tvPreco, tvRating,
+    tvHotelNome, tvHotelMorada, tvHotelCidade, tvHotelPais, tvHotelRating, tvHotelDescricao,
+    tvVooIdaPartida, tvVooIdaChegada, tvVooChegadaPartida, tvVooChegadaChegada;
+
+    private ListView lvAtividades;
+
+    private Packages pacote;
+
+    String token = "";
+
+    int posicao;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detalhes_pacote);
+
+        tvTitulo = findViewById(R.id.tvTitleDetalhe);
+        tvDescricao = findViewById(R.id.tvDescriptionDetalhe);
+        tvPreco = findViewById(R.id.tvPrecoDetalhe);
+        tvRating = findViewById(R.id.tvRatingDetalhe);
+        tvHotelNome = findViewById(R.id.tvHotelNameDetalhe);
+        tvHotelMorada = findViewById(R.id.tvHotelAdressDetalhe);
+        tvHotelCidade = findViewById(R.id.tvHotelCityDetalhe);
+        tvHotelPais = findViewById(R.id.tvHotelCountryDetalhe);
+        tvHotelRating = findViewById(R.id.tvHotelRatingDetalhe);
+        tvHotelDescricao = findViewById(R.id.tvHotelDescriptionDetalhe);
+        tvVooIdaPartida = findViewById(R.id.tvPartidaIdaDetalhe);
+        tvVooIdaChegada = findViewById(R.id.tvChegadaIdaDetalhe);
+        tvVooChegadaPartida = findViewById(R.id.tvPartidaVoltaDetalhe);
+        tvVooChegadaChegada = findViewById(R.id.tvChegadaVoltaDetalhe);
+        lvAtividades = findViewById(R.id.lvAtividades);
+
+        posicao = getIntent().getIntExtra(ListaPacotesFragment.POSITION_PACOTE, -1);
+
+        if(posicao != -1){
+            pacote = SingletonGestao.getInstancia(this).getPackages().get(posicao);
+            tvTitulo.setText(pacote.getTitle());
+            tvDescricao.setText(pacote.getDescription());
+            tvPreco.setText(""+pacote.getPrice());
+            tvRating.setText(""+pacote.getRating());
+
+            SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+            token = sharedPreferences.getString(HomeActivity.TOKEN, "");
+
+            SingletonGestao.getInstancia(this).setHotelsListener(this);
+            SingletonGestao.getInstancia(this).getHotelsAPI(this, token);
+
+            SingletonGestao.getInstancia(this).setAirportsListener(this);
+            SingletonGestao.getInstancia(this).getAirportsAPI(this, token);
+
+            SingletonGestao.getInstancia(this).setActivitiesPackagesListener(this);
+            SingletonGestao.getInstancia(this).getActivitiesPackagesAPI(this, pacote.getId(), token);
+
+
+
+        }else{
+            pacote = null;
+        }
+
+    }
+
+    @Override
+    public void onRefreshHoteis(ArrayList<Hotels> lista) {
+
+        for (Hotels hotel: lista) {
+            if(hotel.getId() == pacote.getId_hotel()){
+                tvHotelNome.setText("Nome: "+hotel.getName());
+                tvHotelMorada.setText("Morada: "+hotel.getAdress());
+                tvHotelCidade.setText("Cidade: "+hotel.getCity());
+                tvHotelPais.setText("Pais: "+hotel.getCountry());
+                switch (hotel.getRating()){
+                    case 0:
+                        tvHotelRating.setText("");
+                        break;
+                    case 1:
+                        tvHotelRating.setText("★");
+                        break;
+                    case 2:
+                        tvHotelRating.setText("★★");
+                        break;
+                    case 3:
+                        tvHotelRating.setText("★★★");
+                        break;
+                    case 4:
+                        tvHotelRating.setText("★★★★");
+                        break;
+                    case 5:
+                        tvHotelRating.setText("★★★★★");
+                        break;
+                }
+                tvHotelDescricao.setText("Descricão: "+hotel.getDescription());
+            }
+        }
+
+    }
+
+    @Override
+    public void onRefreshAirports(ArrayList<Airports> lista) {
+
+        String nomeAeroportoIda = "";
+        String nomeAeroportoChegada = "";
+
+        for(Airports airport : lista){
+            if(airport.getId() == pacote.getId_aeroportstart()){
+                nomeAeroportoIda = airport.getName();
+            }
+            if(airport.getId() == pacote.getId_aeroportend()){
+                nomeAeroportoChegada = airport.getName();
+            }
+        }
+
+        tvVooIdaPartida.setText(nomeAeroportoIda + " || " + pacote.getFlightstart());
+        tvVooIdaChegada.setText(nomeAeroportoChegada + " || " + pacote.getFlightend());
+
+        tvVooChegadaPartida.setText(nomeAeroportoChegada + " || " + pacote.getFlightbackstart());
+        tvVooChegadaChegada.setText(nomeAeroportoIda + " || " + pacote.getFlightbackend());
+
+    }
+
+    @Override
+    public void onRefreshActivitiesPackages(ArrayList<Activities_packages> lista) {
+        if(lista != null){
+            lvAtividades.setAdapter(new ListaAtividadesAdaptador(this, lista));
+
+            lvAtividades.setOnTouchListener(new ListView.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    int action = motionEvent.getAction();
+                    switch (action) {
+                        case MotionEvent.ACTION_DOWN:
+                            // Disallow ScrollView to intercept touch events.
+                            view.getParent().requestDisallowInterceptTouchEvent(true);
+                            break;
+
+                        case MotionEvent.ACTION_UP:
+                            // Allow ScrollView to intercept touch events.
+                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+
+                    // Handle ListView touch events.
+                    view.onTouchEvent(motionEvent);
+                    return true;
+                }
+            });
+        }
+    }
+
+    public void comprar(View view) {
+        Intent intent = new Intent(this, CompraActivity.class);
+        intent.putExtra(POSICAO_PACOTE, posicao);
+        startActivity(intent);
+    }
+}
