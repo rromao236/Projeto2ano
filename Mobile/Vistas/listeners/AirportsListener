@@ -1,0 +1,9 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.listeners;
+
+import java.util.ArrayList;
+
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Airports;
+
+public interface AirportsListener {
+    void onRefreshAirports(ArrayList<Airports> lista);
+}
