@@ -1,0 +1,89 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+public class Hotels {
+
+    private int id;
+    private String name;
+    private String adress;
+    private String city;
+    private String country;
+    private String description;
+    private int nightprice;
+    private int rating;
+
+
+    public Hotels(int id, String name, String adress, String city, String country, String description, int nightprice, int rating){
+        this.setId(id);
+        this.setName(name);
+        this.setAdress(adress);
+        this.setCity(city);
+        this.setCountry(country);
+        this.setDescription(description);
+        this.setNightprice(nightprice);
+        this.setRating(rating);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getNightprice() {
+        return nightprice;
+    }
+
+    public void setNightprice(int nightprice) {
+        this.nightprice = nightprice;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+}
