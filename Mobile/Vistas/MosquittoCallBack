@@ -1,0 +1,110 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas;
+
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONObject;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+
+public class MosquittoCallBack implements MqttCallback {
+
+    Context contexto = null;
+    String userId = "";
+
+    public MosquittoCallBack(Context context, String userid){
+        contexto = context;
+        userId = userid;
+    }
+
+    @Override
+    public void connectionLost(Throwable throwable) {
+        System.out.println("Perda de ligação ao mosquitto");
+    }
+
+    @Override
+    public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+        //System.out.println("Mensagem recebida:\n\t"+ new String(mqttMessage.getPayload()) +"topico:"+s);
+
+        String assunto = "RAR Travel";
+        String topico = s;
+        String mensagem = new String(mqttMessage.getPayload());
+
+        if(topico.equals("PACKAGES")){
+            JSONObject jsonPackage = new JSONObject(mensagem);
+            String titulo = jsonPackage.getString("title");
+            int preco = jsonPackage.getInt("price");
+            int rating = jsonPackage.getInt("rating");
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(contexto, HomeActivity.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.help_logo_foreground)
+                    .setContentTitle("Novidades!")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("Foi adicionado um novo pacote com o nome de "+ titulo +" aos nossos pacotes de viagem, ele custa " +
+                                    ""+ preco +"$ por pessoa e está avalidao em "+ rating +" estrelas."))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(contexto);
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(1, builder.build());
+        }
+
+        if(topico.equals("compraUser"+userId)){
+            JSONObject jsonCompra = new JSONObject(mensagem);
+            String titulo = jsonCompra.getString("title");
+            double preco = jsonCompra.getDouble("price");
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(contexto, HomeActivity.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.help_logo_foreground)
+                    .setContentTitle("Compra registada!")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("Realizou o pedido de compra do pacote "+ titulo +" dirija-se ao seu " +
+                                    "historico para finalizar a compra do valor de "+ preco +"$"))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(contexto);
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(2, builder.build());
+        }
+
+        if(topico.equals("compraValidadaUser"+userId)){
+            JSONObject jsonCompra = new JSONObject(mensagem);
+            String titulo = jsonCompra.getString("title");
+            double preco = jsonCompra.getDouble("price");
+            String data = jsonCompra.getString("data");
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(contexto, HomeActivity.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.help_logo_foreground)
+                    .setContentTitle("Compra validada!")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("Pagamento da compra de valor "+ preco +"$ realizada no dia "+ data +" do pacote "+ titulo +"" +
+                                    " foi validada com sucesso"))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(contexto);
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(3, builder.build());
+        }
+
+    }
+
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+        //Não usado por enquanto
+    }
+}
