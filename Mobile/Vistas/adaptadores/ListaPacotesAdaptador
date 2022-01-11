@@ -1,0 +1,115 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.adaptadores;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.util.ArrayList;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.ListaPacotesListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Packages;
+
+public class ListaPacotesAdaptador extends BaseAdapter implements ListaPacotesListener {
+
+    private Context contexto;
+    private ArrayList<Packages> listaPackages;
+    private LayoutInflater inflater;
+
+    public ListaPacotesAdaptador(Context context, ArrayList<Packages> lista){
+        this.contexto = context;
+        this.listaPackages = lista;
+    }
+
+    @Override
+    public int getCount() {
+        return listaPackages.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return listaPackages.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return listaPackages.get(i).getId();
+    }
+
+    @Override
+    public View getView(int i, View convertview, ViewGroup parent) {
+        if(inflater == null){
+            inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        if(convertview == null){
+            convertview = inflater.inflate(R.layout.item_lista_pacotes, null);
+        }
+
+        ViewHolderLista holder = new ViewHolderLista(convertview);
+        holder.update(listaPackages.get(i));
+
+        return convertview;
+    }
+
+    @Override
+    public void onRefreshListaPacotes(ArrayList<Packages> lista) {
+
+    }
+
+    private class ViewHolderLista{
+
+        private TextView tvTitulo, tvDescricao, tvRating, tvPreco;
+        private ImageView ivImagem;
+
+        public ViewHolderLista(View view){
+            tvTitulo = view.findViewById(R.id.tvTitle);
+            tvDescricao = view.findViewById(R.id.tvDescription);
+            tvRating = view.findViewById(R.id.tvRating);
+            tvPreco = view.findViewById(R.id.tvPreco);
+            ivImagem = view.findViewById(R.id.ivCapa);
+
+        }
+
+        public void update(Packages pack){
+            tvTitulo.setText(pack.getTitle());
+            tvDescricao.setText(pack.getDescription());
+            switch (pack.getRating()){
+                case 0:
+                    tvRating.setText("");
+                    break;
+                case 1:
+                    tvRating.setText("★");
+                    break;
+                case 2:
+                    tvRating.setText("★★");
+                    break;
+                case 3:
+                    tvRating.setText("★★★");
+                    break;
+                case 4:
+                    tvRating.setText("★★★★");
+                    break;
+                case 5:
+                    tvRating.setText("★★★★★");
+                    break;
+            }
+            tvPreco.setText(""+ pack.getPrice() + "€");
+
+            //Codigo para carregar a imagem da API
+            Glide.with(contexto)
+                    .load(pack.getImage())
+                    .placeholder(R.drawable.help_logo_foreground)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ivImagem);
+        }
+
+    }
+}
