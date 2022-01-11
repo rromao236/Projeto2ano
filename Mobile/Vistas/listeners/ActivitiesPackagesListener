@@ -1,0 +1,9 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.listeners;
+
+import java.util.ArrayList;
+
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Activities_packages;
+
+public interface ActivitiesPackagesListener {
+    void onRefreshActivitiesPackages(ArrayList<Activities_packages> lista);
+}
