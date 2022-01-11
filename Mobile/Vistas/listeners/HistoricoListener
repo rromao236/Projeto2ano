@@ -1,0 +1,9 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.listeners;
+
+import java.util.ArrayList;
+
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Users_packages;
+
+public interface HistoricoListener {
+    void onRefreshHistorico(ArrayList<Users_packages> lista);
+}
