@@ -1,0 +1,7 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.listeners;
+
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Users_info;
+
+public interface PerfilListener {
+    void onRefreshPerfil(Users_info resposta);
+}
