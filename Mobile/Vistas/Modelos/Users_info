@@ -1,0 +1,79 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+public class Users_info {
+
+    private int userid;
+    private int nif;
+    private String name;
+    private String adress;
+    private int phone;
+    private String birthdate;
+    private int points;
+
+
+    public Users_info(int userid, int nif, String name, String adress, int phone, String birthdate, int points){
+        this.setUserid(userid);
+        this.setNif(nif);
+        this.setName(name);
+        this.setAdress(adress);
+        this.setPhone(phone);
+        this.setBirthdate(birthdate);
+        this.setPoints(points);
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public int getNif() {
+        return nif;
+    }
+
+    public void setNif(int nif) {
+        this.nif = nif;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+}
