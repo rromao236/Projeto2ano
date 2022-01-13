@@ -1,0 +1,105 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.PerfilUpdateListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.SingletonAuth;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.SingletonGestao;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Users_info;
+
+public class AlterarDadosActivity extends AppCompatActivity implements PerfilUpdateListener {
+
+    private EditText etNif, etNome, etMorada, etTelemovel, etDataNasc;
+    private Button btGuardar, btCancelar;
+
+    String token, userid;
+
+    Users_info user;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_alterar_dados);
+
+        etNif = findViewById(R.id.txtUserNif);
+        etNome = findViewById(R.id.txtUserNome);
+        etMorada = findViewById(R.id.txtUserMorada);
+        etTelemovel = findViewById(R.id.txtUserTelemovel);
+        etDataNasc = findViewById(R.id.txtUserDataNasc);
+
+        btGuardar = findViewById(R.id.btGuardarR);
+        btCancelar = findViewById(R.id.btCancelarR);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(HomeActivity.TOKEN, "");
+        userid = sharedPreferences.getString(HomeActivity.USERID, "");
+
+        String name = getIntent().getStringExtra(PerfilFragment.PERFIL_NOME);
+        String morada = getIntent().getStringExtra(PerfilFragment.PERFIL_MORADA);
+        String telemovel = getIntent().getStringExtra(PerfilFragment.PERFIL_TELEMOVEL);
+        String nif = getIntent().getStringExtra(PerfilFragment.PERFIL_NIF);
+        String data = getIntent().getStringExtra(PerfilFragment.PERFIL_DATA);
+
+        etNif.setText(nif);
+        etNome.setText(name);
+        etMorada.setText(morada);
+        etTelemovel.setText(telemovel);
+        etDataNasc.setText(data);
+
+//        user = SingletonGestao.getInstancia(this).getUsers_info().get(0);
+//
+//        etNif.setText(""+ user.getNif());
+//        etNome.setText(user.getName());
+//        etMorada.setText(user.getAdress());
+//        etTelemovel.setText(""+ user.getPhone());
+//        etDataNasc.setText(user.getBirthdate());
+
+    }
+
+    public void cancelar(View view) {
+        Intent intent = new Intent(this, MenuMainActivity.class);
+        intent.putExtra(HomeActivity.START_FRAGMENT, 0);
+        startActivity(intent);
+    }
+
+    public void guardar(View view) {
+
+        int nif = Integer.parseInt(etNif.getText().toString());
+        String nome = etNome.getText().toString();
+        String morada = etMorada.getText().toString();
+        int telemovel = Integer.parseInt(etTelemovel.getText().toString());
+        String dataNascimento = etDataNasc.getText().toString();
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(HomeActivity.TOKEN, "");
+        userid = sharedPreferences.getString(HomeActivity.USERID, "");
+
+        SingletonGestao.getInstancia(this).setPerfilUpdateListener(this);
+        SingletonGestao.getInstancia(this).updatePerfilAPI(userid, token, nif, nome, morada, telemovel, dataNascimento, this);
+    }
+
+    @Override
+    public void onPerfilUpdate(boolean resposta) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(HomeActivity.USERNAME, etNome.getText().toString());
+        editor.apply();
+
+        Intent intent = new Intent(this, MenuMainActivity.class);
+        intent.putExtra(HomeActivity.START_FRAGMENT, 0);
+        startActivity(intent);
+    }
+
+
+}
