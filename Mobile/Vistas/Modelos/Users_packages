@@ -1,0 +1,109 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+public class Users_packages {
+
+    private int id;
+    private int id_user;
+    private int id_package;
+    private String purchasedate;
+    private int referencia;
+    private double price;
+    private int entity;
+    private String estado;
+    private int usedpoints;
+    private int nrpeople;
+
+
+    public Users_packages(int id, int id_user, int id_package, String purchasedate, int referencia, double price, int entity, String estado, int usedpoints, int nrpeople){
+        this.setId(id);
+        this.setId_user(id_user);
+        this.setId_package(id_package);
+        this.setPurchasedate(purchasedate);
+        this.setReferencia(referencia);
+        this.setPrice(price);
+        this.setEntity(entity);
+        this.setEstado(estado);
+        this.setUsedpoints(usedpoints);
+        this.setNrpeople(nrpeople);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+    public int getId_package() {
+        return id_package;
+    }
+
+    public void setId_package(int id_package) {
+        this.id_package = id_package;
+    }
+
+    public String getPurchasedate() {
+        return purchasedate;
+    }
+
+    public void setPurchasedate(String purchasedate) {
+        this.purchasedate = purchasedate;
+    }
+
+    public int getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(int referencia) {
+        this.referencia = referencia;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getEntity() {
+        return entity;
+    }
+
+    public void setEntity(int entity) {
+        this.entity = entity;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public int getUsedpoints() {
+        return usedpoints;
+    }
+
+    public void setUsedpoints(int usedpoints) {
+        this.usedpoints = usedpoints;
+    }
+
+    public int getNrpeople() {
+        return nrpeople;
+    }
+
+    public void setNrpeople(int nrpeople) {
+        this.nrpeople = nrpeople;
+    }
+}
