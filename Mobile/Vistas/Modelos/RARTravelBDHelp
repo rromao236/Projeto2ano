@@ -1,17 +1,18 @@
 package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 public class RARTravelBDHelp extends SQLiteOpenHelper {
 
     private static final String DB_NOME = "rartravel";
     private static final int VERSAO = 1;
 
-    private static final String TABELA_ACTIVITIES = "activities";
-    private static final String ID_ACTIVITIE = "id";
-    private static final String NAME_ACTIVITIE = "name";
 
     private static final String TABELA_AIRPORTS = "airports";
     private static final String ID_AIRPORT = "id";
@@ -31,6 +32,7 @@ public class RARTravelBDHelp extends SQLiteOpenHelper {
 
     private static final String TABELA_PACKAGES = "packages";
     private static final String ID_PACKAGE = "id";
+    private static final String IMAGE_PACKAGE = "image";
     private static final String TITLE_PACKAGE = "title";
     private static final String DESCRIPTION_PACKAGE = "description";
     private static final String PRICE_PACKAGE = "price";
@@ -45,8 +47,8 @@ public class RARTravelBDHelp extends SQLiteOpenHelper {
 
     private static final String TABELA_ACTIVITIES_PACKAGES = "activitiespackages";
     private static final String ID_ACTIVITIES_PACKAGES = "id";
-    private static final String ID_ACTIVITY_ACTIVITIES_PACKAGES = "id_activity";
-    private static final String ID_PACKAGE_ACTIVITIES_PACKAGES = "id_package";
+    private static final String ACTIVITIES_PACKAGES_NAME = "name";
+    private static final String ID_PACKAGE_ACTIVITIES_PACKAGES = "idPackage";
     private static final String RESPONSIBLE_ACTIVITIES_PACKAGES = "responsible";
     private static final String TIMESTART_ACTIVITIES_PACKAGES = "timestart";
     private static final String DURATION_ACTIVITIES_PACKAGES = "duration";
@@ -88,10 +90,6 @@ public class RARTravelBDHelp extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String SQL1 = "CREATE TABLE " + TABELA_ACTIVITIES + "(" +
-                ID_ACTIVITIE + " INTEGER PRIMARY KEY, " +
-                NAME_ACTIVITIE + " TEXT NOT NULL)";
-        db.execSQL(SQL1);
 
         String SQL2 = "CREATE TABLE " + TABELA_AIRPORTS + "(" +
                 ID_AIRPORT + " INTEGER PRIMARY KEY, " +
@@ -113,6 +111,7 @@ public class RARTravelBDHelp extends SQLiteOpenHelper {
 
         String SQL4 = "CREATE TABLE " + TABELA_PACKAGES + "(" +
                 ID_PACKAGE + " INTEGER PRIMARY KEY, " +
+                IMAGE_PACKAGE + " TEXT NOT NULL, " +
                 TITLE_PACKAGE + " TEXT NOT NULL, " +
                 DESCRIPTION_PACKAGE + " TEXT NOT NULL, " +
                 PRICE_PACKAGE + " INT NOT NULL, " +
@@ -121,39 +120,45 @@ public class RARTravelBDHelp extends SQLiteOpenHelper {
                 FLIGHTEND_PACKAGE + " INT NOT NULL, " +
                 FLIGHTBACKSTART_PACKAGE + " INT NOT NULL, " +
                 FLIGHTBACKEND_PACKAGE + " INT NOT NULL, " +
-                " FOREIGN KEY (" + ID_HOTEL_PACKAGE + ") REFERENCES " + TABELA_HOTELS + "(" + ID_HOTEL + "), " +
+                ID_HOTEL_PACKAGE + " INTEGER NOT NULL, " +
+                ID_AIRPORTSTART_PACKAGE + " INTEGER NOT NULL, " +
+                ID_AIRPORTEND_PACKAGE + " INTEGER NOT NULL)";
+                /*" FOREIGN KEY (" + ID_HOTEL_PACKAGE + ") REFERENCES " + TABELA_HOTELS + "(" + ID_HOTEL + "), " +
                 " FOREIGN KEY (" + ID_AIRPORTSTART_PACKAGE + ") REFERENCES " + TABELA_AIRPORTS + "(" + ID_AIRPORT + "), " +
-                " FOREIGN KEY (" + ID_AIRPORTEND_PACKAGE + ") REFERENCES " + TABELA_AIRPORTS + "(" + ID_AIRPORT + "))";
+                " FOREIGN KEY (" + ID_AIRPORTEND_PACKAGE + ") REFERENCES " + TABELA_AIRPORTS + "(" + ID_AIRPORT + "))";*/
         db.execSQL(SQL4);
 
         String SQL5 = "CREATE TABLE " + TABELA_ACTIVITIES_PACKAGES + "(" +
                 ID_ACTIVITIES_PACKAGES + " INTEGER PRIMARY KEY, " +
+                ACTIVITIES_PACKAGES_NAME + " TEXT NOT NULL, " +
+                ID_PACKAGE_ACTIVITIES_PACKAGES + " INTEGER NOT NULL, " +
                 RESPONSIBLE_ACTIVITIES_PACKAGES + " TEXT NOT NULL, " +
                 TIMESTART_ACTIVITIES_PACKAGES + " TEXT NOT NULL, " +
-                DURATION_ACTIVITIES_PACKAGES + " INT NOT NULL, " +
-                " FOREIGN KEY (" + ID_ACTIVITY_ACTIVITIES_PACKAGES + ") REFERENCES " + TABELA_ACTIVITIES + "(" + ID_ACTIVITIE + "), " +
-                " FOREIGN KEY (" + ID_PACKAGE_ACTIVITIES_PACKAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + ")) ";
+                DURATION_ACTIVITIES_PACKAGES + " INT NOT NULL)";
+                /*" FOREIGN KEY (" + ID_ACTIVITY_ACTIVITIES_PACKAGES + ") REFERENCES " + TABELA_ACTIVITIES + "(" + ID_ACTIVITIE + "), " +
+                " FOREIGN KEY (" + ID_PACKAGE_ACTIVITIES_PACKAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + ")) ";*/
         db.execSQL(SQL5);
 
         String SQL6 = "CREATE TABLE " + TABELA_PACKAGE_IMAGES + "(" +
                 ID_IMAGE_PACKAGE_IMAGES + " INTEGER PRIMARY KEY, " +
                 NAME_PACKAGE_IMAGES + " TEXT NOT NULL, " +
                 IMAGE_PACKAGE_IMAGES + " TEXT NOT NULL, " +
-                " FOREIGN KEY (" + PACKAGE_ID_PACKAGE_IMAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + "))";
+                PACKAGE_ID_PACKAGE_IMAGES + " INTEGER NOT NULL)";
+                /*" FOREIGN KEY (" + PACKAGE_ID_PACKAGE_IMAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + "))";*/
         db.execSQL(SQL6);
 
         String SQL7 = "CREATE TABLE " + TABELA_USERS_INFO + "(" +
                 USERID_USERS_INFO + " INTEGER PRIMARY KEY, " +
-                NIF_USERS_INFO + " INT NOT NULL, " +
-                NAME_USERS_INFO + " TEXT NOT NULL, " +
-                ADRESS_USERS_INFO + " TEXT NOT NULL, " +
-                PHONE_USERS_INFO + " INT NOT NULL, " +
-                BIRTHDATE_USERS_INFO + " TEXT NOT NULL, " +
-                POINTS_USERS_INFO + " INT NOT NULL) ";
+                NIF_USERS_INFO + " INT, " +
+                NAME_USERS_INFO + " TEXT, " +
+                ADRESS_USERS_INFO + " TEXT, " +
+                PHONE_USERS_INFO + " INT, " +
+                BIRTHDATE_USERS_INFO + " TEXT, " +
+                POINTS_USERS_INFO + " INT ) ";
         db.execSQL(SQL7);
 
         String SQL8 = "CREATE TABLE " + TABELA_USERS_PACKAGES + "(" +
-                ID_USER_USERS_PACKAGES + " INTEGER PRIMARY KEY, " +
+                ID_USERS_PACKAGES + " INTEGER PRIMARY KEY, " +
                 PURCHSEDATE_USERS_PACKAGES + " TEXT NOT NULL, " +
                 REFERENCIA_USERS_PACKAGES + " INT NOT NULL, " +
                 PRICE_USERS_PACKAGES + " INT NOT NULL, " +
@@ -161,8 +166,10 @@ public class RARTravelBDHelp extends SQLiteOpenHelper {
                 ESTADO_USERS_PACKAGES + " TEXT NOT NULL, " +
                 USEDPOINTS_USERS_PACKAGES + " INT NOT NULL, " +
                 NRPEOPLE_USERS_PACKAGES + " INT NOT NULL, " +
-                " FOREIGN KEY (" + ID_USER_USERS_PACKAGES + ") REFERENCES " + TABELA_ACTIVITIES + "(" + ID_ACTIVITIE + "), " +
-                " FOREIGN KEY (" + ID_PACKAGE_USERS_PACKAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + ")) ";
+                ID_USER_USERS_PACKAGES + " INTEGER NOT NULL, " +
+                ID_PACKAGE_USERS_PACKAGES + " INTEGER NOT NULL)";
+                /*" FOREIGN KEY (" + ID_USER_USERS_PACKAGES + ") REFERENCES " + TABELA_ACTIVITIES + "(" + ID_ACTIVITIE + "), " +
+                " FOREIGN KEY (" + ID_PACKAGE_USERS_PACKAGES + ") REFERENCES " + TABELA_PACKAGES + "(" + ID_PACKAGE + ")) ";*/
         db.execSQL(SQL8);
     }
 
@@ -171,34 +178,279 @@ public class RARTravelBDHelp extends SQLiteOpenHelper {
 
         String SQL1 = "DROP TABLE IF EXISTS " + TABELA_USERS_PACKAGES;
         db.execSQL(SQL1);
-        this.onCreate(db);
 
         String SQL2 = "DROP TABLE IF EXISTS " + TABELA_PACKAGES;
         db.execSQL(SQL2);
-        this.onCreate(db);
 
         String SQL3 = "DROP TABLE IF EXISTS " + TABELA_USERS_INFO;
         db.execSQL(SQL3);
-        this.onCreate(db);
 
         String SQL4 = "DROP TABLE IF EXISTS " + TABELA_AIRPORTS;
         db.execSQL(SQL4);
-        this.onCreate(db);
 
-        String SQL5 = "DROP TABLE IF EXISTS " + TABELA_ACTIVITIES;
+        String SQL5 = "DROP TABLE IF EXISTS " + TABELA_PACKAGE_IMAGES;
         db.execSQL(SQL5);
-        this.onCreate(db);
 
-        String SQL6 = "DROP TABLE IF EXISTS " + TABELA_PACKAGE_IMAGES;
+        String SQL6 = "DROP TABLE IF EXISTS " + TABELA_HOTELS;
         db.execSQL(SQL6);
-        this.onCreate(db);
 
-        String SQL7 = "DROP TABLE IF EXISTS " + TABELA_HOTELS;
+        String SQL7 = "DROP TABLE IF EXISTS " + TABELA_ACTIVITIES_PACKAGES;
         db.execSQL(SQL7);
-        this.onCreate(db);
 
-        String SQL8 = "DROP TABLE IF EXISTS " + TABELA_ACTIVITIES_PACKAGES;
-        db.execSQL(SQL8);
         this.onCreate(db);
     }
+    //Métodos CRUD
+    //Gets da base de dados
+    public ArrayList<Packages> getListaPacotesDB(){
+        ArrayList<Packages> lista = new ArrayList<>();
+        Cursor cursor = bd.query(TABELA_PACKAGES, new String[]{ID_PACKAGE, IMAGE_PACKAGE, TITLE_PACKAGE, DESCRIPTION_PACKAGE, PRICE_PACKAGE,
+                RATING_PACKAGE, FLIGHTSTART_PACKAGE, FLIGHTEND_PACKAGE, FLIGHTBACKSTART_PACKAGE, FLIGHTBACKEND_PACKAGE,
+                ID_HOTEL_PACKAGE, ID_AIRPORTSTART_PACKAGE, ID_AIRPORTEND_PACKAGE},
+                null, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Packages aux = new Packages(cursor.getInt(0),//id
+                        cursor.getString(1),//image
+                        cursor.getString(2),//title
+                        cursor.getString(3),//desc
+                        cursor.getInt(4),//price
+                        cursor.getInt(5),//rating
+                        cursor.getString(6),//flightstart
+                        cursor.getString(7),//end
+                        cursor.getString(8),//backs
+                        cursor.getString(9),//backend
+                        cursor.getInt(10),//id
+                        cursor.getInt(11),//id
+                        cursor.getInt(12));//id
+                lista.add(aux);
+            }while(cursor.moveToNext());
+        }
+        return lista;
+    }
+
+    public ArrayList<Hotels> getListaHoteisBD(){
+        ArrayList<Hotels> lista = new ArrayList<>();
+        Cursor cursor = bd.query(TABELA_HOTELS, new String[]{ID_HOTEL, NAME_HOTEL, ADRESS_HOTEL, CITY_HOTEL, COUNTRY_HOTEL,
+        DESCRIPTION_HOTEL, NIGHTPRICE_HOTEL, RATING_HOTEL},
+                null, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Hotels aux = new Hotels(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getInt(6),
+                        cursor.getInt(7));
+                lista.add(aux);
+            }while(cursor.moveToNext());
+        }
+        return  lista;
+    }
+
+    public ArrayList<Airports> getListaAeroportosDB(){
+        ArrayList<Airports> lista = new ArrayList<>();
+        Cursor cursor = bd.query(TABELA_AIRPORTS, new String[]{ID_AIRPORT, NAME_AIRPORT, COUNTRY_AIRPORT, CITY_AIRPORT},
+                null, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Airports aux = new Airports(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3));
+                lista.add(aux);
+            }while(cursor.moveToNext());
+        }
+        return lista;
+    }
+
+
+    public ArrayList<Activities_packages> getListaActivitiesPackagesDB(){
+        ArrayList<Activities_packages> lista = new ArrayList<>();
+        Cursor cursor = bd.query(TABELA_ACTIVITIES_PACKAGES, new String[]{ID_ACTIVITIES_PACKAGES, ACTIVITIES_PACKAGES_NAME, ID_PACKAGE_ACTIVITIES_PACKAGES,
+                        RESPONSIBLE_ACTIVITIES_PACKAGES , TIMESTART_ACTIVITIES_PACKAGES, DURATION_ACTIVITIES_PACKAGES},
+                null, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Activities_packages aux = new Activities_packages(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getInt(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getInt(5));
+                lista.add(aux);
+            }while(cursor.moveToNext());
+        }
+        return lista;
+    }
+
+
+    public ArrayList<Users_packages> getListaHistoricoDB() {
+        ArrayList<Users_packages> lista = new ArrayList<>();
+        Cursor cursor = bd.query(TABELA_USERS_PACKAGES, new String[]{ID_USERS_PACKAGES, ID_USER_USERS_PACKAGES, ID_PACKAGE_USERS_PACKAGES,
+                        PURCHSEDATE_USERS_PACKAGES, REFERENCIA_USERS_PACKAGES, PRICE_USERS_PACKAGES, ENTITY_USERS_PACKAGES,
+                        ESTADO_USERS_PACKAGES, USEDPOINTS_USERS_PACKAGES, NRPEOPLE_USERS_PACKAGES},
+                null, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Users_packages aux = new Users_packages(cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getString(3),
+                        cursor.getInt(4),
+                        cursor.getInt(5),
+                        cursor.getInt(6),
+                        cursor.getString(7),
+                        cursor.getInt(8),
+                        cursor.getInt(9));
+                lista.add(aux);
+            }while(cursor.moveToNext());
+        }
+        return lista;
+    }
+
+
+    public ArrayList<Users_info> getPerfilDB() {
+        ArrayList<Users_info> lista = new ArrayList<>();
+        Cursor cursor = bd.query(TABELA_USERS_INFO, new String[]{USERID_USERS_INFO, NIF_USERS_INFO, NAME_USERS_INFO,
+                        ADRESS_USERS_INFO, PHONE_USERS_INFO, BIRTHDATE_USERS_INFO, POINTS_USERS_INFO},
+                null, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Users_info aux = new Users_info(cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getInt(4),
+                        cursor.getString(5),
+                        cursor.getInt(6));
+                lista.add(aux);
+            }while(cursor.moveToNext());
+        }
+        return lista;
+    }
+
+    //Adds da base de dados
+    public void adicionarPacotesDB(Packages packages){
+        ContentValues valores = new ContentValues();
+
+        valores.put(ID_PACKAGE, packages.getId());
+        valores.put(IMAGE_PACKAGE, packages.getImage());
+        valores.put(TITLE_PACKAGE, packages.getTitle());
+        valores.put(DESCRIPTION_PACKAGE, packages.getDescription());
+        valores.put(PRICE_PACKAGE, packages.getPrice());
+        valores.put(RATING_PACKAGE, packages.getRating());
+        valores.put(FLIGHTSTART_PACKAGE, packages.getFlightstart());
+        valores.put(FLIGHTEND_PACKAGE, packages.getFlightstart());
+        valores.put(FLIGHTBACKSTART_PACKAGE, packages.getFlightstart());
+        valores.put(FLIGHTBACKEND_PACKAGE, packages.getFlightstart());
+        valores.put(ID_HOTEL_PACKAGE, packages.getFlightstart());
+        valores.put(ID_AIRPORTSTART_PACKAGE, packages.getFlightstart());
+        valores.put(ID_AIRPORTEND_PACKAGE, packages.getFlightstart());
+
+        bd.insert(TABELA_PACKAGES, null, valores);
+    }
+
+    public void adicionarHoteisBD(Hotels hotels){
+        ContentValues valores = new ContentValues();
+
+        valores.put(ID_HOTEL, hotels.getId());
+        valores.put(NAME_HOTEL, hotels.getName());
+        valores.put(ADRESS_HOTEL, hotels.getAdress());
+        valores.put(CITY_HOTEL, hotels.getCity());
+        valores.put(COUNTRY_HOTEL, hotels.getCountry());
+        valores.put(DESCRIPTION_HOTEL, hotels.getDescription());
+        valores.put(NIGHTPRICE_HOTEL, hotels.getNightprice());
+        valores.put(RATING_HOTEL, hotels.getRating());
+
+        bd.insert(TABELA_HOTELS, null, valores);
+    }
+
+    public void adicionarAeroportosBD(Airports airports){
+        ContentValues valores = new ContentValues();
+
+        valores.put(ID_AIRPORT, airports.getId());
+        valores.put(NAME_AIRPORT, airports.getName());
+        valores.put(COUNTRY_AIRPORT, airports.getCountry());
+        valores.put(CITY_AIRPORT, airports.getCity());
+
+        bd.insert(TABELA_AIRPORTS, null, valores);
+    }
+
+    public void adicionarActivitiesPackagesBD(Activities_packages activities_packages){
+        ContentValues valores = new ContentValues();
+
+        valores.put(ID_ACTIVITIES_PACKAGES, activities_packages.getId());
+        valores.put(ACTIVITIES_PACKAGES_NAME, activities_packages.getName());
+        valores.put(ID_PACKAGE_ACTIVITIES_PACKAGES, activities_packages.getId_package());
+        valores.put(RESPONSIBLE_ACTIVITIES_PACKAGES, activities_packages.getResponsible());
+        valores.put(TIMESTART_ACTIVITIES_PACKAGES, activities_packages.getTimestart());
+        valores.put(DURATION_ACTIVITIES_PACKAGES, activities_packages.getDuration());
+
+        bd.insert(TABELA_ACTIVITIES_PACKAGES, null, valores);
+    }
+
+    public void adicionarHistoricoDB(Users_packages users_packages){
+        ContentValues valores = new ContentValues();
+
+        valores.put(ID_USERS_PACKAGES, users_packages.getId());
+        valores.put(ID_USER_USERS_PACKAGES, users_packages.getId_user());
+        valores.put(ID_PACKAGE_USERS_PACKAGES, users_packages.getId_package());
+        valores.put(PURCHSEDATE_USERS_PACKAGES, users_packages.getPurchasedate());
+        valores.put(REFERENCIA_USERS_PACKAGES, users_packages.getReferencia());
+        valores.put(PRICE_USERS_PACKAGES, users_packages.getPrice());
+        valores.put(ENTITY_USERS_PACKAGES, users_packages.getEntity());
+        valores.put(ESTADO_USERS_PACKAGES, users_packages.getEstado());
+        valores.put(USEDPOINTS_USERS_PACKAGES, users_packages.getUsedpoints());
+        valores.put(NRPEOPLE_USERS_PACKAGES, users_packages.getNrpeople());
+
+        bd.insert(TABELA_USERS_PACKAGES, null, valores);
+    }
+
+    public void adicionarPerfilDB(Users_info users_info){
+        ContentValues valores = new ContentValues();
+
+        valores.put(USERID_USERS_INFO, users_info.getUserid());
+        valores.put(NIF_USERS_INFO, users_info.getNif());
+        valores.put(NAME_USERS_INFO, users_info.getName());
+        valores.put(ADRESS_USERS_INFO, users_info.getAdress());
+        valores.put(PHONE_USERS_INFO, users_info.getPhone());
+        valores.put(BIRTHDATE_USERS_INFO, users_info.getBirthdate());
+        valores.put(POINTS_USERS_INFO, users_info.getPoints());
+
+        bd.insert(TABELA_USERS_INFO, null, valores);
+    }
+
+    //Removes da base de dados
+    public boolean removerPacotesDB(long id){
+        return bd.delete(TABELA_PACKAGES,  ID_PACKAGE + "= ?", new String[] {"" + id}) == 1;
+    }
+
+    public boolean removerHoteisDB(long id){
+        return bd.delete(TABELA_HOTELS, ID_HOTEL + "= ?", new String[] {"" + id}) == 1;
+    }
+
+    public boolean removerAeroportosDB(long id){
+        return bd.delete(TABELA_AIRPORTS, ID_AIRPORT + "= ?", new String[] {"" + id}) == 1;
+    }
+
+    public boolean removerActivitiesPackagesDB(long id){
+        return bd.delete(TABELA_ACTIVITIES_PACKAGES, ID_ACTIVITIES_PACKAGES + "= ?", new String[] {"" + id}) == 1;
+    }
+
+    public boolean removerHistoricoDB(long id){
+        return bd.delete(TABELA_USERS_PACKAGES, ID_USERS_PACKAGES + "= ?", new String[] {"" + id}) == 1;
+    }
+
+    public boolean removerPerfilDB(long id){
+        return bd.delete(TABELA_USERS_INFO, USERID_USERS_INFO + "= ?", new String[] {"" + id}) == 1;
+    }
+
 }
