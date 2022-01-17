@@ -1,0 +1,483 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+import android.content.Context;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.ActivitiesPackagesListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.AirportsListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.CompraListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.HistoricoListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.HotelsListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.ListaPacotesListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.PerfilListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.PerfilUpdateListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.utils.RARTravelJsonParser;
+
+public class SingletonGestao {
+    //Endereços
+    private static final String URL_PACKAGES = "http://192.168.1.30:8080/api/packages/pacotesi";
+    private static final String URL_HOTELS = "http://192.168.1.30:8080/api/hotels";
+    private static final String URL_AIRPORTS = "http://192.168.1.30:8080/api/airports";
+    private static final String URL_ACTIVITIES_PACKAGES = "http://192.168.1.30:8080/api/activities/all/";
+    private static final String URL_USERSPACKAGES = "http://192.168.1.30:8080/api/userspackages/historico/";
+    private static final String URL_USERSINFO = "http://192.168.1.30:8080/api/usersinfo/buscar/";
+    private static final String URL_USERSINFO_UPDATE = "http://192.168.1.30:8080/api/usersinfo/update/";
+    private static final String URL_USERSPACKAGES_COMPRA = "http://192.168.1.30:8080/api/userspackages/compra";
+
+    private ArrayList<Packages> packages;
+    private ArrayList<Hotels> hotels;
+    private ArrayList<Airports> airports;
+    private ArrayList<Activities_packages> activities_packages;
+    private ArrayList<Users_packages> users_packages;
+    private ArrayList<Users_info> users_info;
+
+    private RARTravelBDHelp bd;
+
+    //Volley
+    private static RequestQueue volleyQueue = null;
+
+    private static SingletonGestao instancia = null;
+
+    //Listeners, fazer gets e sets
+    private ListaPacotesListener listaPacotesListener = null;
+    private HotelsListener hotelsListener = null;
+    private AirportsListener airportsListener = null;
+    private ActivitiesPackagesListener activitiesPackagesListener = null;
+    private HistoricoListener historicoListener = null;
+    private PerfilListener perfilListener = null;
+    private PerfilUpdateListener perfilUpdateListener = null;
+    private CompraListener compraListener = null;
+
+    public static synchronized SingletonGestao getInstancia(Context contexto){
+        if(instancia == null){
+            instancia = new SingletonGestao(contexto);
+            volleyQueue = Volley.newRequestQueue(contexto);
+        }
+
+        return instancia;
+    }
+
+    private SingletonGestao(Context contexto){
+        bd = new RARTravelBDHelp(contexto);
+        packages = bd.getListaPacotesDB();
+        hotels = bd.getListaHoteisBD();
+        airports = bd.getListaAeroportosDB();
+        activities_packages = bd.getListaActivitiesPackagesDB();
+        users_packages = bd.getListaHistoricoDB();
+        users_info = bd.getPerfilDB();
+    }
+
+    public ArrayList<Packages> getPackages(){return packages;}
+    public ArrayList<Hotels> getHotels(){return hotels;}
+    public ArrayList<Airports> getAirports(){return airports;}
+    public ArrayList<Activities_packages> getActivities_packages(){return activities_packages;}
+    public ArrayList<Users_packages> getUsers_packages(){return users_packages;}
+    public ArrayList<Users_info> getUsers_info() { return users_info;}
+
+    //API
+    public void getListaPackagesAPI(final Context contexto, final String token){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            if(listaPacotesListener != null){
+                listaPacotesListener.onRefreshListaPacotes(packages);
+            }
+        }else{
+            JsonArrayRequest req = new JsonArrayRequest(
+                    Request.Method.GET,
+                    URL_PACKAGES + "?access-token=" + token,
+                    null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            //Metodo para apagar na base de dados antes de adicionar para nao haver duplicados
+                            for (Packages pack : packages)
+                            {
+                                bd.removerPacotesDB(pack.getId());
+                            }
+
+                            packages = RARTravelJsonParser.parserJsonListaPackages(response);
+
+                            //Metodos para adicionar a base de dados
+                            for (Packages pack : packages)
+                            {
+                                bd.adicionarPacotesDB(pack);
+                            }
+
+                            if(listaPacotesListener != null){
+                                listaPacotesListener.onRefreshListaPacotes(packages);
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getHotelsAPI(final Context contexto, final String token){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            if(hotelsListener != null){
+                hotelsListener.onRefreshHoteis(hotels);
+            }
+        }else{
+            JsonArrayRequest req = new JsonArrayRequest(
+                    Request.Method.GET,
+                    URL_HOTELS + "?access-token=" + token,
+                    null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            //Metodo para apagar na base de dados antes de adicionar para nao haver duplicados
+                            for (Hotels hotel : hotels)
+                            {
+                                bd.removerHoteisDB(hotel.getId());
+                            }
+
+                            hotels = RARTravelJsonParser.parserJsonHotels(response);
+
+                            //Metodos para adicionar a base de dados
+                            for (Hotels hotel : hotels)
+                            {
+                                bd.adicionarHoteisBD(hotel);
+                            }
+
+                            if(hotelsListener != null){
+                                hotelsListener.onRefreshHoteis(hotels);
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getAirportsAPI(final Context contexto, final String token){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            if(airportsListener != null){
+                airportsListener.onRefreshAirports(airports);
+            }
+        }else{
+            JsonArrayRequest req = new JsonArrayRequest(
+                    Request.Method.GET,
+                    URL_AIRPORTS + "?access-token=" + token,
+                    null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            //Metodo para apagar na base de dados antes de adicionar para nao haver duplicados
+                            for (Airports airport : airports)
+                            {
+                                bd.removerAeroportosDB(airport.getId());
+                            }
+
+                            airports = RARTravelJsonParser.parserJsonAirports(response);
+
+                            //Metodos para adicionar a base de dados
+                            for (Airports airport : airports)
+                            {
+                                bd.adicionarAeroportosBD(airport);
+                            }
+
+                            if(airportsListener != null){
+                                airportsListener.onRefreshAirports(airports);
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+            volleyQueue.add(req);
+        }
+    }
+
+    public void getActivitiesPackagesAPI(final Context contexto, int idPacote, final String token){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            if(activitiesPackagesListener != null){
+                activitiesPackagesListener.onRefreshActivitiesPackages(activities_packages);
+            }
+        }else{
+            JsonArrayRequest req = new JsonArrayRequest(
+                    Request.Method.GET,
+                    URL_ACTIVITIES_PACKAGES + idPacote + "?access-token=" + token,
+                    null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            //Metodo para apagar na base de dados antes de adicionar para nao haver duplicados
+                            for (Activities_packages atividade : activities_packages)
+                            {
+                                bd.removerActivitiesPackagesDB(atividade.getId());
+                            }
+
+                            activities_packages = RARTravelJsonParser.parserJsonActivitiesPackages(response);
+
+                            //Metodos para adicionar a base de dados
+                            for (Activities_packages atividade : activities_packages)
+                            {
+                                bd.adicionarActivitiesPackagesBD(atividade);
+                            }
+
+                            if(activitiesPackagesListener != null){
+                                activitiesPackagesListener.onRefreshActivitiesPackages(activities_packages);
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+            volleyQueue.add(req);
+        }
+    }
+
+
+    public void getHistoricoAPI(final Context contexto, final String token, final String userid){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            if(historicoListener != null){
+                historicoListener.onRefreshHistorico(users_packages);
+            }
+        }else{
+            JsonArrayRequest req = new JsonArrayRequest(
+                    Request.Method.GET,
+                    URL_USERSPACKAGES + userid + "?access-token=" + token,
+                    null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            //Metodo para apagar na base de dados antes de adicionar para nao haver duplicados
+                            for (Users_packages historico : users_packages)
+                            {
+                                bd.removerHistoricoDB(historico.getId());
+                            }
+
+                            users_packages = RARTravelJsonParser.parserJsonUsersPackages(response);
+
+                            //Metodos para adicionar a base de dados
+                            for (Users_packages historico : users_packages)
+                            {
+                                bd.adicionarHistoricoDB(historico);
+                            }
+
+                            if(historicoListener != null){
+                                historicoListener.onRefreshHistorico(users_packages);
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+            volleyQueue.add(req);
+        }
+    }
+
+
+    public void getPerfilAPI(final Context contexto, final String userid, final String token){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            if(perfilListener != null){
+                perfilListener.onRefreshPerfil(users_info.get(0));
+            }
+        }else{
+            JsonObjectRequest req = new JsonObjectRequest(
+                    Request.Method.GET,
+                    URL_USERSINFO + userid + "?access-token=" + token,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                            //Metodo para apagar na base de dados antes de adicionar para nao haver duplicados
+                            if(!users_info.isEmpty()){
+                                for (Users_info users : users_info)
+                                {
+                                    bd.removerPerfilDB(users.getUserid());
+                                }
+                            }
+
+                            Users_info user = RARTravelJsonParser.parserJsonUsersInfo(response);
+                            users_info.add(user);
+
+                            //Metodos para adicionar a base de dados
+                            bd.adicionarPerfilDB(user);
+
+                            if(perfilListener != null){
+                                perfilListener.onRefreshPerfil(user);
+                            }
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+            volleyQueue.add(req);
+        }
+    }
+
+    public void updatePerfilAPI(final String iduser, final String token, final int nif, final String nome, final String morada, final int telemovel, final String dataNascimento, Context contexto){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(
+                    Request.Method.PUT,
+                    URL_USERSINFO_UPDATE + iduser + "?access-token=" + token,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            perfilUpdateListener.onPerfilUpdate(RARTravelJsonParser.parserJsonAtualizarPerfil(response));
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+            ){
+                @Nullable
+                @Override
+                protected Map<String, String> getParams(){
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("nif", ""+nif);
+                    params.put("name", nome);
+                    params.put("adress", morada);
+                    params.put("phone", ""+telemovel);
+                    params.put("birthdate", dataNascimento);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+
+    public void comprarAPI(final String token, final int userid, final int packageid, final int referencia, final double price, final int usedpoints, final int nrpeople, Context contexto){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(
+                    Request.Method.POST,
+                    URL_USERSPACKAGES_COMPRA + "?access-token=" + token,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            compraListener.onComprar(RARTravelJsonParser.parserJsonComprar(response));
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+            ){
+                @Nullable
+                @Override
+                protected Map<String, String> getParams(){
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("iduser", ""+userid);
+                    params.put("idpackage", ""+packageid);
+                    params.put("referencia", ""+referencia);
+                    params.put("price", ""+price);
+                    params.put("usedpoints", ""+usedpoints);
+                    params.put("nrpeople", ""+nrpeople);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+
+
+
+    public void setListaPacotesListener(ListaPacotesListener listaPacotesListener) {
+        this.listaPacotesListener = listaPacotesListener;
+    }
+
+    public void setHotelsListener(HotelsListener hotelsListener) {
+        this.hotelsListener = hotelsListener;
+    }
+
+    public void setAirportsListener(AirportsListener airportsListener) {
+        this.airportsListener = airportsListener;
+    }
+
+    public void setActivitiesPackagesListener(ActivitiesPackagesListener activitiesPackagesListener) {
+        this.activitiesPackagesListener = activitiesPackagesListener;
+    }
+
+    public void setHistoricoListener(HistoricoListener historicoListener) {
+        this.historicoListener = historicoListener;
+    }
+
+    public void setPerfilListener(PerfilListener perfilListener) {
+        this.perfilListener = perfilListener;
+    }
+
+    public void setPerfilUpdateListener(PerfilUpdateListener perfilUpdateListener) {
+        this.perfilUpdateListener = perfilUpdateListener;
+    }
+
+    public void setCompraListener(CompraListener compraListener) {
+        this.compraListener = compraListener;
+    }
+}
