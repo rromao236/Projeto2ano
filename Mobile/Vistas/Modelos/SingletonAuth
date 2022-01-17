@@ -1,0 +1,129 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.modelos;
+
+import android.content.Context;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import amsi.dei.estg.ipleiria.rartravel.R;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.LoginListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.listeners.RegistarListener;
+import amsi.dei.estg.ipleiria.rartravel.vistas.utils.RARTravelJsonParser;
+
+public class SingletonAuth {
+
+    //Endereços
+    private static final String URL_LOGIN = "http://192.168.1.30:8080/api/login/user"; //192.168.1.10
+    private static final String URL_REGISTAR = "http://192.168.1.30:8080/api/registar/user";
+
+    private RARTravelBDHelp bd;
+
+    //Volley
+    private static RequestQueue volleyQueue = null;
+    private static SingletonAuth instancia = null;
+
+    //Listeners, fazer gets e sets
+    private LoginListener loginListener = null;
+    private RegistarListener registarListener = null;
+
+    public static synchronized SingletonAuth getInstancia(Context contexto){
+        if(instancia == null){
+            instancia = new SingletonAuth(contexto);
+            volleyQueue = Volley.newRequestQueue(contexto);
+        }
+
+        return instancia;
+    }
+
+    private SingletonAuth(Context contexto){
+        bd = new RARTravelBDHelp(contexto);
+    }
+
+    //APIS
+    public void loginAPI(final String username, final String password, Context contexto){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(
+                    Request.Method.POST,
+                    URL_LOGIN,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            loginListener.onValidateLogin(RARTravelJsonParser.parserJsonLogin(response));
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+            ){
+                @Nullable
+                @Override
+                protected Map<String, String> getParams(){
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("username", username);
+                    params.put("password", password);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+    public void registarAPI(final String username, final String email, final String password, Context contexto){
+        if(!RARTravelJsonParser.isInternetConnection(contexto)){
+            Toast.makeText(contexto, R.string.no_internet, Toast.LENGTH_SHORT).show();
+        }else{
+            StringRequest req = new StringRequest(
+                    Request.Method.POST,
+                    URL_REGISTAR,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            registarListener.onRegistar(RARTravelJsonParser.parserJsonRegistar(response));
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(contexto, "Erro: "+ error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+            ){
+                @Nullable
+                @Override
+                protected Map<String, String> getParams(){
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("username", username);
+                    params.put("email", email);
+                    params.put("password", password);
+                    return params;
+                }
+            };
+            volleyQueue.add(req);
+        }
+    }
+
+
+    //Sets dos Listeners
+    public void setLoginListener(LoginListener loginListener) {
+        this.loginListener = loginListener;
+    }
+
+    public void setRegistarListener(RegistarListener registarListener) {
+        this.registarListener = registarListener;
+    }
+}
