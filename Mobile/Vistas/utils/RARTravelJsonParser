@@ -1,0 +1,273 @@
+package amsi.dei.estg.ipleiria.rartravel.vistas.utils;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Activities_packages;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Airports;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Hotels;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Packages;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Users_info;
+import amsi.dei.estg.ipleiria.rartravel.vistas.modelos.Users_packages;
+
+public class RARTravelJsonParser {
+
+    //Login
+    public static String[] parserJsonLogin(String resposta){
+        //String token = null;
+        //int userId = 0;
+        String dados[] = new String[3];
+        try{
+            JSONObject jsonLogin = new JSONObject(resposta);
+            if(jsonLogin.getBoolean("success")){
+                dados[0] = jsonLogin.getString("token");
+                dados[1] = String.valueOf(jsonLogin.getInt("userid"));
+                dados[2] = jsonLogin.getString("username");
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return dados;
+
+    }
+
+    //Registar
+    public static boolean parserJsonRegistar(String resposta){
+        try{
+            JSONObject jsonRegistar = new JSONObject(resposta);
+            if(jsonRegistar.getBoolean("success")){
+                return true;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+    //ListaPacotes
+    //Transformar a resposta JSON em Arraylist
+    public static ArrayList<Packages> parserJsonListaPackages(JSONArray resposta){
+        ArrayList<Packages> lista = new ArrayList<Packages>();
+
+        try {
+            for (int i = 0; i < resposta.length(); i++) {
+                JSONObject jsonPackage = (JSONObject) resposta.get(i);
+
+                int id = jsonPackage.getInt("id");
+                String image = jsonPackage.getString("image");
+                String title = jsonPackage.getString("title");
+                String description = jsonPackage.getString("description");
+                int price = jsonPackage.getInt("price");
+                int rating = jsonPackage.getInt("rating");
+                String flightstart = jsonPackage.getString("flightstart");
+                String flightend = jsonPackage.getString("flightend");
+                String flightbackstart = jsonPackage.getString("flightbackstart");
+                String flightbackend = jsonPackage.getString("flightbackend");
+                int idHotel = jsonPackage.getInt("id_hotel");
+                int idAirportStart = jsonPackage.getInt("id_airportstart");
+                int idAirportEnd = jsonPackage.getInt("id_airportend");
+
+                Packages pack = new Packages(id, image, title, description, price, rating, flightstart, flightend,
+                        flightbackstart, flightbackend, idHotel, idAirportStart, idAirportEnd);
+                lista.add(pack);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return lista;
+
+    }
+
+    //Dados dos hoteis
+    //Transformar a resposta JSON em Arraylist
+    public static ArrayList<Hotels> parserJsonHotels(JSONArray resposta){
+        ArrayList<Hotels> lista = new ArrayList<Hotels>();
+
+        try {
+            for (int i = 0; i < resposta.length(); i++) {
+                JSONObject jsonHotel = (JSONObject) resposta.get(i);
+
+                int id = jsonHotel.getInt("id");
+                String nome = jsonHotel.getString("name");
+                String morada = jsonHotel.getString("adress");
+                String cidade = jsonHotel.getString("city");
+                String pais = jsonHotel.getString("country");
+                String descricao = jsonHotel.getString("description");
+                int precoNoite = jsonHotel.getInt("nightprice");
+                int rating = jsonHotel.getInt("rating");
+
+
+                Hotels hotel = new Hotels(id, nome, morada, cidade, pais, descricao, precoNoite, rating);
+                lista.add(hotel);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return lista;
+
+    }
+
+    //Dados dos aeroportos
+    //Transformar a resposta JSON em Arraylist
+    public static ArrayList<Airports> parserJsonAirports(JSONArray resposta){
+        ArrayList<Airports> lista = new ArrayList<Airports>();
+
+        try {
+            for (int i = 0; i < resposta.length(); i++) {
+                JSONObject jsonAirport = (JSONObject) resposta.get(i);
+
+                int id = jsonAirport.getInt("id");
+                String nome = jsonAirport.getString("name");
+                String pais = jsonAirport.getString("country");
+                String cidade = jsonAirport.getString("city");
+
+                Airports airport = new Airports(id, nome, pais, cidade);
+                lista.add(airport);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return lista;
+
+    }
+
+    //Dados das atividades
+    //Transformar a resposta JSON em Arraylist
+    public static ArrayList<Activities_packages> parserJsonActivitiesPackages(JSONArray resposta){
+        ArrayList<Activities_packages> lista = new ArrayList<Activities_packages>();
+
+        try {
+            for (int i = 1; i < resposta.length(); i++) {
+                JSONObject jsonActivitiesPackages = (JSONObject) resposta.get(i);
+
+                int id = jsonActivitiesPackages.getInt("id");
+                String nome = jsonActivitiesPackages.getString("name");
+                int idPackage = jsonActivitiesPackages.getInt("idPackage");
+                String responsible = jsonActivitiesPackages.getString("responsible");
+                String timestart = jsonActivitiesPackages.getString("timestart");
+                int duration = jsonActivitiesPackages.getInt("duration");
+
+
+                Activities_packages activities_package = new Activities_packages(id, nome, idPackage, responsible, timestart, duration);
+                lista.add(activities_package);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return lista;
+
+    }
+
+
+    //Dados do historico
+    //Transformar a resposta JSON em Arraylist
+    public static ArrayList<Users_packages> parserJsonUsersPackages(JSONArray resposta){
+        ArrayList<Users_packages> lista = new ArrayList<Users_packages>();
+
+        try {
+            for (int i = 0; i < resposta.length(); i++) {
+                JSONObject jsonUsersPackages = (JSONObject) resposta.get(i);
+
+                int id = jsonUsersPackages.getInt("id");
+                int id_user = jsonUsersPackages.getInt("id_user");
+                int id_package = jsonUsersPackages.getInt("id_package");
+                String purchasedate = jsonUsersPackages.getString("purchasedate");
+                int referencia = jsonUsersPackages.getInt("referencia");
+                int price = jsonUsersPackages.getInt("price");
+                int entity = jsonUsersPackages.getInt("entity");
+                String estado = jsonUsersPackages.getString("estado");
+                int usedpoints = jsonUsersPackages.getInt("usedpoints");
+                int nrpeople = jsonUsersPackages.getInt("nrpeople");
+
+                Users_packages users_packages = new Users_packages(id, id_user, id_package, purchasedate, referencia, price, entity, estado, usedpoints, nrpeople);
+                lista.add(users_packages);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return lista;
+
+    }
+
+
+    //Dados do perfil
+    //Transformar a resposta JSON em Arraylist
+    public static Users_info parserJsonUsersInfo(JSONObject resposta){
+
+        Users_info users_info = null;
+
+        try {
+            JSONObject jsonUsersInfo = (JSONObject) resposta;
+
+            int userid = jsonUsersInfo.getInt("userid");
+            int nif = jsonUsersInfo.getInt("nif");
+            String name = jsonUsersInfo.getString("name");
+            String adress = jsonUsersInfo.getString("adress");
+            int phone = jsonUsersInfo.getInt("phone");
+            String birthdate = jsonUsersInfo.getString("birthdate");
+            int points = jsonUsersInfo.getInt("points");
+
+            users_info = new Users_info(userid, nif, name, adress, phone, birthdate, points);
+
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return users_info;
+    }
+
+    //Atualizar perfil
+    public static boolean parserJsonAtualizarPerfil(String resposta){
+        try{
+            JSONObject jsonAtualizarPerfil = new JSONObject(resposta);
+            if(jsonAtualizarPerfil .getBoolean("success")){
+                return true;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+    //comprar
+    public static boolean parserJsonComprar(String resposta){
+        try{
+            JSONObject jsonComprar = new JSONObject(resposta);
+            if(jsonComprar.getBoolean("success")){
+                return true;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+
+    //Verificar se tem net sempre que fazemos chamada a API
+    public static boolean isInternetConnection(Context contexto){
+        ConnectivityManager cm = (ConnectivityManager) contexto.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo!= null && netInfo.isConnected();
+    }
+
+}
