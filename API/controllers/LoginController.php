@@ -41,7 +41,14 @@ class LoginController extends \yii\rest\ActiveController
                     ->where(['username' => $username])
                     ->one();
 
-                return (['success' => true, 'token' => $user->verification_token, 'userid' => $user->id]);
+                $auth = Yii::$app->authManager;
+
+                if($auth->checkAccess($user->id, "backoffice")){
+                    return(['success' => false]);
+                }else{
+                    return (['success' => true, 'token' => $user->verification_token, 'userid' => $user->id, 'username' => $user->username]);
+                }
+
             }
 
         }

@@ -2,6 +2,7 @@
 
 namespace app\modules\api\controllers;
 
+use app\models\Usersinfo;
 use app\models\Userspackages;
 use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\QueryParamAuth;
@@ -35,11 +36,11 @@ class UserspackagesController extends \yii\rest\ActiveController
     public function actionCompra(){
         $iduser=\Yii::$app->request->post('iduser');
         $idpackage=\Yii::$app->request->post('idpackage');
-        $purchasedate=\Yii::$app->request->post('purchasedate');//por nos
-        $referencia=\Yii::$app->request->post('referencia');//por nos
+        $purchasedate=date('Y-m-d H:i:s');
+        $referencia=\Yii::$app->request->post('referencia');
         $price=\Yii::$app->request->post('price');
-        $entity=\Yii::$app->request->post('entity');//por nos
-        $estado=\Yii::$app->request->post('estado');//por nos
+        $entity=11236;
+        $estado="Por pagar";
         $usedpoints=\Yii::$app->request->post('usedpoints');
         $nrpeople=\Yii::$app->request->post('nrpeople');
 
@@ -53,9 +54,17 @@ class UserspackagesController extends \yii\rest\ActiveController
         $compra->estado = $estado;
         $compra->usedpoints = $usedpoints;
         $compra->nrpeople = $nrpeople;
-        $ret = $compra->save();
+        $compra->save();
 
-        return ['SaveError' => $ret];
+        $infoUser = Usersinfo::find()->where("userid = ".$iduser)->one();
+        if($infoUser != null) {
+            $pontosantigos=$infoUser->points;
+            $pontosnovos=$pontosantigos-$usedpoints+1;
+            $infoUser->points=$pontosnovos;
+            $infoUser->save();
+        }
+
+        return (['success' => true]);
     }
 
     //count userspackages

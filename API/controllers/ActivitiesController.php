@@ -67,7 +67,7 @@ class ActivitiesController extends \yii\rest\ActiveController
         $ret=$climodel->deleteAll("id=".$id);
         if($ret)
             return ['DelError' => $ret];
-        throw new \yii\web\NotFoundHttpException("Client id not found!");
+        throw new \yii\web\NotFoundHttpException("Activitie id not found!");
     }
 
     //count activities

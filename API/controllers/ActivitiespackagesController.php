@@ -23,13 +23,6 @@ class ActivitiespackagesController extends \yii\rest\ActiveController
         return $this->render('index');
     }
 
-    //count activitiespackages
-    public function actionTotal(){
-        $climodel = new $this->modelClass;
-        $recs = $climodel::find()->all();
-        return ['total' => count($recs)];
-    }
-
     public function behaviors()
     {
         $behaviors = parent::behaviors();

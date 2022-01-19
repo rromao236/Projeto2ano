@@ -40,7 +40,7 @@ class AirportsController extends \yii\rest\ActiveController
         $ret=$climodel->deleteAll("id=".$id);
         if($ret)
             return ['DelError' => $ret];
-        throw new \yii\web\NotFoundHttpException("Client id not found!");
+        throw new \yii\web\NotFoundHttpException("Airport id not found!");
     }
 
     //count airports

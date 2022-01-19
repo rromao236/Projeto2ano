@@ -45,7 +45,7 @@ class PackagesController extends \yii\rest\ActiveController
         $ret=$climodel->deleteAll("id=".$id);
         if($ret)
             return ['DelError' => $ret];
-        throw new \yii\web\NotFoundHttpException("Client id not found!");
+        throw new \yii\web\NotFoundHttpException("Package id not found!");
     }
 
     //count package
@@ -139,6 +139,42 @@ class PackagesController extends \yii\rest\ActiveController
             //'atividades' => $atividades,
             //'imagens' => $imagens
         ];
+    }
+
+    public function actionPacotesi(){
+        $packages = Packages::find()
+            ->all();
+        foreach ($packages as $package){
+            $image = Packageimages::find()
+                ->where(['package_id' => $package->id])
+                ->one();
+
+            $path = $image->image; //"images/pacotes/nice1077.png";
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+            $pacote = new \stdClass();
+            $pacote->id = $package->id;
+
+            $pacote->image = $base64;
+
+            $pacote->title = $package->title;
+            $pacote->description = $package->description;
+            $pacote->price = $package->price;
+            $pacote->rating = $package->rating;
+            $pacote->flightstart = $package->flightstart;
+            $pacote->flightend = $package->flightend;
+            $pacote->flightbackstart = $package->flightbackstart;
+            $pacote->flightbackend = $package->flightbackend;
+            $pacote->id_hotel = $package->id_hotel;
+            $pacote->id_airportstart = $package->id_airportstart;
+            $pacote->id_airportend = $package->id_airportend;
+
+            $pacotes[] = $pacote;
+        }
+
+        return $pacotes;
     }
 
 }
