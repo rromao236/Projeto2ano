@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="amsi.dei.estg.ipleiria.rartravel">
+    <!-- Permissoes para verificar o estado a internet -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_rartravel"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_rartravel_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RARTravel"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".vistas.CompraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".vistas.PagamentoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".vistas.AlterarDadosActivity"
+            android:exported="true" />
+        <activity
+            android:name=".vistas.DetalhesPacoteActivity"
+            android:exported="true" />
+        <activity
+            android:name=".vistas.RegistoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".vistas.MenuMainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.RARTravel.NoActionBar" />
+        <activity
+            android:name=".vistas.HomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".vistas.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="org.eclipse.paho.android.service.MqttService">
+        </service>
+
+    </application>
+
+</manifest>
